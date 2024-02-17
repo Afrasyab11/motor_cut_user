@@ -66,11 +66,11 @@ const Account = () => {
 
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
-  }, [user?.UserId]);
+  },[]);
 
   useEffect(() => {
     dispatch(dashboardStatsAction(user?.UserId));
-  }, [user?.UserId]);
+  }, []);
 
   const handleChange = (e) => {
     setPayload({
