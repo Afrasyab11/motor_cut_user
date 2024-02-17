@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
 
   if(!isloggedIn){
     router.push("/")  }
-// eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       if (rememberMe=="false") {
         setTimeout(() => {
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
           router.push("/auth/login")
         }, 8000000);
       } 
-    }, [rememberMe, dispatch]);
+    }, [rememberMe, dispatch,router]);
   
   return (
     <>

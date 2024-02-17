@@ -23,7 +23,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     dispatch(dashboardStatsAction(user?.UserId));
-  }, [user?.UserId]);
+  }, [dispatch,user?.UserId]);
   const stats = [
     {
       icon: <IoIosPerson />,

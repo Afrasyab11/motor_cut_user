@@ -50,10 +50,9 @@ const Subscription = () => {
   const userEmail = userInfo.UserEmail;
   const userId = userInfo.UserId;
   const authToken = userInfo.AccessToken;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
-  }, [currency]);
+  }, [dispatch, currency]);
 
   const UKChangeHanler = (e) => {
     e.preventDefault();

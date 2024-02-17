@@ -50,7 +50,7 @@ const UploadLogo = () => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
-  }, []);
+  }, [dispatch,user?.UserId]);
  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
