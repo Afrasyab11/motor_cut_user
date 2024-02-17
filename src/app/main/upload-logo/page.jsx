@@ -47,14 +47,11 @@ const UploadLogo = () => {
 
   const [selectedFormat, setSelectedFormat] = useState("jpg");
   const [coversStatus, setCoversStatus] = useState("off");
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, []);
-
-  const handleChange = (value) => {
-    setSelectedValue(value);
-  };
+ 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);

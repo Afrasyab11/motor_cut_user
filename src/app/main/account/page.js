@@ -63,14 +63,14 @@ const Account = () => {
     isAdmin: false,
     userId: user?.UserId,
   });
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
-  },[]);
-
+  },[user?.UserId]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(dashboardStatsAction(user?.UserId));
-  }, []);
+  }, [user?.UserId]);
 
   const handleChange = (e) => {
     setPayload({

@@ -37,6 +37,7 @@ const ViewAdvert = ({ searchParams }) => {
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
   }, [searchParams?.advertId]);

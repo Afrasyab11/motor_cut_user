@@ -28,14 +28,15 @@ export default function CreateAdvert() {
   let user = userString ? JSON.parse(userString) : null;
   const [payload, setPayload] = useState({
     UserId: user?.UserId,
-    isAdmin:false,
+    isAdmin: false,
     Label: "",
     CutType: "Half Cut", // Default value
     TrimImages: false, // Default value, assuming 'off' maps to `false`
   });
+
   useEffect(() => {
     dispatch(getchanngeBackgroundImageAction(user?.UserId));
-  }, []);
+  }, [dispatch, user?.UserId]);
   const {
     register,
     handleSubmit,

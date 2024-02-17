@@ -33,7 +33,7 @@ const BackgroundLibrary = () => {
   const [showData, setShowData] = useState(9);
   const [showCard, setShowCard] = useState(9);
   const [file, setFile] = useState("");
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getAllBackgroundImagesAction());
   }, []);

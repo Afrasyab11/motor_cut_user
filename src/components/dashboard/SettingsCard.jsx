@@ -24,7 +24,7 @@ const SettingsCard = () => {
     if (user?.UserId) {
       dispatch(getchanngeBackgroundImageAction(user?.UserId));
     }
-  }, []);
+  }, [dispatch,user?.UserId]);
   return (
     <div className="flex flex-col justify-around  h-full">
       <div className="flex justify-center">

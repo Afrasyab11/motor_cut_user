@@ -14,6 +14,7 @@ export default function AdHistory() {
   let userString = getCookie("user");
 
   let user = userString ? JSON.parse(userString) : null;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getAdvertAction(user?.UserId));
   }, []);
