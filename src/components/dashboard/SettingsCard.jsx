@@ -1,0 +1,76 @@
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
+import TestImg from "../../../public/Test.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { getchanngeBackgroundImageAction } from "@/store/background/backgroundThunk";
+import ChangeBackgroudImage from "../modals/changeBackgroundModal";
+import { baseDomain } from "@/utils/axios";
+import { getCookie } from "cookies-next";
+const SettingsCard = () => {
+  const dispatch = useDispatch();
+  const { background, backgroundLoader } = useSelector(
+    (state) => state.background
+  );
+
+  let userString = getCookie("user");
+
+  let user = userString ? JSON.parse(userString) : null;
+  const [isBacgroundDialog, setBackgroundDialog] = useState(false);
+  const handleBackgroundDialog = () => setBackgroundDialog(true);
+  const handleCloseBackground = () => setBackgroundDialog(false);
+  useEffect(() => {
+    if (user?.UserId) {
+      dispatch(getchanngeBackgroundImageAction(user?.UserId));
+    }
+  }, []);
+  return (
+    <div className="flex flex-col justify-around  h-full">
+      <div className="flex justify-center">
+        {/* <Image
+          className="rounded-lg w-80"
+          alt=""
+          src={background?.BackgroundImage?`${baseDomain}get-file?filename=${background?.BackgroundImage}`:TestImg}
+          width={30}
+          height={30}
+        ></Image> */}
+        <div className="rounded-2xl">
+          <Image
+            src={
+              background?.BackgroundImage
+                ? `${baseDomain}get-file?filename=${background?.BackgroundImage}`
+                : TestImg
+            }
+            alt={"BackgroundLibrary"}
+            width={1600}
+            height={900}
+            // className="w-full h-full object-cover rounded-2xl"
+            className="w-full h-[150px] object-cover shadow rounded-2xl"
+          />
+        </div>
+      </div>
+      <div>
+        <a
+          onClick={handleBackgroundDialog}
+          className="text-primary text-sm sm:text-md font-medium cursor-pointer mt-2"
+          // href="#"
+        >
+          Change Background
+        </a>
+        <div className="flex gap-4 ">
+          <h5> Display Logo </h5> <Switch />
+        </div>
+      </div>
+      {isBacgroundDialog && (
+        <ChangeBackgroudImage
+          open={isBacgroundDialog}
+          setOpen={handleCloseBackground}
+          backgroundLoader={backgroundLoader}
+        />
+      )}
+    </div>
+  );
+};
+
+export default SettingsCard;

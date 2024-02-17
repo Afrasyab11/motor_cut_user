@@ -1,0 +1,125 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosInstance } from "@/utils/axios";
+import { toast } from "react-toastify";
+export const createAdvertAction = createAsyncThunk(
+  "advert/createAdvert",
+  async ({ formData, onSuccess,onError }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        "/Advertisement/Create-Advertisement/",
+        formData
+      );
+      if (data?.status_code === 200) {
+        onSuccess();
+        toast.success("Advert Created Successfully");
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+
+export const getAdvertAction = createAsyncThunk(
+  "advert/getAdvert",
+  async (Id, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/Advertisement/Get-Advertisements-By-User-Id/?UserId=${Id}`
+      );
+      if (data?.status_code === 200) {
+        return data?.detail.reverse();
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+export const getAdvertProcesByIdAction = createAsyncThunk(
+  "advert/getAdvertProcess",
+  async (Id, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/Advertisement/Get-Advertisement-By-Id/?UniqueAdvertId=${Id}`
+      );
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+export const downloadAdvertImagesAction = createAsyncThunk(
+  "advert/downloadAdvert",
+  async (Id, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/Advertisement/Download-Advertisement-Images/?UniqAdvertId=${Id}`
+      );
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+export const downloadAllAdvertImagesAction = createAsyncThunk(
+  "advert/downloadAllAdvertImages",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/Advertisement/Download-All-Processed-Images?UserId=${payload?.UserId}&UniqueAdvertId=${payload?.UniqueAdvertId}`
+      );
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+export const flageImageAction = createAsyncThunk(
+  "advert/flageImage",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        `/FlaggedImages/Flag-Image?AdvertId=${payload?.AdvertId}&UniqueImageId=${payload?.UniqueImageId}`
+      );
+      if (data?.status_code === 200) {
+        toast.success("Image Successfully flaged");
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+
+export const downloadZipFileAction = createAsyncThunk(
+  "advert/downloadZip",
+  async (path, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/get-file?filename=${path}`);
+      console.log('data:>>>>>  ya data h ', data);
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
