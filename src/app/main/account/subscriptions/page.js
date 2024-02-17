@@ -163,9 +163,9 @@ const Subscription = () => {
                     <div className=" ">
                       {Subscriptions.length > 0 &&
                         Subscriptions[0].features.map((feature, index) => (
-                          <div className="flex items-center gap-x-2 mb-4">
+                          <div key={index} className="flex items-center gap-x-2 mb-4">
                             <IoCheckbox size={25} className="text-primary" />
-                            <span key={index} className="text-gray-600">
+                            <span  className="text-gray-600">
                               {feature}
                             </span>
                           </div>
