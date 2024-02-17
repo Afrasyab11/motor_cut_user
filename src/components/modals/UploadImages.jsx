@@ -78,6 +78,7 @@ export default function UploadImages({
         formData,
         onSuccess: () => {
           dispatch(getAdvertAction(user?.UserId));
+          setOpen();
           dispatch(dashboardStatsAction(user?.UserId));
           setPayload({
             UserId: user?.UserId,
@@ -88,7 +89,6 @@ export default function UploadImages({
           });
           reset();
           setFiles("");
-          setOpen();
         },
 
         onError:(msg)=>{
