@@ -50,21 +50,21 @@ const ViewAdvert = ({ searchParams }) => {
     dispatch(getLogoAction(user?.UserId));
   }, [user?.UserId]);
 
-  const handleOptionChange = async(e) => {
+  const handleOptionChange = async (e) => {
     setSelectedOption(e.target.value);
-    console.log("LogoPosition",e.target.value)
+    console.log("LogoPosition", e.target.value);
     const formData = new FormData();
     formData.append("UserId", user?.UserId);
     formData.append("LogoPosition", e.target.value);
     formData.append("Logo", "");
-      formData.append("DownloadFormat", null);
-    
-   await dispatch(
+    formData.append("DownloadFormat", null);
+
+    await dispatch(
       createLogoAction({
         formData,
         onSuccess: () => {
           dispatch(getLogoAction(user?.UserId));
-          selectedOption("")
+          selectedOption("");
         },
       })
     );
@@ -147,7 +147,7 @@ const ViewAdvert = ({ searchParams }) => {
                     <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                       <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
                         <Image
-                          className="rounded-lg h-[200px] w-full object-fit"
+                          className="w-full lg:min-h-[120px] lg:max-h-[220px] object-fit rounded-lg"
                           height={900}
                           width={1600}
                           src={`${baseDomain}get-file?filename=${img?.Original}`}
@@ -157,7 +157,7 @@ const ViewAdvert = ({ searchParams }) => {
                       </div>
                       <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1 relative">
                         <Image
-                          className="rounded-lg h-[200px] w-full object-fit"
+                          className="lg:min-h-[120px] lg:max-h-[220px] w-full object-fit rounded-lg"
                           height={900}
                           width={1600}
                           src={`${baseDomain}get-file?filename=${img.Processed}`}
@@ -165,8 +165,8 @@ const ViewAdvert = ({ searchParams }) => {
                           alt=""
                         />
                         {logo?.DisplayLogo && (
-                          <img
-                            className={`h-[50px] w-[120px] absolute  object-cover rounded-md
+                          <Image
+                            className={`h-[50px] w-[120px] absolute  object-contain rounded-md
                            ${
                              logo?.LogoPosition === "top-right"
                                ? "right-[10px] top-[10px]"

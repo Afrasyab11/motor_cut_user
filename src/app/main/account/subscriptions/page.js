@@ -22,6 +22,7 @@ import { CreateStripeCheckoutSession } from "@/actions/stripe/checkout-session";
 import getStripe from "@/utils/get-stripe";
 import { getSubscriptionAction } from "@/store/subscription/subscriptionThunk";
 import { IoCheckbox } from "react-icons/io5";
+import { Skeleton } from "@/components/ui/skeleton";
 // import "./subscriptions.module.css";
 const Subscriptions = [
   {
@@ -102,7 +103,6 @@ const Subscription = () => {
       console.log("inside catch=", error);
     } finally {
       console.log("inside fainally");
-
     }
   };
 
@@ -221,11 +221,7 @@ const Subscription = () => {
                         Apply
                       </button>
                     </div>
-                    {/* {errorMessages[index] && (
-                      <p className="text-red-500 text-sm ">
-                        {errorMessages[index]}
-                      </p>
-                    )} */}
+
                     <Button
                       className="bg-primary text-white rounded-full mx-2 w-full"
                       onClick={(e) =>
@@ -240,9 +236,31 @@ const Subscription = () => {
             </>
           ))
         ) : subscriptionLoader ? (
-          <div className="flex justify-center">
-            <span>Loading...</span>
-          </div>
+          [...Array(3)].map((_, index) => (
+            <Card key={index} className=" bg-gray-100">
+              <div className="container m-auto">
+                <CardHeader className="p-2 mt-3">
+                  <CardTitle className="text-2xl text-center font-medium tracking-normal ">
+                    <Skeleton className="h-4 w-22 bg-whitee" />
+                  </CardTitle>
+                  <CardDescription className="px-2 pt-3">
+                    <Skeleton className="h-4 w-22 bg-whitee" />
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-y-8 p-1 md:p-3">
+                  <Skeleton className="h-4 w-22 bg-whitee " />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                  <Skeleton className="h-4 w-22 bg-whitee " />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                  <Skeleton className="h-4 w-22 bg-whitee" />
+                </CardContent>
+                <Separator className="my-2" />
+              </div>
+            </Card>
+          ))
         ) : (
           <div className="flex justify-center">
             <span>No Data Found</span>

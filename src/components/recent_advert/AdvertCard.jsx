@@ -63,14 +63,6 @@ export default function AdvertCard({ data, showCard }) {
           >
             {/* Image Section */}
             <div className="col-span-5 mb-2">
-              {/* <Image
-                  className="rounded-lg  w-full lg:min-h-[120px] lg:max-h-[120px] md:min-h-[150px] md:max-h-[150px] sm:min-h-[200px] sm:max-h-[200px]"
-                  src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}
-                  width={20}
-                  height={30}
-                  // src={testimage2}
-                  alt="TestImage"
-                /> */}
               <div className="rounded-2xl">
                 <Image
                   src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}

@@ -49,7 +49,7 @@ export const UpdateLogoPositionAction = createAsyncThunk(
       );
       if (data?.status_code === 200) {
         onSuccess();
-        toast.success("Logo Position Successfully Updated");
+        toast.success(data?.detail);
       } else {
         toast.warning(data?.detail);
       }

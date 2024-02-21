@@ -61,11 +61,10 @@ const SettingsCard = () => {
         <div className="rounded-2xl">
           <Image
             src={
-              background?.BackgroundImage
-                ? `${baseDomain}get-file?filename=${background?.BackgroundImage}`
-                : TestImg
+              background?.BackgroundImage &&
+              `${baseDomain}get-file?filename=${background?.BackgroundImage}`
             }
-            alt={"BackgroundLibrary"}
+            alt={"background"}
             width={1600}
             height={900}
             // className="w-full h-full object-cover rounded-2xl"

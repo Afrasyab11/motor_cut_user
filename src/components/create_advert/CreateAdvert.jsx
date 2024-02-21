@@ -154,7 +154,7 @@ export default function CreateAdvert() {
           <div className="rounded-2xl">
             <Image
               src={`${baseDomain}get-file?filename=${background?.BackgroundImage}`}
-              alt={"BackgroundLibrary"}
+              alt={"Background"}
               height={600}
               width={900}
               className="w-full h-[200px] object-cover rounded-2xl"
