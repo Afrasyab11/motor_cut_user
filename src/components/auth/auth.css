@@ -1,12 +1,16 @@
 @media screen and (max-width: 370px) {
-    .headerTextSize {
-        font-size: 10px;
-    }
+  .headerTextSize {
+    font-size: 10px;
   }
+}
 
- /* this styling is for the check box input for login component*/
+/* this styling is for the check box input for login component*/
 input[type=checkbox] {
-    accent-color: #814adf;
-    height: 18px;
-    width: 18px;
-  }
+  accent-color: #814adf;
+  height: 18px;
+  width: 18px;
+}
+
+/* .home_main_img Image{
+  border: 1px solid red;
+} */

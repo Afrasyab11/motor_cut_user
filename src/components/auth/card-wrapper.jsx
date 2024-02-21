@@ -25,7 +25,7 @@ export const CardWrapper = ({
   return (
     <Card
       className={cn(
-        "w-full max-w-[400px] m-2 mt-10 mb-10 shadow-md bg-whitee p-4",
+        "w-[300px] md:w-[400px] m-2 mt-10 mb-10 shadow-md bg-whitee p-4",
         className
       )}
     >
@@ -49,15 +49,15 @@ export const CardWrapper = ({
         </CardFooter>
       )}
 
-<p className="font-medium text-sm text-center w-full py-3 text-mutedFields">
-  {currentPage === "login" 
-    ? "You Don't have an Account? "
-    : "You already have an account? "}
-  <a href={currentPage === "login" ? "/auth/register" : "/auth/login"}>
-    {currentPage === "login" ? "Sign Up" : "Log in"}
-  </a>
-</p>
-    
+      <p className="font-bold text-sm text-center w-full py-3 text-mutedFields">
+        {currentPage === "login"
+          ? "You Don't have an Account? "
+          : "You already have an account? "}
+        <a href={currentPage === "login" ? "/auth/register" : "/auth/login"}>
+          {currentPage === "login" ? "Sign Up" : "Log in"}
+        </a>
+      </p>
+
     </Card>
   );
 };

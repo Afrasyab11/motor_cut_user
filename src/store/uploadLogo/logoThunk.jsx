@@ -39,3 +39,22 @@ export const getLogoAction = createAsyncThunk(
     }
   }
 );
+
+export const UpdateLogoPositionAction = createAsyncThunk(
+  "logo/updateLogoPosition",
+  async ({ UserId, Position, onSuccess }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.put(
+        `/User/Change-Logo-Display-Settings?UserId=${UserId}&DisplayLogo=${Position}`
+      );
+      if (data?.status_code === 200) {
+        onSuccess();
+        toast.success("Logo Position Successfully Updated");
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);

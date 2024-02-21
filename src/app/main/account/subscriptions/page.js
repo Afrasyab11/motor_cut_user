@@ -41,32 +41,50 @@ const Subscription = () => {
     (state) => state?.subscription
   );
 
-  console.log("subscription", subscription);
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("GBP");
   let userString = getCookie("user");
   let userInfo = userString ? JSON.parse(userString) : null;
-  // const [promoCode, setPromoCode] = useState();
-  // const [promoCodes, setPromoCodes] = useState();
-  const userEmail = userInfo.UserEmail;
-  const userId = userInfo.UserId;
-  const authToken = userInfo.AccessToken;
+  const [promoCode, setPromoCode] = useState({});
+  const [errorMessages, setErrorMessages] = useState({});
+  const userEmail = userInfo?.UserEmail;
+  const userId = userInfo?.UserId;
+  const authToken = userInfo?.AccessToken;
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
-  }, [dispatch, currency]);
+  }, [currency]);
 
   const UKChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("GBP");
     dispatch(getSubscriptionAction("GBP"));
+    setPromoCode({});
+    setErrorMessages({});
   };
   const USAChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("USD");
     dispatch(getSubscriptionAction("USD"));
+    setPromoCode({});
+    setErrorMessages({});
   };
 
-  const HandleCreateCheckout = async (e, priceId) => {
+  const HandleCreateCheckout = async (e, priceId, index) => {
     e.preventDefault();
+    console.log("Price",)
+    // const currentPromoCode = promoCode[index] || "";
+    // if (!currentPromoCode.trim()) {
+    //   setErrorMessages({
+    //     ...errorMessages,
+    //     [index]: "Promotional code is required.",
+    //   });
+    //   return;
+    // }
+    // setErrorMessages({ ...errorMessages, [index]: "" });
+
+    console.log(
+      "Proceeding with promo code: and PriceID",
+      priceId,
+    );
 
     try {
       const response = await CreateStripeCheckoutSession({
@@ -75,21 +93,15 @@ const Subscription = () => {
         priceId,
         authToken,
       });
-
-      console.log("authTOken---------------", authToken);
-      console.log("response=", response);
       const stripe = await getStripe();
       const { error } = await stripe.redirectToCheckout({
         sessionId: response.session.id,
       });
-      console.log("error");
     } catch (error) {
       console.log("inside catch=", error);
-      // seterrorMessage("Something Went Wrong! Please try again.");
     } finally {
       console.log("inside fainally");
-      // seterrorMessage("Something Went Wrong! Please try again.");
-      // setLoading(false);
+
     }
   };
 
@@ -145,16 +157,16 @@ const Subscription = () => {
             <>
               <Card key={index} className=" bg-gray-100">
                 <div className="container m-auto">
-                  <CardHeader className="p-2">
+                  <CardHeader className="p-2 mt-3">
                     <CardTitle className="text-2xl text-center font-medium tracking-normal ">
                       {item.Name}
                     </CardTitle>
-                    <CardDescription className="">
-                      <p className="text-[18px] text-primary-dark font-medium">
+                    <CardDescription className="px-2 pt-3">
+                      <p className="lg:text-[18px] sm:text-[12px] text-primary-dark font-medium">
                         {" "}
                         {item.NumberOfImages} image credits per p/m
                       </p>
-                      <p className="text-[17px] text-black mt-2">
+                      <p className="lg:text-[16px] sm:text-[12px] text-black mt-2">
                         Suitable for approx {item.cars} p/m
                       </p>
                     </CardDescription>
@@ -163,33 +175,42 @@ const Subscription = () => {
                     <div className=" ">
                       {Subscriptions.length > 0 &&
                         Subscriptions[0].features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-x-2 mb-4">
-                            <IoCheckbox size={25} className="text-primary" />
-                            <span  className="text-gray-600">
+                          <span
+                            key={index}
+                            className="flex items-center gap-x-2 mb-4"
+                          >
+                            <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                            <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
                               {feature}
-                            </span>
-                          </div>
+                            </small>
+                          </span>
                         ))}
                     </div>
                   </CardContent>
                   <Separator className="my-2" />
                   <CardFooter className="flex flex-col gap-y-2 ">
-                    <div className="text-sm font-semibold text-primary">
+                    <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
-                      {item.Price} <span>PER MONTH</span> {"(+ VAT)"}
-                    </div>
+                      {item.Price + " PER MONTH " + "(+ VAT)"}
+                    </small>
                     <div className="relative">
                       <Input
                         className="mx-0 basis-3/4 border-b-primary bg-white"
                         placeholder="Promotional Code"
-                        // value={promoCodes[index] || ''}
-                        // onChange={(e) => {
-                        //   const newPromoCodes = { ...promoCodes, [index]: e.target.value };
-                        //   setPromoCodes(newPromoCodes);
-                        // }}
+                        value={promoCode[index] || ""}
+                        onChange={(e) => {
+                          setPromoCode((previous) => ({
+                            ...previous,
+                            [index]: e.target.value,
+                          })),
+                            setErrorMessages((prev) => ({
+                              ...prev,
+                              [index]: "",
+                            }));
+                        }}
                       />
                       <button
-                        className="text-sm  mr-3 text-primary-dark absolute"
+                        className="text-sm mx-3 text-primary-dark absolute"
                         style={{
                           top: "50%",
                           transform: "translateY(-50%)",
@@ -199,14 +220,15 @@ const Subscription = () => {
                         Apply
                       </button>
                     </div>
+                    {/* {errorMessages[index] && (
+                      <p className="text-red-500 text-sm ">
+                        {errorMessages[index]}
+                      </p>
+                    )} */}
                     <Button
                       className="bg-primary text-white rounded-full mx-2 w-full"
                       onClick={(e) =>
-                        HandleCreateCheckout(
-                          e,
-                          "price_1OjhO2CHv44ZbdyVmXi28nTg",
-                          promoCode
-                        )
+                        HandleCreateCheckout(e, item?.StripePriceId, index)
                       }
                     >
                       Purchase

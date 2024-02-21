@@ -33,10 +33,9 @@ const BackgroundLibrary = () => {
   const [showData, setShowData] = useState(9);
   const [showCard, setShowCard] = useState(9);
   const [file, setFile] = useState("");
-
   useEffect(() => {
     dispatch(getAllBackgroundImagesAction());
-  }, []);
+  }, [dispatch]);
 
   const filterHandler = (category) => {
     setSelectedCategory(category);
@@ -185,7 +184,7 @@ const BackgroundLibrary = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         variant="outline"
-                        className="library-btn basis-1/2 text-sm text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  mr-2"
+                        className="library-btn basis-1/2 text-sm  rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  mr-2"
                       >
                         See Example
                       </a>

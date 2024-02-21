@@ -19,13 +19,10 @@ export default function RootLayout({ children }) {
    const  router= useRouter()
   const isloggedIn=getCookie("token")
   const rememberMe=getCookie("rememberMe")
+  console.log('>>>  : ', rememberMe);
 
- 
-
-  useEffect(()=>{
- if(!isloggedIn){
+  if(!isloggedIn){
     router.push("/")  }
-  },[isloggedIn])
 
     useEffect(() => {
       if (rememberMe=="false") {
@@ -35,7 +32,7 @@ export default function RootLayout({ children }) {
           router.push("/auth/login")
         }, 8000000);
       } 
-    }, [rememberMe]);
+    }, [rememberMe, dispatch]);
   
   return (
     <>

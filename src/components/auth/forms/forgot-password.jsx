@@ -1,6 +1,6 @@
 "use client";
 // import * as z from "zod";
-import { ForgotPasswordSchema } from '@/schemas';
+import { ForgotPasswordSchema, VerifyPasswordSchema} from '@/schemas';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,13 +14,16 @@ import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { CardWrapper } from "../card-wrapper";
 import { BackButton } from "../back-button";
-import { forgotUserPassword } from '@/store/user/userThunk';
+import { forgotUserPassword, userNewPassword, verifyUserPassword } from '@/store/user/userThunk';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useTransition } from 'react';
 import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
 import { forgotPassword } from '@/actions/forgotPassword';
+import { resetPassword } from '@/actions/resetPassword';
+import { createNewPassword } from '@/actions/createNewPassword';
+import { ImSpinner8 } from 'react-icons/im';
 
 export const ForgotPassword = () => {
 
@@ -31,55 +34,119 @@ export const ForgotPassword = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showOTPInput, setShowOTPInput] = useState(false);
-  const [payloadSuccess, setPayloadSuccess] = useState(false)
+  const [status,setStatus]=useState("email");
   const [isPending, startTransition] = useTransition();
+
+  let loader =isLoading||isPending
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
+    resolver: zodResolver(VerifyPasswordSchema),
+    // resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
       email: "",
+      otp: "",
+      password:"",
     },
   });
 
   const onSubmit = (values) => {
 
-    setError("");
-    setSuccess("");
-    startTransition(() => {
-      forgotPassword(values).then((data) => {
-        let payload = {
-          Email: values.email,
-        }
-        console.log("Payload from  forgot password component", payload)
-        dispatch(forgotUserPassword(
-          {
-            payload,
-            onSuccess: () => {
-              setPayloadSuccess(true); 
-              setShowOTPInput(true);
-              // router.push('/main/dashboard')
-            },
+    // First API call for email.
+    if (status==="email") {
+      setError("");
+      setSuccess("");
+      
+      startTransition(() => {
+        forgotPassword(values).then((data) => {
+         
+          let payload = {
+            Email: values.email,
+          }
+          dispatch(forgotUserPassword(
+            {
+              payload,
+              onSuccess: (e) => {
+                setSuccess(e);
+                // setSuccess("OTP sent Successfully. Please Check Your Email")
+                setStatus("otp")
+              },
+              
 
-            onError: (msg) => {
-              setError(msg);
-            }
-          }))
-
+              onError: (msg) => {
+                setError(msg);
+              }
+              
+            }))
+        });
       });
-    });
+    }
+    // Second API call in which OTP is entered
+    else if(status==="otp") {
+      setError("");
+      setSuccess("");
+      startTransition(() => {
+        resetPassword(values).then((data) => {
+          let payload = {
+            Email: values.email,
+            OTP: values.otp,
+          }
+          dispatch(verifyUserPassword(
+            {
+              payload,
+              onSuccess: (e) => {
+                setSuccess(e);
+                setStatus("password")
+              },
+
+              onError: (msg) => {
+                setError(msg);
+              }
+            }))
+
+        });
+      });
+    }
+    // Third API call in which New Password is entered and user redirect to the login page.
+    else if(status==="password"){
+
+      setError("");
+      setSuccess("");
+      startTransition(() => {
+        createNewPassword(values).then((data) => {
+          let payload = {
+            Email: values.email,
+            NewPassword: values.password,
+          }
+
+          dispatch(userNewPassword(
+            {
+              payload,
+              onSuccess: () => {
+                setStatus("password")
+                router.push('/auth/login')
+              },
+
+              onError: (msg) => {
+                setError(msg);
+              }
+            }))
+        });
+      });
+    }
   };
+
 
   return (
     <CardWrapper
       headerText="Forgot-Password"
-      headerPadding="p-7 pl-0 pt-3 pb-4 p-0"
+      headerPadding="pb-2"
       backButtonLabel="Don't Have an account?"
       // backButtonHref="/auth/register"
       headerLogo
-      className="space-y-20"
+      className=""
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -99,10 +166,9 @@ export const ForgotPassword = () => {
                     />
                   </FormControl>
                 </FormItem>
-
               )}
             />
-            {showOTPInput && (
+            {status== "otp" && (
               <FormField
                 control={form.control}
                 name="otp"
@@ -115,7 +181,7 @@ export const ForgotPassword = () => {
                       <Input
                         {...field}
                         placeholder="otp"
-                        type="password"
+                        type="text"
                         disabled={isPending}
                         required
                       />
@@ -124,20 +190,46 @@ export const ForgotPassword = () => {
                 )}
               />
             )}
+            {status=="password" && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-mutedFields">
+                        Enter Your New Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="New Password"
+                          type="password"
+                          disabled={isPending}
+                          required
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
           </div>
-
+  
           <FormError message={error} />
           <FormSuccess message={success} />
+    
           <Button
             type="submit"
-            className="w-full text-whitee rounded-full"
-            disabled={isPending}
+            className="w-full text-whitee rounded-full "
+            disabled={loader}
           >
-            {isPending ? "Submitting..." : "Submit"}
+            {loader ? "Submiting...":"Submit"}
           </Button>
         </form>
       </Form>
     </CardWrapper>
   );
+  
 };
 

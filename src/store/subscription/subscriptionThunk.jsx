@@ -10,7 +10,7 @@ export const getSubscriptionAction = createAsyncThunk(
         `/Packages/Get-All-Packages-By-Currency?Currency=${currency}`
       );
       if (data?.status_code === 200) {
-        return data?.detail?.reverse();
+        return data?.detail;
       } else {
         toast.warning(data?.detail);
       }

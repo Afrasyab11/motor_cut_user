@@ -13,6 +13,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   createAdvertAction,
+  getActivityChartAction,
   getAdvertAction,
 } from "@/store/createAdvert/createAdvertThunk";
 import { MdClose } from "react-icons/md";
@@ -77,8 +78,9 @@ export default function UploadImages({
       createAdvertAction({
         formData,
         onSuccess: () => {
-          dispatch(getAdvertAction(user?.UserId));
           setOpen();
+          dispatch(getAdvertAction(user?.UserId));
+          dispatch(getActivityChartAction(user?.UserId));
           dispatch(dashboardStatsAction(user?.UserId));
           setPayload({
             UserId: user?.UserId,
@@ -89,6 +91,7 @@ export default function UploadImages({
           });
           reset();
           setFiles("");
+          
         },
 
         onError:(msg)=>{

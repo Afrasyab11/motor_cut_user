@@ -13,7 +13,7 @@ export default function RecentAdvert({ showCard }) {
 let user = userString ? JSON.parse(userString) : null;
   useEffect(() => {
     dispatch(getAdvertAction( user?.UserId));
-  }, [dispatch,user?.UserId]);
+  }, []);
 
   return (
     // <div className={`grid gap-8 ${recentColumn}`}>

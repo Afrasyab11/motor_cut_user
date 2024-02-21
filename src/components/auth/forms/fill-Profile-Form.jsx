@@ -72,7 +72,6 @@ let payload={...formData,...values}
     //     if (data.success) {
     //       // nextStep();
 
-    //       console.log(">>>>",formData);
     //     }
     //   });
     // });

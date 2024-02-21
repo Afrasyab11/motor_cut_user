@@ -33,7 +33,6 @@
 //       [field]: value,
 //     });
 //   };
-// console.log(">>",payload?.CutType,payload?.CutType =="Half Cut");
 //   return (
 //     <div className="bg-site_secondary px-8 pt-4">
 //       <div className="my-2">

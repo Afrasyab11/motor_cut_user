@@ -10,8 +10,8 @@ export const createAdvertAction = createAsyncThunk(
         formData
       );
       if (data?.status_code === 200) {
-        onSuccess();
         toast.success("Advert Created Successfully");
+        onSuccess();
       } else {
         toast.warning(data?.detail);
       }
@@ -31,7 +31,7 @@ export const getAdvertAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail.reverse();
       } else {
-        toast.warning(data?.detail);
+        return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -48,7 +48,7 @@ export const getAdvertProcesByIdAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        toast.warning(data?.detail);
+        return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -65,7 +65,7 @@ export const downloadAdvertImagesAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        toast.warning(data?.detail);
+        return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -82,7 +82,7 @@ export const downloadAllAdvertImagesAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        toast.warning(data?.detail);
+        return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -97,9 +97,9 @@ export const flageImageAction = createAsyncThunk(
         `/FlaggedImages/Flag-Image?AdvertId=${payload?.AdvertId}&UniqueImageId=${payload?.UniqueImageId}`
       );
       if (data?.status_code === 200) {
-        toast.success("Image Successfully flaged");
+        toast.success("Image Successfully flaged")
       } else {
-        toast.warning(data?.detail);
+        return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -112,7 +112,21 @@ export const downloadZipFileAction = createAsyncThunk(
   async (path, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`/get-file?filename=${path}`);
-      console.log('data:>>>>>  ya data h ', data);
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+export const getActivityChartAction = createAsyncThunk(
+  "advert/getActivity",
+  async (UserId, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/Advertisement/Get-All-User-Adverts-Created-With-Date?UserId=${UserId}`);
       if (data?.status_code === 200) {
         return data?.detail;
       } else {

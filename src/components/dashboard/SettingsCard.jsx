@@ -6,6 +6,10 @@ import TestImg from "../../../public/Test.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { getchanngeBackgroundImageAction } from "@/store/background/backgroundThunk";
 import ChangeBackgroudImage from "../modals/changeBackgroundModal";
+import {
+  UpdateLogoPositionAction,
+  getLogoAction,
+} from "@/store/uploadLogo/logoThunk";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 const SettingsCard = () => {
@@ -13,6 +17,7 @@ const SettingsCard = () => {
   const { background, backgroundLoader } = useSelector(
     (state) => state.background
   );
+  const { logo } = useSelector((state) => state?.logo);
 
   let userString = getCookie("user");
 
@@ -20,11 +25,29 @@ const SettingsCard = () => {
   const [isBacgroundDialog, setBackgroundDialog] = useState(false);
   const handleBackgroundDialog = () => setBackgroundDialog(true);
   const handleCloseBackground = () => setBackgroundDialog(false);
+
   useEffect(() => {
     if (user?.UserId) {
       dispatch(getchanngeBackgroundImageAction(user?.UserId));
     }
-  }, [dispatch,user?.UserId]);
+  }, [user?.UserId]);
+
+  useEffect(() => {
+    dispatch(getLogoAction(user?.UserId));
+  }, [user?.UserId]);
+  const handleStatusChange = (isActive) => {
+    const status = isActive ? "true" : "false";
+    dispatch(
+      UpdateLogoPositionAction({
+        UserId: user?.UserId,
+        Position: status,
+        onSuccess: () => {
+          // dispatch(UpdateLogoPositionAction(user?.UserId));
+          dispatch(getLogoAction(user?.UserId));
+        },
+      })
+    );
+  };
   return (
     <div className="flex flex-col justify-around  h-full">
       <div className="flex justify-center">
@@ -59,7 +82,11 @@ const SettingsCard = () => {
           Change Background
         </a>
         <div className="flex gap-4 ">
-          <h5> Display Logo </h5> <Switch />
+          <h5> Display Logo </h5>{" "}
+          <Switch
+            checked={logo?.DisplayLogo}
+            onCheckedChange={(isActive) => handleStatusChange(isActive)}
+          />
         </div>
       </div>
       {isBacgroundDialog && (

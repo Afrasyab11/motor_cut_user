@@ -9,10 +9,10 @@ export const WelcomeSignUp = ({ nextStep, prevStep }) => {
     <CardWrapper headerPadding="p-0" className="p-0">
       <div className="w-full flex justify-center items-center flex-col">
         <Image src="/logo1.png" height={150} width={150} alt="logo" />
-        <h1 className="text-4xl text-center	font-medium pt-20 pb-10">
+        <h1 className="text-4xl text-center	font-medium pt-10 pb-3">
           Welcome to MotorCut
         </h1>
-        <p className="text-center font-medium w-80 text-mutedFields text-sm	">
+        <p className="text-center font-medium w-80 px-4 md:px-0 text-mutedFields text-sm	">
           Our free trial consists of 50 free images credits and expires after
           7-days. No payment information required.
         </p>

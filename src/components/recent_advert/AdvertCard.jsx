@@ -12,13 +12,10 @@ import { SkeletonCard } from "../skeleton/SkeletonCard";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 export default function AdvertCard({ data, showCard }) {
-  console.log("data: ", data);
-
   const dispatch = useDispatch();
   let userString = getCookie("user");
   const { advertLoader } = useSelector((state) => state?.advert);
   let user = userString ? JSON.parse(userString) : null;
-
   const downloadImagesHandler = (e, item) => {
     dispatch(downloadAdvertImagesAction(item?.UniqueAdvertisementId)).then(
       (response) => {
@@ -28,30 +25,22 @@ export default function AdvertCard({ data, showCard }) {
       `,
           "Advert"
         );
-        // console.log('downloadPath: ', downloadPath);
-        // return dispatch(downloadZipFileAction(downloadPath?.ZipFilePath));
+      
       }
     );
   };
-
   async function downloadFile(url, fileName) {
-    console.log("fileName: ", fileName);
-    console.log("url: ", url);
     try {
       const response = await fetch(url);
       const blob = await response.blob();
-
       // Create a temporary link element
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = fileName;
-
       // Append the link to the body
       document.body.appendChild(link);
-
       // Trigger the download
       link.click();
-
       // Remove the link from the DOM
       document.body.removeChild(link);
     } catch (error) {
@@ -138,7 +127,6 @@ export default function AdvertCard({ data, showCard }) {
                 </p>
               </div>
             </div>
-
             <div className="lg:col-span-7 md:col-span-12 sm:col-span-12 ">
               <div className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1">
                 <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 mb-1 sm:m-0 md:m-0">

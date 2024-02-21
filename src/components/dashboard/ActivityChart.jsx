@@ -1,65 +1,90 @@
+"use client";
+import React, { useEffect } from "react";
+// import ReactApexChart from "react-apexcharts";
+import { useDispatch, useSelector } from "react-redux";
+import { getActivityChartAction } from "@/store/createAdvert/createAdvertThunk";
+import { getCookie } from "cookies-next";
 
-"use client"
-import React from 'react';
-import ReactApexChart  from "react-apexcharts"
-
-
-
-// import dynamic from "next/dynamxic";
-// const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-//   ssr: false,
-// });
-
-const series = [
-  {
-    name: 'Total',
-    data: [31, 40, 28, 51, 42, 109, 100]
-  },
-  {
-    name: 'Half-Cut',
-    data: [11, 32, 45, 32, 34, 52, 41]
-  },
-  {
-    name: 'Full-Cut',
-    data: [13, 62, 25, 42, 44, 22, 11]
-  }
-];
-
-const options = {
-  chart: {
-    height: 350,
-    type: 'area'
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  xaxis: {
-    type: 'datetime',
-    categories: [
-      "2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z",
-      "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z",
-      "2018-09-19T06:30:00.000Z"
-    ]
-  },
-  tooltip: {
-    x: {
-      format: 'dd/MM/yy HH:mm'
-    },
-  },
-};
-
+import dynamic from 'next/dynamic';
+const ReactApexChart  = dynamic(
+  () => import('react-apexcharts'),
+  { ssr: false }
+);
 const ActivityChart = () => {
+  const dispatch = useDispatch();
+  const { activity } = useSelector((state) => state?.advert);
+  console.log("activity", activity);
+  let userString = getCookie("user");
+  let user = userString ? JSON.parse(userString) : null;
+  useEffect(() => {
+    dispatch(getActivityChartAction(user?.UserId));
+  }, []);
+  const formattedDates = activity?.map((detail) => {
+    const date = new Date(detail.Date);
+    return `${date.getDate().toString().padStart(2, "0")}/${(
+      date.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}`;
+  });
   // let isRender = typeof window !== 'undefined';
+  const series = [
+    {
+      name: "Total",
+      data: activity?.map((detail) => detail.NoOfAdverts),
+    },
+    {
+      name: "Half-Cut",
+      data: activity?.map((detail) => detail.HalfCut),
+    },
+    {
+      name: "Full-Cut",
+      data: activity?.map((detail) => detail.FullCut),
+    },
+  ];
 
+  const options = {
+    chart: {
+      height: 350,
+      type: "area",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    yaxis: {
+      title: {
+        text: "No. of Adverts",
+      },
+      tickAmount: 4, // Number of ticks you want to show
+      min: 0, // Minimum value on y-axis
+      max: 20, // Maximum value on y-axis
+    },
+    xaxis: {
+      categories: formattedDates || [],
+    },
+    tooltip: {
+      x: {
+        format: "dd/MM/yy HH:mm",
+      },
+    },
+  };
   return (
-    <div className='w-full h-full'>
-    <><div id="chart">
-        <ReactApexChart  className='w-full' options={options} series={series} type="area" height={250} />
-      </div>
-      <div id="html-dist"></div></>
+    <div className="w-full h-full">
+      <>
+        <div id="chart">
+          <ReactApexChart
+            className="w-full"
+            options={options}
+            series={series}
+            type="area"
+            height={250}
+          />
+        </div>
+        <div id="html-dist"></div>
+      </>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import {
   createAdvertAction,
   getAdvertAction,
   getAdvertProcesByIdAction,
+  getActivityChartAction,
 } from "./createAdvertThunk";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   error: null,
   advert: [],
   processAdvert: [],
+  activity:[]
 };
 
 export const advertSlice = createSlice({
@@ -49,6 +51,17 @@ export const advertSlice = createSlice({
         state.processAdvert = action.payload;
       })
       .addCase(getAdvertProcesByIdAction.rejected, (state, action) => {
+        state.advertLoader = false;
+        state.error = action.payload;
+      })
+      .addCase(getActivityChartAction.pending, (state) => {
+        state.advertLoader = true;
+      })
+      .addCase(getActivityChartAction.fulfilled, (state, action) => {
+        state.advertLoader = false;
+        state.activity = action.payload;
+      })
+      .addCase(getActivityChartAction.rejected, (state, action) => {
         state.advertLoader = false;
         state.error = action.payload;
       })

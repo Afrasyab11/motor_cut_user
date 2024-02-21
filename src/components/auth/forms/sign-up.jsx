@@ -26,7 +26,6 @@ import { FormSuccess } from "../form-success";
 export const SignUpForm = ({ nextStep, setFormData }) => {
   const dispatch = useDispatch();
   const { isLoading, statusError } = useSelector((state) => state?.user);
-  console.log("statusError", statusError);
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");

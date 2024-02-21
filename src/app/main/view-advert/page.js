@@ -27,47 +27,26 @@ import { axiosInstance, baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
-import { createLogoAction, getLogoAction } from "@/store/uploadLogo/logoThunk";
-
 const ViewAdvert = ({ searchParams }) => {
   const router = useRouter();
+  console.log("searchParams", router);
   const dispatch = useDispatch();
   const { processAdvert, advertLoader } = useSelector((state) => state?.advert);
-  const { logo } = useSelector((state) => state?.logo);
   const [advert, setAdvert] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
-  let userString = getCookie("user");
-  let user = userString ? JSON.parse(userString) : null;
+  const [selectedOption, setSelectedOption] = useState("Top Left");
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
-
   useEffect(() => {
     dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
-  }, [searchParams?.advertId]);
+  }, [dispatch, searchParams?.advertId]);
 
-  useEffect(() => {
-    dispatch(getLogoAction(user?.UserId));
-  }, [user?.UserId]);
+  const options = ["Top Left", "Top Right", "Bottom Left", "Bottom Right"];
+  let userString = getCookie("user");
 
-  const handleOptionChange = async(e) => {
+  let user = userString ? JSON.parse(userString) : null;
+  const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
-    console.log("LogoPosition",e.target.value)
-    const formData = new FormData();
-    formData.append("UserId", user?.UserId);
-    formData.append("LogoPosition", e.target.value);
-    formData.append("Logo", "");
-      formData.append("DownloadFormat", null);
-    
-   await dispatch(
-      createLogoAction({
-        formData,
-        onSuccess: () => {
-          dispatch(getLogoAction(user?.UserId));
-          selectedOption("")
-        },
-      })
-    );
   };
   const downloadHandler = () => {
     dispatch(downloadAdvertImagesAction(searchParams?.advertId)).then(
@@ -82,13 +61,18 @@ const ViewAdvert = ({ searchParams }) => {
     );
   };
   async function downloadFile(url, fileName) {
+    console.log("fileName: ", fileName);
+    console.log("url: ", url);
     try {
       const response = await fetch(url);
       const blob = await response.blob();
 
       // Create a temporary link element
       const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
+      // if (typeof window !== "undefined") {
+      //   link.href = window.URL.createObjectURL(blob);
+      // }
+
       link.download = fileName;
 
       // Append the link to the body
@@ -155,7 +139,7 @@ const ViewAdvert = ({ searchParams }) => {
                           alt=""
                         />
                       </div>
-                      <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1 relative">
+                      <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
                         <Image
                           className="rounded-lg h-[200px] w-full "
                           height={900}
@@ -164,24 +148,6 @@ const ViewAdvert = ({ searchParams }) => {
                           // src={testimage2}
                           alt=""
                         />
-                        {logo?.DisplayLogo && (
-                          <img
-                            className={`h-[50px] w-[120px] absolute  object-cover rounded-md
-                           ${
-                             logo?.LogoPosition === "top-right"
-                               ? "right-[10px] top-[10px]"
-                               : logo?.LogoPosition === "top-left"
-                               ? "left-[10px] top-[10px]"
-                               : logo?.LogoPosition === "bottom-left"
-                               ? "bottom-[10px] left-[10px]"
-                               : "bottom-[10px] right-[10px]"
-                           }`}
-                            src={`${baseDomain}get-file?filename=${logo?.Logo}`}
-                            alt="Logo"
-                            height={900}
-                            width={1600}
-                          />
-                        )}
                       </div>
                     </div>
                   </div>
@@ -210,25 +176,15 @@ const ViewAdvert = ({ searchParams }) => {
                           Logo:
                         </span>
                         <select
-                          className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md ml-4 mb-1 cursor-pointer  custom-select"
+                          className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md ml-4 mb-1  custom-select"
                           value={selectedOption}
                           onChange={handleOptionChange}
                         >
-                          <option name="" value="">
-                            Position
-                          </option>
-                          <option name="top-left" value="top-left">
-                            Top Left
-                          </option>
-                          <option name="top-right" value="top-right">
-                            Top Right
-                          </option>
-                          <option name="bottom-left" value="bottom-left">
-                            Bottom Left
-                          </option>
-                          <option name="bottom-right" value="bottom-right">
-                            Bottom Right
-                          </option>
+                          {options.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
                         </select>
                       </div>
                       <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">

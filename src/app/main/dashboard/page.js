@@ -1,5 +1,5 @@
 "use client";
- import ApexChart from "@/components/dashboard/ActivityChart";
+import ApexChart from "@/components/dashboard/ActivityChart";
 import AdvertForm from "@/components/dashboard/AdvertForm";
 import SettingsCard from "@/components/dashboard/SettingsCard";
 import StatsCard from "@/components/dashboard/StatsCard";
@@ -23,7 +23,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     dispatch(dashboardStatsAction(user?.UserId));
-  }, [user?.UserId]);
+  }, [dispatch,user?.UserId]);
   const stats = [
     {
       icon: <IoIosPerson />,

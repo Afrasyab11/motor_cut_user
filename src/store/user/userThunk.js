@@ -6,12 +6,12 @@ export const loginUser = createAsyncThunk(
   async ({ payload, onSuccess, onError }, thunkAPI) => {
     try {
       const { data } = await axiosInstance.post("/User/Login", payload);
-      console.log("data: ", data);
       if (data.status_code == 200) {
-        console.log("This data console is from userThunk: ", data);
         onSuccess();
         return data;
-      } else {
+      }
+      else {
+        toast.warning(data?.detail);
         onError(data.detail);
         return thunkAPI.rejectWithValue(response);
       }
@@ -20,7 +20,6 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-
 export const sendSignUpOTP = createAsyncThunk(
   "user/sendSignUpOTP",
   async ({ payload, onSuccess, onError }, thunkAPI) => {
@@ -107,13 +106,12 @@ export const forgotUserPassword = createAsyncThunk(
   "user/forgotUserPassword",
   async ({ payload, onSuccess, onError }, thunkAPI) => {
     try {
-      console.log("coming");
       const { data } = await axiosInstance.post(
         "/User/Get-Password-Reset-OTP",
         payload
       );
       if (data.status_code == 200) {
-        onSuccess();
+        onSuccess(data.detail);
         return data.detail;
       } else {
         onError(data.detail);
@@ -125,6 +123,45 @@ export const forgotUserPassword = createAsyncThunk(
   }
 );
 
+export const verifyUserPassword = createAsyncThunk(
+  "user/verifyUserPassword",
+  async ({ payload, onSuccess, onError }, thunkAPI) => {
+    try {
+      console.log("coming")
+      const { data } = await axiosInstance.post("/User/Verify-Password-Reset-OTP", payload);
+      if (data.status_code == 200) {
+        onSuccess()
+        return data.detail;
+      } else {
+        onError(data.detail);
+        return thunkAPI.rejectWithValue(response);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+)
+
+
+
+export const userNewPassword = createAsyncThunk(
+  "user/userNewPassword",
+  async ({ payload, onSuccess, onError }, thunkAPI) => {
+    try {
+      console.log("coming")
+      const { data } = await axiosInstance.post("/User/Reset-Password", payload);
+      if (data.status_code == 200) {
+        onSuccess()
+        return data.detail;
+      } else {
+        onError(data.detail);
+        return thunkAPI.rejectWithValue(response);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+)
 export const getUserProfileData = createAsyncThunk(
   "user/getProfileData",
   async (id, { rejectWithValue }) => {

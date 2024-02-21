@@ -47,7 +47,6 @@ const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
-  console.log("getProfile", states);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
   const [payload, setPayload] = useState({
@@ -63,12 +62,14 @@ const Account = () => {
     isAdmin: false,
     userId: user?.UserId,
   });
+
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
-  }, [dispatch, user?.UserId]);
+  }, [user?.UserId]);
+
   useEffect(() => {
     dispatch(dashboardStatsAction(user?.UserId));
-  }, [dispatch, user?.UserId]);
+  }, [user?.UserId]);
 
   const handleChange = (e) => {
     setPayload({
@@ -100,7 +101,6 @@ const Account = () => {
   }, [getProfile, setValue]);
   const SubmitHanler = (e) => {
     // e.preventDefault();
-    console.log(payload);
     dispatch(
       updateUserProfile({
         payload,

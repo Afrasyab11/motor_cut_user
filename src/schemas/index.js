@@ -70,11 +70,36 @@ const FillProfilePageSchema = z.object({
   }),
 });
 
+const VerifyPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  otp:z.string().min(0, {
+    message:"OTP is required",
+  }),
+  password:z.string().min(0, {
+    message:"Password is required",
+  }),
+
+});
+
+
+const NewPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  password:z.string().min(0, {
+    message:"Password is required",
+  }),
+});
+
 module.exports = {
   LoginSchema,
   RegisterSchema,
   CreatePasswordSchema,
   VerifyNumberSchema,
   FillProfilePageSchema,
-  ForgotPasswordSchema
+  ForgotPasswordSchema,
+  VerifyPasswordSchema,
+  NewPasswordSchema,
 };

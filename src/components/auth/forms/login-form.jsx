@@ -27,7 +27,6 @@ import { toggleRememberMe } from "@/store/user/userSlice";
 
 export const LoginForm = () => {
   const { isLoading ,rememberMe} = useSelector((state) => state?.user);
-  console.log('rememberMe: ', rememberMe);
   const router = useRouter()
   const dispatch=useDispatch()
   

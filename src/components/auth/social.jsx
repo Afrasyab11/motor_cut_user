@@ -3,21 +3,38 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
-import  firebase from "@/config/firebase"
+
 import { loginUser } from "@/store/user/userThunk";
 import { useDispatch } from "react-redux";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-// import { signIn } from "next-auth/react";
+import dynamic from 'next/dynamic';
+// const firebase = dynamic(
+//   () => import('../../config/firebase'),
+//   { ssr: false }
+// );
+// // import { signIn } from "next-auth/react";
 
 export const Social = ({ socialBtnText }) => {
+  const [firebase, setFirebase] = useState(null);
+
+  useEffect(() => {
+    const loadFirebase = async () => {
+      const firebaseModule = await import('../../config/firebase');
+      setFirebase(firebaseModule.default);
+    };
+
+    loadFirebase();
+  }, []);
+
+
+
 
 
  const dispatch=useDispatch()
 
  const router=useRouter()
  const [isPending, startTransition] = useTransition();
- console.log('isPending: ', isPending);
 
   const signUpWithGoogle = () => {
     
@@ -26,9 +43,7 @@ export const Social = ({ socialBtnText }) => {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        console.log("result >>>", result?.user);
         const {email,displayName} = result?.user;
-        console.log('email: ', email);
         let payload={
           Email: email,
           Name:displayName,
@@ -45,7 +60,6 @@ export const Social = ({ socialBtnText }) => {
           }))
       })
       .catch((error) => {
-        console.log("error >>> ", error);
       });})
    
   };

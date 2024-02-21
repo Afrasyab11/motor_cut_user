@@ -16,7 +16,7 @@ export default function AdHistory() {
   let user = userString ? JSON.parse(userString) : null;
   useEffect(() => {
     dispatch(getAdvertAction(user?.UserId));
-  }, []);
+  }, [dispatch,user?.UserId]);
 
   const filterHandle = (e) => {
     setFilter(e.target.value.toLowerCase());

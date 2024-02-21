@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { verifyEmail, loginUser, updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword ,getUserProfileData} from "./userThunk";
+import { verifyEmail, loginUser, updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword, verifyUserPassword, userNewPassword,getUserProfileData} from "./userThunk";
 import { setCookie, deleteCookie } from "cookies-next";
 
 const initialState = {
@@ -44,8 +44,6 @@ export const userSlice = createSlice({
       })
 
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log('action: ', action);
-           
           state.user = action.payload.detail;
           state.token = action.payload.detail.AccessToken;
           setCookie("user", action.payload.detail);
@@ -142,6 +140,29 @@ export const userSlice = createSlice({
       })
       .addCase(getUserProfileData.rejected, (state, action) => {
         state.getProfileLoader = false;
+        state.error = action.payload;
+      })
+
+      // Reset Password OTP
+      .addCase(verifyUserPassword.pending, (state) => {
+        state.userLoader = true;
+      })
+      .addCase(verifyUserPassword.fulfilled, (state, action) => {
+        state.userLoader = false;
+      })
+      .addCase(verifyUserPassword.rejected, (state, action) => {
+        state.userLoader = false;
+        state.error = action.payload;
+      })
+
+      .addCase(userNewPassword.pending, (state) => {
+        state.userLoader = true;
+      })
+      .addCase(userNewPassword.fulfilled, (state, action) => {
+        state.userLoader = false;
+      })
+      .addCase(userNewPassword.rejected, (state, action) => {
+        state.userLoader = false;
         state.error = action.payload;
       })
 

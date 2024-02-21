@@ -39,7 +39,6 @@ const updateStripeCustomerId = async (
       throw new Error(data.detail || "Failed to update Stripe customer ID");
     }
 
-    console.log("Customer ID updated successfully:", data);
     return data; 
   } catch (error) {
     console.error("Error in updating Stripe customer ID:", error);

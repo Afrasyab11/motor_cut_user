@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
     // Accessing the "token" cookie directly from the request
     const token = request.cookies.get("token");
-    console.log("Token:", token);
     if (token && (request.nextUrl.pathname.startsWith("/auth")|| request.nextUrl.pathname=="/")) {
         return NextResponse.redirect(new URL("/main/dashboard", request.url));
     }

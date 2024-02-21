@@ -80,8 +80,6 @@ export default function ChangeBackgroudImage({
           setOpen();
           dispatch(getchanngeBackgroundImageAction(user?.UserId));
           dispatch(dashboardStatsAction(user?.UserId));
-          console.log("ajao")
-          
           setFile(null);
         },
       })

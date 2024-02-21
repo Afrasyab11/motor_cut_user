@@ -30,30 +30,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadLogoSchema } from "@/schemas/uploadLogoSchema";
 //local imports
 // import background from "../../../assets/images/background.jpg";
-import backgroundImage from "../../../../public/background.jpg";
+import backgroundImage from "../../../../public/background.jpg"
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+
 const UploadLogo = () => {
   const dispatch = useDispatch();
   const { logo, logoLoader } = useSelector((state) => state.logo);
   let userString = getCookie("user");
+
   let user = userString ? JSON.parse(userString) : null;
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const [selectedValue, setSelectedValue] = useState("");
+
   const [selectedFormat, setSelectedFormat] = useState("jpg");
   const [coversStatus, setCoversStatus] = useState("off");
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
-  }, []);
-  const handleChange = (value) => {
-    setSelectedValue(value);
-  };
+  }, [dispatch,user?.UserId]);
+ 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
+
   const {
     register,
     control,
@@ -68,6 +71,7 @@ const UploadLogo = () => {
     formData.append("UserId", user?.UserId);
     formData.append("LogoPosition", selectedValue);
     formData.append("DownloadFormat", selectedFormat);
+
     if (selectedFile) {
       formData.append("Logo", selectedFile);
     }
@@ -86,6 +90,7 @@ const UploadLogo = () => {
       })
     );
   };
+
   return (
     <>
       {/* logo uploader */}
@@ -101,21 +106,28 @@ const UploadLogo = () => {
               </CardHeader>
               <CardContent>
                 <div className="bg-white rounded-2xl mt-2 p-6">
-                  <Image
-                    src={
-                      // src={`${baseDomain}get-file?filename=${img?.Original}`}
-                      selectedFile
-                        ? URL.createObjectURL(selectedFile)
-                        : logo?.Logo !== undefined && logo?.Logo
-                        ? `${baseDomain}get-file?filename=${logo?.Logo}`
-                        : backgroundImage
-                    }
-                    alt="logo"
-                    width={400}
-                    height={200}
-                    className="rounded-lg w-full h-full max-h-36"
-                  />
-
+                  {logo?.Logo !== undefined && logo?.Logo ? (
+                    <Image
+                      src={
+                        // src={`${baseDomain}get-file?filename=${img?.Original}`}
+                        selectedFile
+                          ? URL.createObjectURL(selectedFile)
+                          : `${baseDomain}get-file?filename=${logo?.Logo}`
+                      }
+                      alt="logo"
+                      width={400}
+                      height={200}
+                      className="rounded-lg w-full h-full max-h-36"
+                    />
+                  ) : (
+                    <Image
+                      src={backgroundImage}
+                      alt="logo"
+                      width={400}
+                      height={200}
+                      className="rounded-lg w-full h-full max-h-36"
+                    />
+                  )}
                   <input
                     type="file"
                     id="logo"
@@ -127,6 +139,7 @@ const UploadLogo = () => {
                   />
                 </div>
               </CardContent>
+
               <CardFooter className="grid place-items-end ">
                 <Button
                   type="button"
@@ -158,10 +171,10 @@ const UploadLogo = () => {
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Positions</SelectLabel>
-                            <SelectItem value="top-left">Top Left</SelectItem>
-                            <SelectItem value="top-right">Top Right</SelectItem>
-                            <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                            <SelectItem value="bottom-right">Bottom Right</SelectItem>
+                            <SelectItem value="top">Top</SelectItem>
+                            <SelectItem value="bottom">Bottom</SelectItem>
+                            <SelectItem value="left">Left</SelectItem>
+                            <SelectItem value="right">Right</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -176,6 +189,7 @@ const UploadLogo = () => {
               </CardFooter>
             </Card>
           </section>
+
           {/* Download Format */}
           <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">
             <Card>
@@ -268,9 +282,9 @@ const UploadLogo = () => {
                     checked={coversStatus === "on"}
                   />
                   <Button
-                    className={`text-white border-primary-dark rounded-full w-full ${
+                    className={`text-primary-dark border-primary-dark rounded-full w-full ${
                       coversStatus === "on"
-                        ? "bg-primary "
+                        ? "bg-primary text-white"
                         : "bg-gray-300"
                     }`}
                     onClick={() => setCoversStatus("on")}
@@ -304,4 +318,5 @@ const UploadLogo = () => {
     </>
   );
 };
+
 export default UploadLogo;

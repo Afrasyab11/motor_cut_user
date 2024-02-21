@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/auth/form-error";
+ import { FormError } from "@/components/auth/form-error";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { CreatePasswordAction } from "@/actions/createPassword";
+ import { CreatePasswordAction } from "@/actions/createPassword";
 
 import "react-international-phone/style.css";
 import { FormSuccess } from "../form-success";
@@ -56,6 +56,7 @@ export const CreateNewPassword = ({ nextStep, prevStep }) => {
   };
 
   return (
+  
     <CardWrapper
       headerText="Set New Password"
       headerLabel="Please enter a memorable password"
@@ -104,7 +105,7 @@ export const CreateNewPassword = ({ nextStep, prevStep }) => {
               )}
             />
           </div>
-          <FormError message={error} />
+          {/* <FormError message={error} /> */}
           <FormSuccess message={success} />
           <div className="flex items-center justify-center gap-7 pt-16">
             <Button
