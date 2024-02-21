@@ -22,21 +22,21 @@ import {
 import { createLogoAction } from "@/store/uploadLogo/logoThunk";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
-//react logic imports for image uploads
 import { useState, useRef, useEffect } from "react";
 import { getLogoAction } from "@/store/uploadLogo/logoThunk";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadLogoSchema } from "@/schemas/uploadLogoSchema";
-//local imports
-// import background from "../../../assets/images/background.jpg";
 import backgroundImage from "../../../../public/background.jpg";
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+
 const UploadLogo = () => {
   const dispatch = useDispatch();
-  const { logo, logoLoader } = useSelector((state) => state.logo);
+  const { logo, logoLoader, getLogoLoader } = useSelector(
+    (state) => state.logo
+  );
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
   const [selectedFile, setSelectedFile] = useState(null);
@@ -47,9 +47,7 @@ const UploadLogo = () => {
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, []);
-  const handleChange = (value) => {
-    setSelectedValue(value);
-  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
@@ -75,13 +73,13 @@ const UploadLogo = () => {
       createLogoAction({
         formData,
         onSuccess: () => {
+          // document.getElementById("logo").value = "";
           dispatch(getLogoAction(user?.UserId));
           setSelectedValue("");
-          setSelectedFile("");
+          // setSelectedFile("");
           reset({
             position: "",
           });
-          document.getElementById("logo").value = "";
         },
       })
     );
@@ -103,17 +101,16 @@ const UploadLogo = () => {
                 <div className="bg-white rounded-2xl mt-2 p-6">
                   <Image
                     src={
-                      // src={`${baseDomain}get-file?filename=${img?.Original}`}
                       selectedFile
                         ? URL.createObjectURL(selectedFile)
                         : logo?.Logo !== undefined && logo?.Logo
                         ? `${baseDomain}get-file?filename=${logo?.Logo}`
-                        : backgroundImage
+                        : ""
                     }
                     alt="logo"
-                    width={400}
-                    height={200}
-                    className="rounded-lg w-full h-full max-h-36"
+                    width={900}
+                    height={600}
+                    className="rounded-lg w-full h-full max-h-36 object-contain"
                   />
 
                   <input
@@ -160,8 +157,12 @@ const UploadLogo = () => {
                             <SelectLabel>Positions</SelectLabel>
                             <SelectItem value="top-left">Top Left</SelectItem>
                             <SelectItem value="top-right">Top Right</SelectItem>
-                            <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                            <SelectItem value="bottom-right">Bottom Right</SelectItem>
+                            <SelectItem value="bottom-left">
+                              Bottom Left
+                            </SelectItem>
+                            <SelectItem value="bottom-right">
+                              Bottom Right
+                            </SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -269,9 +270,7 @@ const UploadLogo = () => {
                   />
                   <Button
                     className={`text-white border-primary-dark rounded-full w-full ${
-                      coversStatus === "on"
-                        ? "bg-primary "
-                        : "bg-gray-300"
+                      coversStatus === "on" ? "bg-primary " : "bg-gray-300"
                     }`}
                     onClick={() => setCoversStatus("on")}
                   >

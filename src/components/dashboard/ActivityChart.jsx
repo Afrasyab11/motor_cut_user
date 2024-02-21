@@ -1,21 +1,20 @@
 "use client";
 import React, { useEffect } from "react";
-// import ReactApexChart from "react-apexcharts";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivityChartAction } from "@/store/createAdvert/createAdvertThunk";
 import { getCookie } from "cookies-next";
 
-import dynamic from 'next/dynamic';
-const ReactApexChart  = dynamic(
-  () => import('react-apexcharts'),
-  { ssr: false }
-);
+import dynamic from "next/dynamic";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 const ActivityChart = () => {
   const dispatch = useDispatch();
   const { activity } = useSelector((state) => state?.advert);
-  console.log("activity", activity);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
+
   useEffect(() => {
     dispatch(getActivityChartAction(user?.UserId));
   }, []);
@@ -75,13 +74,15 @@ const ActivityChart = () => {
     <div className="w-full h-full">
       <>
         <div id="chart">
-          <ReactApexChart
-            className="w-full"
-            options={options}
-            series={series}
-            type="area"
-            height={250}
-          />
+          {ReactApexChart && (
+            <ReactApexChart
+              className="w-full"
+              options={options}
+              series={series}
+              type="area"
+              height={250}
+            />
+          )}
         </div>
         <div id="html-dist"></div>
       </>

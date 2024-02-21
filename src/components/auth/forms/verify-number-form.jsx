@@ -21,6 +21,8 @@ export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
   const [isPending, startTransition] = useTransition();
 
 
+  console.log("formData=", formData);
+
   const [inputValues, setInputValues] = useState({
     verifyCode1: '',
     verifyCode2: '',
@@ -80,7 +82,7 @@ export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
            
           <FormError message={error} />
           <FormSuccess message={success} />
-         <ResendCode  />
+         <ResendCode  formData={formData}/>
        <div className="flex flex-col  gap-3 mt-4">
           <Button
             disabled={isEmpty}

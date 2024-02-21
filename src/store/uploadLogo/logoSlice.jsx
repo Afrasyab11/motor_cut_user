@@ -3,7 +3,7 @@ import { createLogoAction, getLogoAction } from "./logoThunk";
 
 const initialState = {
   logoLoader: false,
-  getLoader:false,
+  getLogoLoader:false,
   error: null,
   logo: [],
 };
@@ -27,14 +27,14 @@ export const logoSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getLogoAction.pending, (state) => {
-        state.getLoader = true;
+        state.getLogoLoader = true;
       })
       .addCase(getLogoAction.fulfilled, (state, action) => {
-        state.getLoader = false;
+        state.getLogoLoader = false;
         state.logo = action.payload;
       })
       .addCase(getLogoAction.rejected, (state, action) => {
-        state.getLoader = false;
+        state.getLogoLoader = false;
         state.error = action.payload;
       });
   },

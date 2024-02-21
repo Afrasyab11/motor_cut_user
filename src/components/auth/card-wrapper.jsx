@@ -6,7 +6,7 @@ import { BackButton } from "./back-button";
 import { FormProgressBar } from "./form-progress-bar";
 import { Header } from "./header";
 import { Social } from "./social";
-
+import { useRouter } from "next/navigation";
 export const CardWrapper = ({
   children,
   headerLabel,
@@ -20,8 +20,9 @@ export const CardWrapper = ({
   className,
   progressBarCount,
   headerPadding,
-  currentPage
+  currentPage,
 }) => {
+  const router = useRouter();
   return (
     <Card
       className={cn(
@@ -53,11 +54,20 @@ export const CardWrapper = ({
         {currentPage === "login"
           ? "You Don't have an Account? "
           : "You already have an account? "}
-        <a href={currentPage === "login" ? "/auth/register" : "/auth/login"}>
+        {/* <a href={currentPage === "login" ? {"/auth/register"} : "/auth/login"}>
           {currentPage === "login" ? "Sign Up" : "Log in"}
-        </a>
+        </a> */}
+        <button
+          onClick={() =>
+            router.push(
+              currentPage === "login" ? "/auth/register" : "/auth/login"
+            )
+          }
+          // className="text-blue-600 hover:underline"
+        >
+          {currentPage === "login" ? "Sign Up" : "Log in"}
+        </button>
       </p>
-
     </Card>
   );
 };

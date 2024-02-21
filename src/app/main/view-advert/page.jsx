@@ -147,7 +147,7 @@ const ViewAdvert = ({ searchParams }) => {
                     <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                       <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
                         <Image
-                          className="rounded-lg h-[200px] w-full"
+                          className="rounded-lg h-[200px] w-full object-fit"
                           height={900}
                           width={1600}
                           src={`${baseDomain}get-file?filename=${img?.Original}`}
@@ -157,7 +157,7 @@ const ViewAdvert = ({ searchParams }) => {
                       </div>
                       <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1 relative">
                         <Image
-                          className="rounded-lg h-[200px] w-full "
+                          className="rounded-lg h-[200px] w-full object-fit"
                           height={900}
                           width={1600}
                           src={`${baseDomain}get-file?filename=${img.Processed}`}

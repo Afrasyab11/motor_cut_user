@@ -12,6 +12,7 @@ export const RegisterForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState("");
 
+
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
   };

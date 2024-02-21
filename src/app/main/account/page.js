@@ -248,7 +248,7 @@ const Account = () => {
                     />
                     {errors.billingLine1 && (
                       <small className="text-red-500">
-                        {errors.billingLine1.message}
+                        {"Billing Line 1 is required"}
                       </small>
                     )}
                     <Input
@@ -263,7 +263,7 @@ const Account = () => {
                     />
                     {errors.billingLine2 && (
                       <small className="text-red-500">
-                        {errors.billingLine2.message}
+                        {"Billing Line 2 is required"}
                       </small>
                     )}
                     <Input
@@ -292,6 +292,7 @@ const Account = () => {
                       {userLoader && <ImSpinner8 className="spinning-icon" />}
                     </Button>
                     <Button
+                    type="button"
                       variant="outline"
                       className="library-btn basis-1/2 text-sm  rounded-full outline outline-1 outline-black text-red-700 px-3 py-1 mx-4  "
                     >
