@@ -18,6 +18,7 @@ const ActivityChart = () => {
   useEffect(() => {
     dispatch(getActivityChartAction(user?.UserId));
   }, []);
+  
   const formattedDates = activity?.map((detail) => {
     const date = new Date(detail.Date);
     return `${date.getDate().toString().padStart(2, "0")}/${(

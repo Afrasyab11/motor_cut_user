@@ -25,30 +25,63 @@ import { CountryDropdown } from "react-country-region-selector";
 import { userProfileSchema } from "@/schemas/userUpdateProfileSchema";
 import { getCookie } from "cookies-next";
 import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
-const invoices = [
-  { date: "2024-01-01", amount: "$250.00", download: "invoice-1.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-  { date: "2024-01-05", amount: "$150.00", download: "invoice-2.pdf" },
-
-  { date: "2024-01-10", amount: "$50.00", download: "invoice-3.pdf" },
-];
+import { getCustomerInvoices } from "@/actions/stripe/getInvoices";
+import { CancelSubscription } from "@/actions/stripe/subscription-cancel";
+import { toast } from "react-toastify";
 
 const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
+  const [invoices, setInvoices] = useState([]);
+  const [lastInvoiceId, setLastInvoiceId] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+
+  const convertTimestampToDate = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString("en-GB");
+  };
+
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
+
+  const handleCancelSubscription = async (userId, sub_id) => {
+    const res = await CancelSubscription(userId, sub_id);
+
+    if (res.success) {
+      toast.success("Subscription cancelled successfully");
+      return;
+    } else !res.success;
+    {
+      toast.error(res.message);
+    }
+  };
+
+  const fetchInvoices = async () => {
+    try {
+      if (!user?.StripeCustomerId) {
+        return;
+      }
+      const customerInvoices = await getCustomerInvoices(
+        user?.StripeCustomerId,
+        lastInvoiceId
+      );
+      setInvoices((prevInvoices) => [
+        ...prevInvoices,
+        ...customerInvoices.data,
+      ]);
+
+      if (customerInvoices.data.length > 0) {
+        const lastId =
+          customerInvoices.data[customerInvoices.data.length - 1].id;
+        setLastInvoiceId(lastId);
+      }
+      setHasMore(customerInvoices.has_more);
+    } catch (error) {
+      console.error("Error fetching invoices:", error);
+    }
+  };
+
   const [payload, setPayload] = useState({
     fullName: "",
     companyName: "",
@@ -71,12 +104,19 @@ const Account = () => {
     dispatch(dashboardStatsAction(user?.UserId));
   }, [user?.UserId]);
 
+  useEffect(() => {
+    if (user?.UserId) {
+      fetchInvoices();
+    }
+  }, [user?.UserId, user?.stripeCustomerId]);
+
   const handleChange = (e) => {
     setPayload({
       ...payload,
       [e.target.name]: e.target.value,
     });
   };
+
   const {
     register,
     control,
@@ -86,6 +126,7 @@ const Account = () => {
   } = useForm({
     resolver: zodResolver(userProfileSchema),
   });
+
   useEffect(() => {
     if (getProfile && getProfile.length > 0) {
       const profileData = getProfile[0];
@@ -99,6 +140,7 @@ const Account = () => {
       });
     }
   }, [getProfile, setValue]);
+
   const SubmitHanler = (e) => {
     // e.preventDefault();
     dispatch(
@@ -326,7 +368,7 @@ const Account = () => {
                     </tr>
                   </thead>
 
-                  <tbody className="border-none  ">
+                  {/* <tbody className="border-none  ">
                     {invoices.map((invoice, index) => (
                       <tr
                         key={`Account-${index}`}
@@ -345,11 +387,43 @@ const Account = () => {
                         </td>
                       </tr>
                     ))}
+                  </tbody> */}
+                  <tbody className="border-none  ">
+                    {invoices?.map((invoice, index) => (
+                      <tr
+                        key={invoice.id}
+                        className="hover:bg-gray-300 border-none"
+                      >
+                        <td className="border-r-gray-400 border-r-2">
+                          {convertTimestampToDate(
+                            invoice.status_transitions.paid_at
+                          )}
+                        </td>
+                        <td className="border-r-gray-400 border-r-2">
+                          ${invoice.amount_paid / 100}
+                        </td>
+                        <td className="text-center">
+                          <a href={invoice.invoice_pdf} className="block">
+                            <FaFileUpload className="m-auto" color="gray" />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              <div className="  flex justify-center py-2">
+              {/* <div className="  flex justify-center py-2">
                 <button className="text-primary font-medium">Load More</button>
+              </div> */}
+              <div className="flex justify-center py-2">
+                {hasMore && (
+                  <button
+                    onClick={fetchInvoices}
+                    className="text-primary font-medium"
+                  >
+                    Load More
+                  </button>
+                )}
               </div>
             </div>
           </article>
@@ -407,6 +481,12 @@ const Account = () => {
                 <Button
                   variant="outline"
                   className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
+                  onClick={() =>
+                    handleCancelSubscription(
+                      user?.UserId,
+                      "sub_1OmB9OE66tYGrLUMJlBlVrja"
+                    )
+                  }
                 >
                   Cancel Subscriptions
                 </Button>

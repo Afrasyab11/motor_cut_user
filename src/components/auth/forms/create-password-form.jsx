@@ -115,7 +115,7 @@ export const CreatePasswordForm = ({ setFormData,nextStep, prevStep }) => {
           <div className="flex items-center justify-center gap-7 pt-16">
             <Button
               variant="outline"
-              type="submit"
+              type="button"
               className="rounded-full w-40"
               disabled={isPending}
               onClick={prevStep}

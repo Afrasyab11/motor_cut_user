@@ -2,6 +2,26 @@
 import { axiosInstance, baseDomain } from "@/utils/axios";
 import Stripe from "stripe";
 
+const getUserById = async (userId) => {
+  const url = `${baseDomain}User/Get-User-By-Id/?UserId=${userId}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("data=", data);
+    console.log("data=", data.detail[0].stripeCustomerId);
+    return data.detail[0];
+  } catch (error) {
+    console.error("Failed to fetch user data:", error);
+    throw error;
+  }
+};
+
 const updateStripeCustomerId = async (
   userEmail,
   stripeCustomerId,
@@ -33,16 +53,16 @@ const updateStripeCustomerId = async (
       throw new Error("Failed to update Stripe customer ID");
     }
 
-    const data = await response.json(); 
+    const data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.detail || "Failed to update Stripe customer ID");
     }
 
-    return data; 
+    return data;
   } catch (error) {
     console.error("Error in updating Stripe customer ID:", error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -55,37 +75,45 @@ async function CreateStripeCheckoutSession(data) {
 
   try {
     let existingUser;
+    let stripeCustomerId;
 
     if (userId) {
-      // existingUser = await getUserById(userId);
+      existingUser = await getUserById(userId);
     }
 
-    const stripeCustomer = await stripe.customers.create({
-      email: userEmail, 
+    if (existingUser.stripeCustomerId) {
+      stripeCustomerId = existingUser.stripeCustomerId;
+      console.log("existing user Id=", existingUser.stripeCustomerId);
+    } else {
+      const stripeCustomer = await stripe.customers.create({
+        email: userEmail,
     });
 
-    try {
-      await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
-    } catch (error) {
-      console.error("Failed to update customer ID:", error);
-      throw new Error("Failed to update customer ID, cannot proceed.");
+      try {
+        await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
+      } catch (error) {
+        console.error("Failed to update customer ID:", error);
+        throw new Error("Failed to update customer ID, cannot proceed.");
+      }
+
+      stripeCustomerId = stripeCustomer.id;
     }
 
     try {
       const checkoutSession = await stripe.checkout.sessions.create({
         mode: "subscription",
-        customer: stripeCustomer.id,
+        customer: stripeCustomerId,
         // customer: existingUser.stripeCustomerId,
         line_items: [{ price: priceId, quantity: 1 }],
         success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
         cancel_url: process.env.NEXT_PUBLIC_APP_URL,
-        // subscription_data: {
-        //   metadata: {
-        //     UserId: existingUser.id,
-        //     toolUrl: toolUrl,
-        //     planType: planType,
-        //   },
-        // },
+        subscription_data: {
+          metadata: {
+            UserId: userId,
+            // toolUrl: toolUrl,
+            // planType: planType,
+          },
+        },
       });
 
       if (!checkoutSession.url) {

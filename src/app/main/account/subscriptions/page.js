@@ -70,7 +70,7 @@ const Subscription = () => {
 
   const HandleCreateCheckout = async (e, priceId, index) => {
     e.preventDefault();
-    console.log("Price",)
+
     // const currentPromoCode = promoCode[index] || "";
     // if (!currentPromoCode.trim()) {
     //   setErrorMessages({
@@ -81,10 +81,11 @@ const Subscription = () => {
     // }
     // setErrorMessages({ ...errorMessages, [index]: "" });
 
-    console.log(
-      "Proceeding with promo code: and PriceID",
-      priceId,
-    );
+    // console.log(
+    //   "Proceeding with promo code: and PriceID",
+    //   priceId,
+    //   currentPromoCode
+    // );
 
     try {
       const response = await CreateStripeCheckoutSession({
