@@ -112,6 +112,7 @@ export const forgotUserPassword = createAsyncThunk(
         payload
       );
       if (data.status_code == 200) {
+        toast.success(data.detail);
         onSuccess(data.detail);
         return data.detail;
       } else {
@@ -152,6 +153,7 @@ export const userNewPassword = createAsyncThunk(
       console.log("coming")
       const { data } = await axiosInstance.post("/User/Reset-Password", payload);
       if (data.status_code == 200) {
+        toast.success(data.detail);
         onSuccess()
         return data.detail;
       } else {

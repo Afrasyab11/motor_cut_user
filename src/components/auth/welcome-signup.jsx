@@ -12,7 +12,7 @@ export const WelcomeSignUp = ({ nextStep, prevStep }) => {
         <h1 className="text-4xl text-center	font-medium pt-10 pb-3">
           Welcome to MotorCut
         </h1>
-        <p className="text-center font-medium w-80 px-4 md:px-0 text-mutedFields text-sm	">
+        <p className="text-center font-medium  px-4 md:px-0 text-mutedFields text-sm	">
           Our free trial consists of 50 free images credits and expires after
           7-days. No payment information required.
         </p>

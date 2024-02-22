@@ -14,7 +14,7 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { FormError } from "../form-error";
-import { CardWrapper } from "../card-wrapper"; 
+import { CardWrapper } from "../card-wrapper";
 import { BackButton } from "../back-button";
 import { CheckboxWithText } from "../checkbox-text";
 import { login } from "@/actions/login";
@@ -26,14 +26,14 @@ import { ImSpinner8 } from "react-icons/im";
 import { toggleRememberMe } from "@/store/user/userSlice";
 
 export const LoginForm = () => {
-  const { isLoading ,rememberMe} = useSelector((state) => state?.user);
+  const { isLoading, rememberMe } = useSelector((state) => state?.user);
   const router = useRouter()
-  const dispatch=useDispatch()
-  
+  const dispatch = useDispatch()
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
-  let loader =isLoading||isPending
+  let loader = isLoading || isPending
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -47,21 +47,22 @@ export const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) => {
-         let payload={
-      Email: values.email,
-      Password: values.password,
-      isAdmin:false
-    }
+        let payload = {
+          Email: values.email,
+          Password: values.password,
+          isAdmin: false
+        }
         dispatch(loginUser(
-          { payload,
-            onSuccess:()=>{
+          {
+            payload,
+            onSuccess: () => {
               router.push('/main/dashboard')
             },
             onError: (msg) => {
               setError(msg);
             }
           }))
-     
+
       });
     });
   };
@@ -78,7 +79,7 @@ export const LoginForm = () => {
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -126,15 +127,10 @@ export const LoginForm = () => {
             label="Forgot Password?"
             href="/auth/forgotpassword"
           />
-          {/* <CheckboxWithText className="text-mutedFields custom-checkbox" mainText="Remember Me" /> */}
-          {/* <div className="flex gap-x-6">
-            <input type="checkbox" className="cursor-pointer" />
+          <div className="flex gap-x-6" onClick={() => { dispatch(toggleRememberMe()) }}> {/* Handle click event to toggle Remember Me */}
+            <input type="checkbox" className="cursor-pointer" checked={rememberMe} />
             <p>Remember Me</p>
-          </div> */}
- <div className="flex gap-x-6" onClick={()=>{dispatch(toggleRememberMe())}}> {/* Handle click event to toggle Remember Me */}
-      <input type="checkbox" className="cursor-pointer" checked={rememberMe} />
-      <p>Remember Me</p>
-    </div>
+          </div>
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button
@@ -142,7 +138,7 @@ export const LoginForm = () => {
             className="w-full text-whitee rounded-full "
             disabled={loader}
           >
-            {loader ? <ImSpinner8 className="spinning-icon" />:"Login"}
+            {loader ? <ImSpinner8 className="spinning-icon" /> : "Login"}
           </Button>
         </form>
       </Form>

@@ -237,7 +237,7 @@ let user = userString ? JSON.parse(userString) : null;
         <div className="text-center">
           <button
             onClick={handleSubmit(handleOpenDialog)}
-            className="border rounded-full border-black px-8 py-2 text-sm sm:text-md"
+            className="border rounded-full border-black xs:px-4 sm:px-4 md:px-8 lg:px-8 py-2 text-sm sm:text-md"
           >
             Upload Images
           </button>

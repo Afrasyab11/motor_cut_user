@@ -24,12 +24,14 @@ export const CardWrapper = ({
 }) => {
   const router = useRouter();
   return (
+    
     <Card
-      className={cn(
-        "w-[300px] md:w-[400px] m-2 mt-10 mb-10 shadow-md bg-whitee p-4",
-        className
-      )}
-    >
+    className={cn(
+      "xs:w-[300px]  md:w-[400px] overflow-y-visible my-4 shadow-md bg-whitee p-4",
+      className
+    )}
+  >
+      
       {showProgressBar && (
         <FormProgressBar stepCount={progressBarCount}></FormProgressBar>
       )}
@@ -63,7 +65,7 @@ export const CardWrapper = ({
               currentPage === "login" ? "/auth/register" : "/auth/login"
             )
           }
-          // className="text-blue-600 hover:underline"
+        // className="text-blue-600 hover:underline"
         >
           {currentPage === "login" ? "Sign Up" : "Log in"}
         </button>

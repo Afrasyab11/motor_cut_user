@@ -9,7 +9,9 @@ const AuthLayout = ({children} ) => {
       router.push("/main/dashboard")
     }
     return (
-        <div className="h-full flex items-center justify-center bg-primary font-Montserrat">{children}</div>
+      <div className="bg-primary h-full">
+        <div className="flex items-center justify-center bg-primary font-Montserrat">{children}</div>
+      </div>
     );
 }
 

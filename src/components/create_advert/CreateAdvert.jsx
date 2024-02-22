@@ -136,7 +136,7 @@ export default function CreateAdvert() {
             <button
               onClick={handleSubmit(handleOpenDialog)}
               // onClick={handleSubmit}
-              className=" bg-whitee border border-gray-500  rounded-full px-10 py-3 text-sm sm:text-md "
+              className=" bg-whitee border border-gray-500  rounded-full px-8 xs:py-2 sm:py-2 md:py-3 lg:py-3 text-sm sm:text-md "
             >
               Upload Images
             </button>

@@ -124,17 +124,17 @@ const UploadLogo = () => {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="grid place-items-end ">
+              <CardFooter className="grid place-content-start md:place-items-end ">
                 <Button
                   type="button"
-                  className="text-white bg-primary rounded-full w-full sm:max-w-32 md:max-w-40 "
+                  className="text-white bg-primary rounded-full w-full xs:max-w-28 sm:max-w-28 md:max-w-40 "
                   onClick={() => fileInputRef.current.click()}
                 >
                   Upload Logo
                 </Button>
                 {/* </label> */}
                 <div className="py-2 flex mt-3">
-                  <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap mr-4">
+                  <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap">
                     Set Position:
                   </p>
                   <Controller
