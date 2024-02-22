@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 
 import { CreateStripeCheckoutSession } from "@/actions/stripe/checkout-session";
 import getStripe from "@/utils/get-stripe";
@@ -45,6 +46,7 @@ const Subscription = () => {
   const [currency, setCurrency] = useState("GBP");
   let userString = getCookie("user");
   let userInfo = userString ? JSON.parse(userString) : null;
+
   const [promoCode, setPromoCode] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
   const userEmail = userInfo?.UserEmail;
@@ -95,7 +97,22 @@ const Subscription = () => {
         priceId,
         authToken,
       });
+
+      // if(response.StripeCustomerId)
+      // {
+      //   setCookie("user", action.payload.detail);
+      // }
+
       const stripe = await getStripe();
+      if (userInfo) {
+        const updatedUserString = JSON.stringify(userInfo);
+
+        setCookie("user", updatedUserString, {
+          path: "/",
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        });
+      }
       const { error } = await stripe.redirectToCheckout({
         sessionId: response.session.id,
       });

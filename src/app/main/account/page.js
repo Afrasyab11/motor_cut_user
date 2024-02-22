@@ -28,6 +28,7 @@ import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { getCustomerInvoices } from "@/actions/stripe/getInvoices";
 import { CancelSubscription } from "@/actions/stripe/subscription-cancel";
 import { toast } from "react-toastify";
+import { setCookie } from "cookies-next";
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ const Account = () => {
   const { states } = useSelector((state) => state.dashboard);
   const [invoices, setInvoices] = useState([]);
   const [lastInvoiceId, setLastInvoiceId] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [invoiceLoading, setInvoiceLoading] = useState(true);
 
   const convertTimestampToDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
@@ -43,29 +45,38 @@ const Account = () => {
   };
 
   let userString = getCookie("user");
+
   let user = userString ? JSON.parse(userString) : null;
+  console.log("user===", user);
 
   const handleCancelSubscription = async (userId, sub_id) => {
     const res = await CancelSubscription(userId, sub_id);
-
     if (res.success) {
       toast.success("Subscription cancelled successfully");
+      user.StripeSubscriptionId = null;
+      const updatedUserString = JSON.stringify(user);
+
+      setCookie("user", updatedUserString, {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
       return;
     } else !res.success;
     {
       toast.error(res.message);
+      return;
     }
   };
 
   const fetchInvoices = async () => {
+    setInvoiceLoading(true);
     try {
-      if (!user?.StripeCustomerId) {
-        return;
-      }
       const customerInvoices = await getCustomerInvoices(
         user?.StripeCustomerId,
         lastInvoiceId
       );
+
       setInvoices((prevInvoices) => [
         ...prevInvoices,
         ...customerInvoices.data,
@@ -79,6 +90,17 @@ const Account = () => {
       setHasMore(customerInvoices.has_more);
     } catch (error) {
       console.error("Error fetching invoices:", error);
+    } finally {
+      user.StripeSubscriptionId = getProfile[0]?.stripeSubscriptionId;
+      user.StripeCustomerId = getProfile[0]?.stripeCustomerId;
+      const updatedUserString = JSON.stringify(user);
+
+      setCookie("user", updatedUserString, {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      setInvoiceLoading(false);
     }
   };
 
@@ -334,7 +356,7 @@ const Account = () => {
                       {userLoader && <ImSpinner8 className="spinning-icon" />}
                     </Button>
                     <Button
-                    type="button"
+                      type="button"
                       variant="outline"
                       className="library-btn basis-1/2 text-sm  rounded-full outline outline-1 outline-black text-red-700 px-3 py-1 mx-4  "
                     >
@@ -389,26 +411,38 @@ const Account = () => {
                     ))}
                   </tbody> */}
                   <tbody className="border-none  ">
-                    {invoices?.map((invoice, index) => (
-                      <tr
-                        key={invoice.id}
-                        className="hover:bg-gray-300 border-none"
-                      >
-                        <td className="border-r-gray-400 border-r-2">
-                          {convertTimestampToDate(
-                            invoice.status_transitions.paid_at
-                          )}
-                        </td>
-                        <td className="border-r-gray-400 border-r-2">
-                          ${invoice.amount_paid / 100}
-                        </td>
-                        <td className="text-center">
-                          <a href={invoice.invoice_pdf} className="block">
-                            <FaFileUpload className="m-auto" color="gray" />
-                          </a>
+                    {invoices && invoices.length > 0 ? (
+                      invoices.map((invoice, index) => (
+                        <tr
+                          key={invoice.id}
+                          className="hover:bg-gray-300 border-none"
+                        >
+                          <td className="border-r-gray-400 border-r-2">
+                            {convertTimestampToDate(
+                              invoice.status_transitions.paid_at
+                            )}
+                          </td>
+                          <td className="border-r-gray-400 border-r-2">
+                            ${invoice.amount_paid / 100}
+                          </td>
+                          <td className="text-center">
+                            <a href={invoice.invoice_pdf} className="block">
+                              <FaFileUpload className="m-auto" color="gray" />
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    ) : invoiceLoading ? (
+                      <tr className="h-40">
+                        <td colSpan="3" className="text-center">
+                          <ImSpinner8 className="spinning-icon" />
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      <tr className="h-40">
+                        <td colSpan="3">No invoices found</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -469,27 +503,28 @@ const Account = () => {
                 </div>
               </CardContent>
 
-              <CardFooter className="flex-col ">
-                <Button
-                  variant="outline"
-                  className="rounded-full outline outline-1 outline-black text-primary  h-full w-1/2"
-                >
-                  <Link href="/main/account/subscriptions">
+              <CardFooter className="flex-col">
+                {getProfile[0]?.status !== "Active" ? (
+                  <Link
+                    href="/main/account/subscriptions"
+                    className="rounded-full outline outline-1 outline-black text-primary h-full w- block p-2"
+                  >
                     See Subscriptions
                   </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
-                  onClick={() =>
-                    handleCancelSubscription(
-                      user?.UserId,
-                      "sub_1OmB9OE66tYGrLUMJlBlVrja"
-                    )
-                  }
-                >
-                  Cancel Subscriptions
-                </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
+                    onClick={() =>
+                      handleCancelSubscription(
+                        user?.UserId,
+                        getProfile[0]?.stripeSubscriptionId
+                      )
+                    }
+                  >
+                    Cancel Subscriptions
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           </article>

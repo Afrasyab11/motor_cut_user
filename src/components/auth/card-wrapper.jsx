@@ -27,7 +27,7 @@ export const CardWrapper = ({
     
     <Card
     className={cn(
-      "xs:w-[300px]  md:w-[400px] overflow-y-visible my-4 shadow-md bg-whitee p-4",
+      "xs:w-[300px]  md:w-[400px] my-4 shadow-md bg-whitee p-4",
       className
     )}
   >

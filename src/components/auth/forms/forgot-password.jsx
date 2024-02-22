@@ -25,8 +25,6 @@
 // import { createNewPassword } from '@/actions/createNewPassword';
 // import { ImSpinner8 } from 'react-icons/im';
 
-
-
 // export const ForgotPassword = () => {
 
 //   const { isLoading } = useSelector((state) => state?.user);
@@ -141,11 +139,11 @@
 //   return (
 //     <CardWrapper
 //       headerText="Forgot-Password"
-//       headerPadding="pb-2"
+//       headerPadding="pb-2 mt-4"
 //       backButtonLabel="Don't Have an account?"
 //       // backButtonHref="/auth/register"
 //       headerLogo
-//       className=""
+//       className="mt-16"
 //     >
 //       <Form {...form}>
 //         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -234,21 +232,21 @@
 //   );
   
 // };
+
+
+
 "use client"
 import { useState } from "react";
 import { CardWrapper } from "../card-wrapper";
 import EmailSection from "../forgotten-password/EmailSection";
 import VerifyOTP from "../forgotten-password/VerifyOTP";
 import CreateNewPassword from "../forgotten-password/CreateNewPassword";
-
 export const ForgotPassword = () => {
   const [step, setStep] = useState(0);
   const [email,setEmail]=useState("")
-
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
   };
-
   const prevStep = () => {
     setStep((prevStep) => prevStep - 1);
   };
@@ -258,7 +256,6 @@ export const ForgotPassword = () => {
         return <EmailSection setEmail={setEmail} nextStep={nextStep} />;
       case 1:
         return <VerifyOTP email={email} nextStep={nextStep} />;
-
       case 2:
         return <CreateNewPassword  email={email}  />;
      default:
@@ -266,11 +263,13 @@ export const ForgotPassword = () => {
     }
   };
   return (
-    
           <>  {renderStep()}
 </>
-
-      
-  ); 
-
+  );
 }
+
+
+
+
+
+

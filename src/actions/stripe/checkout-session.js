@@ -1,5 +1,5 @@
 "use server";
-import { axiosInstance, baseDomain } from "@/utils/axios";
+import { baseDomain } from "@/utils/axios";
 import Stripe from "stripe";
 
 const getUserById = async (userId) => {
@@ -13,8 +13,6 @@ const getUserById = async (userId) => {
     }
 
     const data = await response.json();
-    console.log("data=", data);
-    console.log("data=", data.detail[0].stripeCustomerId);
     return data.detail[0];
   } catch (error) {
     console.error("Failed to fetch user data:", error);
@@ -66,7 +64,11 @@ const updateStripeCustomerId = async (
   }
 };
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(
+  "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n"
+  // process.env.STRIPE_SECRET_KEY
+  
+  , {
   apiVersion: "2023-10-16",
 });
 
@@ -87,7 +89,7 @@ async function CreateStripeCheckoutSession(data) {
     } else {
       const stripeCustomer = await stripe.customers.create({
         email: userEmail,
-    });
+      });
 
       try {
         await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
@@ -105,8 +107,11 @@ async function CreateStripeCheckoutSession(data) {
         customer: stripeCustomerId,
         // customer: existingUser.stripeCustomerId,
         line_items: [{ price: priceId, quantity: 1 }],
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
-        cancel_url: process.env.NEXT_PUBLIC_APP_URL,
+        // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
+        success_url: `https://motor-cut-admin.vercel.app/main/dashboard`,
+        cancel_url: "https://motor-cut-admin.vercel.app",
+
+        // cancel_url: process.env.NEXT_PUBLIC_APP_URL,
         subscription_data: {
           metadata: {
             UserId: userId,
@@ -121,6 +126,7 @@ async function CreateStripeCheckoutSession(data) {
       }
 
       return {
+        StripeCustomerId: stripeCustomerId,
         session: {
           id: checkoutSession.id,
           url: checkoutSession.url,

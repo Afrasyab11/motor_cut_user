@@ -2,7 +2,11 @@
 import Stripe from "stripe";
 
 export const verifyPaymentSuccess = async (session_id) => {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  const stripe = new Stripe(
+    // process.env.STRIPE_SECRET_KEY
+    "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n"
+
+    , {
     apiVersion: "2023-10-16",
   });
 

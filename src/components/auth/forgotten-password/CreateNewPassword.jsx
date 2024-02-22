@@ -79,7 +79,7 @@ const CreateNewPassword = ({email}) => {
     backButtonLabel="Go back to?"
     // backButtonHref="/auth/register"
     headerLogo
-    className="mt-16"
+    className=""
   > 
 
 <Form {...form}>

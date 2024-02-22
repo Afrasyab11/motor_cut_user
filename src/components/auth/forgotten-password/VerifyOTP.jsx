@@ -54,7 +54,7 @@ const VerifyOTP = ({email,nextStep}) => {
     backButtonLabel="Go back to?"
     // backButtonHref="/auth/register"
     headerLogo
-    className="mt-16"
+    className=""
   > 
       <Otp_Input inputValues={inputValues}  setInputValues={setInputValues} />
       <FormError message={error} />
