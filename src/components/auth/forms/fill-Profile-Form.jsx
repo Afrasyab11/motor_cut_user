@@ -195,7 +195,7 @@ let payload={...formData,...values}
           <div className="flex items-center justify-center gap-7 pt-7">
             <Button
               variant="outline"
-              type="submit"
+              type="button"
               className="rounded-full w-40"
               disabled={isPending}
               onClick={prevStep}
