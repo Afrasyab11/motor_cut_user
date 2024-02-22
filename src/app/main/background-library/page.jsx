@@ -85,7 +85,7 @@ const BackgroundLibrary = () => {
           <div className="p-4">
             <h1 className="text-3xl">Background Library</h1>
           </div>
-          <main className="  flex flex-col  lg:flex-row ">
+          <main className="  flex flex-col  lg:flex-row h-fit ">
             <section className="categories flex flex-col  h-[130px]  lg:min-h-[70vh] lg:max-h-full  align-items-center justify-content-center mb-4 lg:mb-1 lg:mr-4 bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
               <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mr-0 lg:mb-2">
                 Categories
@@ -152,11 +152,12 @@ const BackgroundLibrary = () => {
               </div>
             </section>
 
-            <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
               {allBackground &&
               allBackground.length > 0 &&
               filteredBackgrounds.length > 0 ? (
-                filteredBackgrounds.slice(0, showCard)?.map((card, index) => (
+            <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
+              {  filteredBackgrounds.slice(0, showCard)?.map((card, index) => (
+
                   <Card
                     key={index}
                     className="bg-white p-1 rounded-2xl border-none "
@@ -203,9 +204,11 @@ const BackgroundLibrary = () => {
                       </Button>
                     </CardFooter>
                   </Card>
-                ))
+              ))} </section>
               ) : backgroundLoader ? (
-                [...Array(9)].map((_, index) => (
+            <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
+               { [...Array(9)].map((_, index) => (
+
                   <div
                     key={index}
                     className="flex flex-col mx-1 p-2 bg-whitee  rounded-xl"
@@ -216,13 +219,12 @@ const BackgroundLibrary = () => {
                       <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px]" />
                     </div>
                   </div>
-                ))
+                   ))}</section>
               ) : (
-                <div className="flex flex-row sm:flex-col items-center justify-center h-[400px] p-3 rounded-xl">
-                  <span>No Data Found</span>
-                </div>
+                <div className="w-full flex justify-center items-center"><span className="font-medium">No Data Found</span></div>
+
               )}
-            </section>
+           
           </main>
         </main>
         <div className="flex justify-center mt-3">

@@ -69,6 +69,7 @@ export const registerUser = createAsyncThunk(
     try {
       const { data } = await axiosInstance.post("/User/SignUp", payload);
       if (data.status_code == 200) {
+        toast.success("User Registered Successfully...!");
         onSuccess();
         return data;
       } else {

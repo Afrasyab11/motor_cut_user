@@ -50,7 +50,7 @@ export const CardWrapper = ({
         </CardFooter>
       )}
 
-      <p className="font-bold text-sm text-center w-full py-3 text-mutedFields">
+      <p className=" text-sm text-center w-full py-3 text-mutedFields">
         {currentPage === "login"
           ? "You Don't have an Account? "
           : "You already have an account? "}

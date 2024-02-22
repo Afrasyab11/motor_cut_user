@@ -28,7 +28,6 @@ export function SupportTicketDialog({ name, icon }) {
   const [fileName, setFileName] = useState("");
 
   let userString = getCookie("user");
-
   let user = userString ? JSON.parse(userString) : null;
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];

@@ -11,12 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 export default function AdvertCard({ data, showCard }) {
   const dispatch = useDispatch();
+  const router=useRouter()
   let userString = getCookie("user");
   const { advertLoader } = useSelector((state) => state?.advert);
   let user = userString ? JSON.parse(userString) : null;
   const downloadImagesHandler = (e, item) => {
+    if( !(item?.Status == "Completed")){
+       toast.warning("Not Completed Yet..!");
+     return;}
     dispatch(downloadAdvertImagesAction(item?.UniqueAdvertisementId)).then(
       (response) => {
         const data = response?.payload;
@@ -47,6 +53,15 @@ export default function AdvertCard({ data, showCard }) {
       console.error("Error downloading file:", error);
     }
   }
+  const handleButtonClick = (item) => {
+    if( !(item?.Status == "Completed")){
+      toast.warning("Not Completed Yet..!");
+    return;}
+    router.push({
+      pathname: '/main/view-advert',
+      query: { advertId:item.UniqueAdvertisementId },
+    });
+  };
   return (
     <div
       className={`lg:grid md:grid sm:grid  ${
@@ -122,16 +137,16 @@ export default function AdvertCard({ data, showCard }) {
             <div className="lg:col-span-7 md:col-span-12 sm:col-span-12 ">
               <div className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1">
                 <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 mb-1 sm:m-0 md:m-0">
-                  <Link
+                  {/* <Link
                     href={{
                       pathname: "/main/view-advert",
                       query: { advertId: item.UniqueAdvertisementId },
                     }}
-                  >
-                    <button className="text-primary border w-full rounded-full  py-1 text-sm sm:text-md ">
+                  > */}
+                    <button onClick={()=>{handleButtonClick(item)}} className="text-primary border w-full rounded-full  py-1 text-sm sm:text-md ">
                       View Images
                     </button>
-                  </Link>
+                  {/* </Link> */}
                 </div>
                 <div className="lg:col-span-6 md:col-span-12  sm:col-span-12">
                   <button

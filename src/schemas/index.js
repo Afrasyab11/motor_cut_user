@@ -53,9 +53,9 @@ const VerifyNumberSchema = z.object({
 
 
 const FillProfilePageSchema = z.object({
-  fullName: z.string().min(1, {
-    message: "Full Name is required",
-  }),
+  fullName: z.string()
+  .min(1, { message: "Full Name is required" })
+  .regex(/^[a-zA-Z0-9 ]*$/, { message: "Full Name must only contain alphanumeric characters and spaces" }),
   companyName: z.string().min(1, {
     message: "Company Name is required",
   }),
