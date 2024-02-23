@@ -37,7 +37,7 @@ const Account = () => {
   const { states } = useSelector((state) => state.dashboard);
 
   const [invoices, setInvoices] = useState([]);
-  console.log("invoices",invoices)
+  console.log("invoices", invoices);
   const [loadingStates, setLoadingStates] = useState({
     profile: true,
     invoices: true,
@@ -71,10 +71,8 @@ const Account = () => {
           getProfile[0].stripeCustomerId,
           lastInvoiceId
         );
-        console.log("customerInvoices",customerInvoices)
-        setInvoices(
-          customerInvoices.data,
-        );
+        console.log("customerInvoices", customerInvoices);
+        setInvoices(customerInvoices.data);
 
         if (customerInvoices.data.length > 0) {
           const lastId =
@@ -90,7 +88,6 @@ const Account = () => {
     setLoadingStates((prev) => ({ ...prev, invoices: false }));
   };
   useEffect(() => {
-   
     fetchInvoices();
   }, [getProfile]);
 
@@ -165,7 +162,7 @@ const Account = () => {
       // }
     }
   }, [user?.UserId, getProfile]);
-const route=useRouter()
+  const route = useRouter();
   const {
     register,
     control,
@@ -431,10 +428,10 @@ const route=useRouter()
                           className="hover:bg-gray-300 border-none"
                         >
                           <td className="border-r-gray-400 border-r-2">
-                            {invoice?.status_transitions?.paid_at && convertTimestampToDate(
-                              invoice?.status_transitions?.paid_at
-
-                            )}
+                            {invoice?.status_transitions?.paid_at &&
+                              convertTimestampToDate(
+                                invoice?.status_transitions?.paid_at
+                              )}
                           </td>
                           <td className="border-r-gray-400 border-r-2">
                             ${invoice.amount_paid / 100}
@@ -520,34 +517,31 @@ const route=useRouter()
               <CardFooter className="flex-col">
                 {loadingStates.invoices ? (
                   <ImSpinner8 className="spinning-icon" />
-                ) : getProfile[0]?.status == "Active"  && states?.PackageName !="Free Tier"  ? (
+                ) : getProfile[0]?.status == "Active" &&
+                  states?.PackageName != "Free Tier" &&
+                  states.length > 0 ? (
                   <Button
-                  variant="outline"
-                  className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
-                  onClick={() =>
-                    handleCancelSubscription(
-                      user?.UserId,
-                      getProfile[0]?.stripeSubscriptionId
-                    )
-                  }
-                >
-                  Cancel Subscriptions
-                </Button>
-                 
+                    variant="outline"
+                    className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
+                    onClick={() =>
+                      handleCancelSubscription(
+                        user?.UserId,
+                        getProfile[0]?.stripeSubscriptionId
+                      )
+                    }
+                  >
+                    Cancel Subscriptions
+                  </Button>
                 ) : (
                   <Button
-                 onClick={(e)=>{
-                  e.preventDefault()
-                  route.push("/main/account/subscriptions")
-                 }
-
-                 }
-                 
-                 className="library-btn basis-1/2 text-sm text-justify  rounded-full bg-primary-light  text-white px-3 py-1 mx-4 "
-                >
-                  See Subscriptions
-                </Button>
-                 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      route.push("/main/account/subscriptions");
+                    }}
+                    className="library-btn basis-1/2 text-sm text-justify  rounded-full bg-primary-light  text-white px-3 py-1 mx-4 "
+                  >
+                    See Subscriptions
+                  </Button>
                 )}
               </CardFooter>
             </Card>
