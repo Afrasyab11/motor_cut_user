@@ -29,107 +29,79 @@ import { getCustomerInvoices } from "@/actions/stripe/getInvoices";
 import { CancelSubscription } from "@/actions/stripe/subscription-cancel";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 
 const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
-
   const [invoices, setInvoices] = useState([]);
-  console.log("invoices",invoices)
-  const [loadingStates, setLoadingStates] = useState({
-    profile: true,
-    invoices: true,
-    stats: true,
-  });
   const [lastInvoiceId, setLastInvoiceId] = useState(null);
   const [hasMore, setHasMore] = useState(false);
+  const [invoiceLoading, setInvoiceLoading] = useState(true);
 
   const convertTimestampToDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
     return date.toLocaleDateString("en-GB");
   };
 
-  let user = JSON.parse(getCookie("user") || "{}");
+  let userString = getCookie("user");
+
+  let user = userString ? JSON.parse(userString) : null;
   console.log("user===", user);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user.UserId) {
-        dispatch(getUserProfileData(user.UserId));
-        dispatch(dashboardStatsAction(user.UserId));
-      }
-      setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
-    };
-    fetchData();
-  }, [dispatch, user.UserId]);
-  const fetchInvoices = async () => {
-    if (getProfile[0]?.stripeCustomerId) {
-      try {
-        const customerInvoices = await getCustomerInvoices(
-          getProfile[0].stripeCustomerId,
-          lastInvoiceId
-        );
-        console.log("customerInvoices",customerInvoices)
-        setInvoices(
-          customerInvoices.data,
-        );
-
-        if (customerInvoices.data.length > 0) {
-          const lastId =
-            customerInvoices.data[customerInvoices.data.length - 1].id;
-          setLastInvoiceId(lastId);
-        }
-        setHasMore(customerInvoices.has_more);
-      } catch (error) {
-        console.error("Error fetching invoices:", error);
-        toast.error("Failed to fetch invoices");
-      }
-    }
-    setLoadingStates((prev) => ({ ...prev, invoices: false }));
-  };
-  useEffect(() => {
-   
-    fetchInvoices();
-  }, [getProfile]);
-
-  const handleChange = (e) => {
-    user = { ...user, [e.target.name]: e.target.value };
-    setCookie("user", JSON.stringify(user), cookieOptions);
-  };
-
-  const SubmitHandler = async (data) => {
-    await dispatch(
-      updateUserProfile({
-        userId: user.UserId,
-        ...data,
-        onSuccess: () => {
-          toast.success("Profile updated successfully");
-          dispatch(getUserProfileData(user.UserId));
-        },
-      })
-    );
-  };
-
-  const handleCancelSubscription = async () => {
-    if (!getProfile[0]?.stripeSubscriptionId) return;
-    const res = await CancelSubscription(
-      user.UserId,
-      getProfile[0].stripeSubscriptionId
-    );
+  const handleCancelSubscription = async (userId, sub_id) => {
+    const res = await CancelSubscription(userId, sub_id);
     if (res.success) {
       toast.success("Subscription cancelled successfully");
-      dispatch(getUserProfileData(user.UserId)); // Refresh user data
-    } else {
-      toast.error(res.message || "Failed to cancel subscription");
+      user.StripeSubscriptionId = null;
+      const updatedUserString = JSON.stringify(user);
+
+      setCookie("user", updatedUserString, {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      return;
+    } else !res.success;
+    {
+      toast.error(res.message);
+      return;
     }
   };
 
-  const cookieOptions = {
-    path: "/",
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+  const fetchInvoices = async (customerId) => {
+    setInvoiceLoading(true);
+    try {
+      const customerInvoices = await getCustomerInvoices(
+        customerId,
+        lastInvoiceId
+      );
+
+      setInvoices((prevInvoices) => [
+        ...prevInvoices,
+        ...customerInvoices.data,
+      ]);
+
+      if (customerInvoices.data.length > 0) {
+        const lastId =
+          customerInvoices.data[customerInvoices.data.length - 1].id;
+        setLastInvoiceId(lastId);
+      }
+      setHasMore(customerInvoices.has_more);
+    } catch (error) {
+      console.error("Error fetching invoices:", error);
+    } finally {
+      user.StripeSubscriptionId = getProfile[0]?.stripeSubscriptionId;
+      user.StripeCustomerId = getProfile[0]?.stripeCustomerId;
+      const updatedUserString = JSON.stringify(user);
+
+      setCookie("user", updatedUserString, {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      setInvoiceLoading(false);
+    }
   };
 
   const [payload, setPayload] = useState({
@@ -158,14 +130,21 @@ const Account = () => {
     console.log("get profile---------", getProfile);
     if (getProfile[0]) {
       if (getProfile[0]?.stripeCustomerId) {
-        // setInvoiceLoading(false);
+        setInvoiceLoading(false);
       }
-      // if (getProfile[0]?.stripeCustomerId) {
-      //   setInvoices(getProfile[0]?.stripeCustomerId);
-      // }
+      if (getProfile[0]?.stripeCustomerId) {
+        fetchInvoices(getProfile[0]?.stripeCustomerId);
+      }
     }
   }, [user?.UserId, getProfile]);
-const route=useRouter()
+
+  const handleChange = (e) => {
+    setPayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const {
     register,
     control,
@@ -182,6 +161,7 @@ const route=useRouter()
       Object.keys(profileData).forEach((key) => {
         setValue(key, profileData[key]);
       });
+      // Update local state if still needed for other reasons
       setPayload({
         ...payload,
         ...profileData,
@@ -189,12 +169,25 @@ const route=useRouter()
     }
   }, [getProfile, setValue]);
 
-  const SubmitHanler = () => {
+  const SubmitHanler = (e) => {
+    // e.preventDefault();
     dispatch(
       updateUserProfile({
         payload,
         onSuccess: () => {
+          // setPayload({
+          //   fullName: "",
+          //   companyName: "",
+          //   email: "",
+          //   mobileNumber: "",
+          //   postalCode: "",
+          //   country: "",
+          //   billingEmail: "",
+          //   billingLine1: "",
+          //   billingLine2: "",
+          // });
           dispatch(getUserProfileData(user?.UserId));
+          // reset();
         },
       })
     );
@@ -424,16 +417,15 @@ const route=useRouter()
                     ))}
                   </tbody> */}
                   <tbody className="border-none  ">
-                    {invoices && invoices?.length > 0 ? (
-                      invoices?.map((invoice, index) => (
+                    {invoices && invoices.length > 0 ? (
+                      invoices.map((invoice, index) => (
                         <tr
-                          key={invoice?.id}
+                          key={invoice.id}
                           className="hover:bg-gray-300 border-none"
                         >
                           <td className="border-r-gray-400 border-r-2">
-                            {invoice?.status_transitions?.paid_at && convertTimestampToDate(
-                              invoice?.status_transitions?.paid_at
-
+                            {convertTimestampToDate(
+                              invoice.status_transitions.paid_at
                             )}
                           </td>
                           <td className="border-r-gray-400 border-r-2">
@@ -446,7 +438,7 @@ const route=useRouter()
                           </td>
                         </tr>
                       ))
-                    ) : loadingStates.invoices ? (
+                    ) : invoiceLoading ? (
                       <tr className="h-40">
                         <td colSpan="3" className="text-center">
                           <ImSpinner8 className="spinning-icon" />
@@ -518,36 +510,28 @@ const route=useRouter()
               </CardContent>
 
               <CardFooter className="flex-col">
-                {loadingStates.invoices ? (
+                {invoiceLoading ? (
                   <ImSpinner8 className="spinning-icon" />
-                ) : getProfile[0]?.status == "Active"  && states?.PackageName !="Free Tier" && states?.length > 0 ? (
-                  <Button
-                  variant="outline"
-                  className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
-                  onClick={() =>
-                    handleCancelSubscription(
-                      user?.UserId,
-                      getProfile[0]?.stripeSubscriptionId
-                    )
-                  }
-                >
-                  Cancel Subscriptions
-                </Button>
-                 
+                ) : getProfile[0]?.status !== "Active" ? (
+                  <Link
+                    href="/main/account/subscriptions"
+                    className="rounded-full outline outline-1 outline-black text-primary h-full w- block p-2"
+                  >
+                    See Subscriptions
+                  </Link>
                 ) : (
                   <Button
-                 onClick={(e)=>{
-                  e.preventDefault()
-                  route.push("/main/account/subscriptions")
-                 }
-
-                 }
-                 
-                 className="library-btn basis-1/2 text-sm text-justify  rounded-full bg-primary-light  text-white px-3 py-1 mx-4 "
-                >
-                  See Subscriptions
-                </Button>
-                 
+                    variant="outline"
+                    className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
+                    onClick={() =>
+                      handleCancelSubscription(
+                        user?.UserId,
+                        getProfile[0]?.stripeSubscriptionId
+                      )
+                    }
+                  >
+                    Cancel Subscriptions
+                  </Button>
                 )}
               </CardFooter>
             </Card>

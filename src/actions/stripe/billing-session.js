@@ -16,7 +16,7 @@ export const CreateBillingSession = async (userId, stripeCustomerId) => {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
         // return_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
-        return_url: `https://motor-cut-admin.vercel.app/billing`,
+        return_url: `http://localhost:3000/main/account`,
 
       });
       return stripeSession;

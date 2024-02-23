@@ -108,8 +108,8 @@ async function CreateStripeCheckoutSession(data) {
         // customer: existingUser.stripeCustomerId,
         line_items: [{ price: priceId, quantity: 1 }],
         // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
-        success_url: `https://motor-cut-admin.vercel.app/main/dashboard`,
-        cancel_url: "https://motor-cut-admin.vercel.app",
+        success_url: `http://localhost:3000/main/account`,
+        cancel_url: "http://localhost:3000/main/account",
 
         // cancel_url: process.env.NEXT_PUBLIC_APP_URL,
         subscription_data: {

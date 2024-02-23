@@ -89,6 +89,10 @@ const Subscription = () => {
     //   priceId,
     //   currentPromoCode
     // );
+    console.log(" userEmail,  userId, priceId,authToken,", userEmail,
+    userId,
+    priceId,
+    authToken,)
 
     try {
       const response = await CreateStripeCheckoutSession({
@@ -97,6 +101,7 @@ const Subscription = () => {
         priceId,
         authToken,
       });
+      console.log("response__",response)
 
       // if(response.StripeCustomerId)
       // {
