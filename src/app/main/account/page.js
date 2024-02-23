@@ -520,7 +520,7 @@ const route=useRouter()
               <CardFooter className="flex-col">
                 {loadingStates.invoices ? (
                   <ImSpinner8 className="spinning-icon" />
-                ) : getProfile[0]?.status == "Active"  && states?.PackageName !="Free Tier" && states?.length > 0 ? (
+                ) : getProfile[0]?.status == "Active"  && states?.PackageName !="Free Tier"  ? (
                   <Button
                   variant="outline"
                   className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
