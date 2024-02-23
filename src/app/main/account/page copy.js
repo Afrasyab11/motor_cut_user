@@ -171,6 +171,7 @@ const Account = () => {
 
   const SubmitHanler = (e) => {
     // e.preventDefault();
+    console.log("payload",payload)
     dispatch(
       updateUserProfile({
         payload,

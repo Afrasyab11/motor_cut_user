@@ -15,14 +15,15 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 export default function AdvertCard({ data, showCard }) {
   const dispatch = useDispatch();
-  const router=useRouter()
+  const router = useRouter();
   let userString = getCookie("user");
   const { advertLoader } = useSelector((state) => state?.advert);
   let user = userString ? JSON.parse(userString) : null;
   const downloadImagesHandler = (e, item) => {
-    if( !(item?.Status == "Completed")){
-       toast.warning("Not Completed Yet..!");
-     return;}
+    if (!(item?.Status == "Completed")) {
+      toast.warning("Not Completed Yet..!");
+      return;
+    }
     dispatch(downloadAdvertImagesAction(item?.UniqueAdvertisementId)).then(
       (response) => {
         const data = response?.payload;
@@ -31,7 +32,6 @@ export default function AdvertCard({ data, showCard }) {
       `,
           "Advert"
         );
-      
       }
     );
   };
@@ -54,13 +54,15 @@ export default function AdvertCard({ data, showCard }) {
     }
   }
   const handleButtonClick = (item) => {
-    if( !(item?.Status == "Completed")){
+    if (!(item?.Status == "Completed")) {
       toast.warning("Not Completed Yet..!");
-    return;}
-    router.push({
-      pathname: '/main/view-advert',
-      query: { advertId:item.UniqueAdvertisementId },
-    });
+      return;
+    }
+    router.push(`/main/view-advert/?advertId=${item.UniqueAdvertisementId}`)
+    // router.push({
+    //   pathname: "/main/view-advert",
+    //   query: { advertId: item.UniqueAdvertisementId },
+    // });
   };
   return (
     <div
@@ -143,9 +145,14 @@ export default function AdvertCard({ data, showCard }) {
                       query: { advertId: item.UniqueAdvertisementId },
                     }}
                   > */}
-                    <button onClick={()=>{handleButtonClick(item)}} className="text-primary border w-full rounded-full  py-1 text-sm sm:text-md ">
-                      View Images
-                    </button>
+                  <button
+                    onClick={() => {
+                      handleButtonClick(item);
+                    }}
+                    className="text-primary border w-full rounded-full  py-1 text-sm sm:text-md "
+                  >
+                    View Images
+                  </button>
                   {/* </Link> */}
                 </div>
                 <div className="lg:col-span-6 md:col-span-12  sm:col-span-12">

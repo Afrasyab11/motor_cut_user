@@ -81,22 +81,22 @@ export default function UploadImages({
           setOpen();
           dispatch(getAdvertAction(user?.UserId));
           dispatch(getActivityChartAction(user?.UserId));
-          dispatch(dashboardStatsAction(user?.UserId));
           setPayload({
             UserId: user?.UserId,
-            isAdmin:false,
+            isAdmin: false,
             Label: "",
-            CutType: "Half Cut", // Default value
+            CutType: "Half Cut",
             TrimImages: false,
           });
+          dispatch(dashboardStatsAction(user?.UserId));
           reset();
+          console.log("hello")
           setFiles("");
-          
         },
 
-        onError:(msg)=>{
-           toast.error(msg);
-        }
+        onError: (msg) => {
+          toast.error(msg);
+        },
       })
     );
   };

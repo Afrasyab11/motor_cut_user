@@ -187,6 +187,7 @@ const Account = () => {
   }, [getProfile, setValue]);
 
   const SubmitHanler = () => {
+    console.log("Payload in account",payload)
     dispatch(
       updateUserProfile({
         payload,
@@ -314,7 +315,9 @@ const Account = () => {
                       {...register("billingLine1")}
                       type="text"
                       value={payload?.billingLine1}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, billingLine1: e.target.value });
+                      }}
                       id="billing-line-1"
                       name="billingLine1"
                       placeholder="Billing Line 1"
@@ -331,7 +334,9 @@ const Account = () => {
                       id="billing-line-2"
                       name="billingLine2"
                       value={payload?.billingLine2}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, billingLine2: e.target.value });
+                      }}
                       placeholder="Billing Line 2"
                       className="border-b border-b-primary bg-white mt-4"
                     />

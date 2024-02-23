@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
-import TestImg from "../../../public/Test.jpg";
+import placeholder from "../../../public/placeholder.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getchanngeBackgroundImageAction } from "@/store/background/backgroundThunk";
 import ChangeBackgroudImage from "../modals/changeBackgroundModal";
@@ -61,14 +61,16 @@ const SettingsCard = () => {
         <div className="rounded-2xl">
           <Image
             src={
-              background?.BackgroundImage &&
-              `${baseDomain}get-file?filename=${background?.BackgroundImage}`
+              background?.BackgroundImage !== undefined &&
+              background?.BackgroundImage
+                ? `${baseDomain}get-file?filename=${background?.BackgroundImage}`
+                : placeholder
             }
             alt={"background"}
             width={1600}
             height={900}
             // className="w-full h-full object-cover rounded-2xl"
-            className="w-full h-[150px] object-cover shadow rounded-2xl"
+            className="w-full h-[150px] object-fit shadow rounded-2xl"
           />
         </div>
       </div>

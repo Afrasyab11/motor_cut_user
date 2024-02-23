@@ -10,8 +10,8 @@ export const createLogoAction = createAsyncThunk(
         formData
       );
       if (data?.status_code === 200) {
-        onSuccess();
         toast.success(data?.detail);
+        onSuccess();
       } else {
         toast.warning(data?.detail);
         // return rejectWithValue(data?.detail);

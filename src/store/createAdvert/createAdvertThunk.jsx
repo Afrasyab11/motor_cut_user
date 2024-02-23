@@ -3,7 +3,7 @@ import { axiosInstance } from "@/utils/axios";
 import { toast } from "react-toastify";
 export const createAdvertAction = createAsyncThunk(
   "advert/createAdvert",
-  async ({ formData, onSuccess,onError }, { rejectWithValue }) => {
+  async ({ formData, onSuccess, onError }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
         "/Advertisement/Create-Advertisement/",
@@ -31,7 +31,7 @@ export const getAdvertAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail.reverse();
       } else {
-        return rejectWithValue(data?.detail);
+        toast.warning(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -48,7 +48,7 @@ export const getAdvertProcesByIdAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        return rejectWithValue(data?.detail);
+        toast.warning(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -65,7 +65,7 @@ export const downloadAdvertImagesAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        return rejectWithValue(data?.detail);
+        toast.warning(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -82,7 +82,7 @@ export const downloadAllAdvertImagesAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        return rejectWithValue(data?.detail);
+        toast.warning(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -97,9 +97,9 @@ export const flageImageAction = createAsyncThunk(
         `/FlaggedImages/Flag-Image?AdvertId=${payload?.AdvertId}&UniqueImageId=${payload?.UniqueImageId}`
       );
       if (data?.status_code === 200) {
-        toast.success("Image Successfully flaged")
+        toast.success("Image Successfully flaged");
       } else {
-        return rejectWithValue(data?.detail);
+        toast.warning(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -126,7 +126,9 @@ export const getActivityChartAction = createAsyncThunk(
   "advert/getActivity",
   async (UserId, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.get(`/Advertisement/Get-All-User-Adverts-Created-With-Date?UserId=${UserId}`);
+      const { data } = await axiosInstance.get(
+        `/Advertisement/Get-All-User-Adverts-Created-With-Date?UserId=${UserId}`
+      );
       if (data?.status_code === 200) {
         return data?.detail;
       } else {

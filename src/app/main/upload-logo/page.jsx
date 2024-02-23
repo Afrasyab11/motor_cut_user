@@ -27,7 +27,7 @@ import { getLogoAction } from "@/store/uploadLogo/logoThunk";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadLogoSchema } from "@/schemas/uploadLogoSchema";
-import backgroundImage from "../../../../public/background.jpg";
+import placeholder from "../../../../public/placeholder.png";
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
@@ -105,7 +105,7 @@ const UploadLogo = () => {
                         ? URL.createObjectURL(selectedFile)
                         : logo?.Logo !== undefined && logo?.Logo
                         ? `${baseDomain}get-file?filename=${logo?.Logo}`
-                        : ""
+                        : placeholder
                     }
                     alt="logo"
                     width={900}
@@ -124,7 +124,7 @@ const UploadLogo = () => {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="grid place-content-start md:place-items-end ">
+              <CardFooter className="grid lg:place-items-end md:place-items-end ">
                 <Button
                   type="button"
                   className="text-white bg-primary rounded-full w-full xs:max-w-28 sm:max-w-28 md:max-w-40 "

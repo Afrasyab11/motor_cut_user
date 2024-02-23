@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import TestImage from "../../../public/Test.jpg";
+import placeholder from "../../../public/placeholder.png";
 import { payloadSchema } from "@/schemas/advertFromValidation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,9 @@ import { getCookie } from "cookies-next";
 export default function CreateAdvert() {
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const { background,backgroundLoader } = useSelector((state) => state.background);
+  const { background, backgroundLoader } = useSelector(
+    (state) => state.background
+  );
   const [isBacgroundDialog, setBackgroundDialog] = useState(false);
   const handleOpenDialog = () => setDialogOpen(true);
   const handleCloseDialog = () => setDialogOpen(false);
@@ -26,7 +28,7 @@ export default function CreateAdvert() {
   let user = userString ? JSON.parse(userString) : null;
   const [payload, setPayload] = useState({
     UserId: user?.UserId,
-    isAdmin:false,
+    isAdmin: false,
     Label: "",
     CutType: "Half Cut", // Default value
     TrimImages: false, // Default value, assuming 'off' maps to `false`
@@ -37,6 +39,7 @@ export default function CreateAdvert() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(payloadSchema),
@@ -143,17 +146,14 @@ export default function CreateAdvert() {
           </div>
         </div>
         <div className="mt-6 flex justify-center">
-          {/* <Image
-            className="w-full lg:h-[200px] rounded-3xl mx-2 overflow-hidden"
-            src={`${baseDomain}get-file?filename=${background?.BackgroundImage}`}
-            objectFit="cover"
-            height={30}
-            width={30}
-            alt=""
-          /> */}
           <div className="rounded-2xl">
             <Image
-              src={`${baseDomain}get-file?filename=${background?.BackgroundImage}`}
+              src={
+                background?.BackgroundImage !== undefined &&
+                background?.BackgroundImage
+                  ? `${baseDomain}get-file?filename=${background?.BackgroundImage}`
+                  : placeholder
+              }
               alt={"Background"}
               height={600}
               width={900}
@@ -177,6 +177,8 @@ export default function CreateAdvert() {
           payload={payload}
           open={isDialogOpen}
           setOpen={handleCloseDialog}
+          setPayload={setPayload}
+          reset={reset}
         />
       )}
       {isBacgroundDialog && (
