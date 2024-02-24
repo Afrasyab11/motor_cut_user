@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "@/utils/axios";
+import { toast } from "react-toastify";
 //this API use for Dashboard stats,
 export const dashboardStatsAction = createAsyncThunk(
   "advert/dashboardStats",
@@ -11,7 +12,8 @@ export const dashboardStatsAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail;
       } else {
-        toast.warning(data?.detail)
+        // toast.warning(data?.detail)
+        return rejectWithValue(data?.detail); 
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux

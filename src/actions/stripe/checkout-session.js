@@ -65,15 +65,25 @@ const updateStripeCustomerId = async (
 };
 
 const stripe = new Stripe(
-  "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n"
+  "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n",
   // process.env.STRIPE_SECRET_KEY
-  
-  , {
-  apiVersion: "2023-10-16",
-});
+
+  {
+    apiVersion: "2023-10-16",
+  }
+);
 
 async function CreateStripeCheckoutSession(data) {
-  const { userEmail, userId, priceId, authToken } = data;
+  const {
+    userEmail,
+    userId,
+    priceId,
+    authToken,
+    userName,
+    packageName,
+    packagePrice,
+    // currentPromoCode
+  } = data;
 
   try {
     let existingUser;
@@ -105,8 +115,21 @@ async function CreateStripeCheckoutSession(data) {
       const checkoutSession = await stripe.checkout.sessions.create({
         mode: "subscription",
         customer: stripeCustomerId,
+        // discounts: {
+        //   discount: {
+        //     coupon: {
+        //       name: currentPromoCode,
+        //     },
+        //   },
+        // },
         // customer: existingUser.stripeCustomerId,
-        line_items: [{ price: priceId, quantity: 1 }],
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+            
+          },
+        ],
         // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
         success_url: `https://motorcutuser.vercel.app/main/account`,
         cancel_url: "https://motorcutuser.vercel.app/main/account",
@@ -115,6 +138,9 @@ async function CreateStripeCheckoutSession(data) {
         subscription_data: {
           metadata: {
             UserId: userId,
+            UserName: userName,
+            PackageName: packageName,
+            PackagePrice: packagePrice,
             // toolUrl: toolUrl,
             // planType: planType,
           },

@@ -37,7 +37,8 @@ const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
-
+console.log("dashboard states",states)
+console.log("getProfile",getProfile)
   const [invoices, setInvoices] = useState([]);
   console.log("invoices", invoices);
   const [loadingStates, setLoadingStates] = useState({
@@ -65,12 +66,15 @@ const Account = () => {
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
     };
     fetchData();
-  }, [dispatch, user.UserId]);
+  }, [ user.UserId]);
+
+  console.log("getProfile",)
   const fetchInvoices = async () => {
-    if (getProfile[0]?.stripeCustomerId) {
+    console.log("calling")
+    if (user?.StripeCustomerId) {
       try {
         const customerInvoices = await getCustomerInvoices(
-          getProfile[0].stripeCustomerId,
+          user?.StripeCustomerId,
           lastInvoiceId
         );
         console.log("customerInvoices", customerInvoices);
@@ -90,13 +94,13 @@ const Account = () => {
     setLoadingStates((prev) => ({ ...prev, invoices: false }));
   };
   useEffect(() => {
-    fetchInvoices();
-  }, [getProfile]);
+      fetchInvoices();
+  }, [user?.StripeCustomerId]);
 
-  const handleChange = (e) => {
-    user = { ...user, [e.target.name]: e.target.value };
-    setCookie("user", JSON.stringify(user), cookieOptions);
-  };
+  // const handleChange = (e) => {
+  //   user = { ...user, [e.target.name]: e.target.value };
+  //   setCookie("user", JSON.stringify(user), cookieOptions);
+  // };
 
   const SubmitHandler = async (data) => {
     await dispatch(
@@ -117,8 +121,13 @@ const Account = () => {
       user.UserId,
       getProfile[0].stripeSubscriptionId
     );
+    console.log("res",res)
     if (res.success) {
-      toast.success("Subscription cancelled successfully");
+      toast.success("Subscription cancelled successfully1");
+      fetchInvoices();
+      dispatch(dashboardStatsAction(user.UserId));
+      console.log("userId",user.UserId)
+    
       dispatch(getUserProfileData(user.UserId)); // Refresh user data
     } else {
       toast.error(res.message || "Failed to cancel subscription");
@@ -578,9 +587,9 @@ const Account = () => {
               <CardFooter className="flex-col">
                 {loadingStates.invoices ? (
                   <ImSpinner8 className="spinning-icon" />
-                ) : getProfile[0]?.status == "Active" &&
-                  states?.PackageName != "Free Tier" &&
-                  states.length > 0 ? (
+                ) : 
+                  states?.PackageName != "Free Tier"  && states?.PackageName
+                  ?  (
                   <Button
                     variant="outline"
                     className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"

@@ -31,6 +31,7 @@ export const dashboardSlice = createSlice({
     })
     .addCase(dashboardStatsAction.rejected, (state, action) => {
       state.statsLoader = false;
+      state.states = {}
       state.error = action.payload;
     })
 

@@ -73,7 +73,7 @@ export default function AdvertCard({ data, showCard }) {
       }`}
     >
       {data.length > 0 ? (
-        data?.slice(0, showCard)?.map((item, index) => (
+        data?.slice(0, showCard).map((item, index) => (
           <div
             key={index}
             className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:gird sm:grid-cols-12 bg-whitee gap-3 gap-y-2 p-4 rounded-2xl mb-5 shadow-xl"

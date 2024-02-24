@@ -18,7 +18,7 @@ export const getCustomerInvoices = async (customerId, lastInvoiceId) => {
   const params = {
     customer: customerId,
     status: "paid",
-    limit: 4,
+    // limit: 4,
   };
 
 

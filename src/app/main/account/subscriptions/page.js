@@ -52,6 +52,8 @@ const Subscription = () => {
   const userEmail = userInfo?.UserEmail;
   const userId = userInfo?.UserId;
   const authToken = userInfo?.AccessToken;
+  const userName=userInfo?.UserName;
+  console.log("userIfO",userInfo)
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
@@ -71,10 +73,11 @@ const Subscription = () => {
     setErrorMessages({});
   };
 
-  const HandleCreateCheckout = async (e, priceId, index) => {
+  const HandleCreateCheckout = async (e, priceId,packageName,packagePrice, index) => {
     e.preventDefault();
-
+// console.log("promoCode",promoCode)
     // const currentPromoCode = promoCode[index] || "";
+    // console.log("currentPromoCode",currentPromoCode)
     // if (!currentPromoCode.trim()) {
     //   setErrorMessages({
     //     ...errorMessages,
@@ -100,6 +103,10 @@ const Subscription = () => {
         userId,
         priceId,
         authToken,
+        userName,
+        packageName,
+        packagePrice,
+        // currentPromoCode,
       });
       console.log("response__",response)
 
@@ -247,7 +254,7 @@ const Subscription = () => {
                     <Button
                       className="bg-primary text-white rounded-full mx-2 w-full"
                       onClick={(e) =>
-                        HandleCreateCheckout(e, item?.StripePriceId, index)
+                        HandleCreateCheckout(e, item?.StripePriceId,item?.Name,item?.Price, index)
                       }
                     >
                       Purchase
