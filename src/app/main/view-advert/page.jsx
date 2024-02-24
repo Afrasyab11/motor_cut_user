@@ -103,11 +103,12 @@ const ViewAdvert = ({ searchParams }) => {
       console.error("Error downloading file:", error);
     }
   }
-  const flageImageHandle = (e, item) => {
+  const flageImageHandle = (e, Id, ImageUniqueId, index) => {
     e.preventDefault();
-    let payload = {
-      AdvertId: item.Id,
-      UniqueImageId: item.Images.Images[0].UniqueImageId,
+    const uniqueImageId = ImageUniqueId[index].UniqueImageId;
+    var payload = {
+      AdvertId: Id,
+      UniqueImageId: uniqueImageId,
     };
     dispatch(flageImageAction(payload));
   };
@@ -235,7 +236,14 @@ const ViewAdvert = ({ searchParams }) => {
                         <RiFlagFill className="text-site_red" size={15} />
                         <a
                           href="#"
-                          onClick={(e) => flageImageHandle(e, item)}
+                          onClick={(e) =>
+                            flageImageHandle(
+                              e,
+                              item?.Id,
+                              item?.Images?.Images,
+                              index
+                            )
+                          }
                           className="ml-4 text-sm sm:text-md text-site_red"
                         >
                           Flage Image
