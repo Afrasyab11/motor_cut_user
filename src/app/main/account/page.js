@@ -30,6 +30,8 @@ import { CancelSubscription } from "@/actions/stripe/subscription-cancel";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -187,7 +189,7 @@ const Account = () => {
   }, [getProfile, setValue]);
 
   const SubmitHanler = () => {
-    console.log("Payload in account",payload)
+    console.log("Payload in account", payload);
     dispatch(
       updateUserProfile({
         payload,
@@ -197,7 +199,11 @@ const Account = () => {
       })
     );
   };
-
+  const inputStyles = {
+    border: "none",
+    borderBottom: "1px solid #814adf",
+    width: "100%",
+  };
   return (
     <>
       {
@@ -218,7 +224,9 @@ const Account = () => {
                       id="name"
                       name="fullName"
                       value={payload?.fullName}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, fullName: e.target.value });
+                      }}
                       placeholder="Full Name"
                       className="border-b border-b-primary bg-white"
                     />
@@ -234,7 +242,9 @@ const Account = () => {
                       id="company-name"
                       name="companyName"
                       value={payload?.companyName}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, companyName: e.target.value });
+                      }}
                       placeholder="Company Name"
                       className="border-b border-b-primary bg-white mt-4"
                     />
@@ -243,16 +253,47 @@ const Account = () => {
                         {errors.companyName.message}
                       </small>
                     )}
-                    <Input
+                    <Controller
+                    name="mobileNumber"
+                    control={control}
+                    defaultValue={payload.mobileNumber}
+                    render={({ field }) => (
+                      <PhoneInput
+                      {...register("mobileNumber")}
+                      {...field}
+                        defaultCountry="us"
+                        value={payload?.mobileNumber}
+                        onChange={(val) => {
+                          field.onChange(val);
+                          setPayload({ ...payload, mobileNumber: val });
+                        }}
+                        forceDialCode
+                        inputStyle={inputStyles}
+                        className="react-international-phone-input2 mt-4 bg-whitee"
+                        countrySelectorStyleProps={{
+                          buttonStyle: { border: "none" },
+                          dropdownStyleProps: {
+                            style: { borderRadius: "15px" },
+                          },
+                        }}
+                      />
+                    )}
+                  />
+                    {/* <Input
                       {...register("mobileNumber")}
                       type="text"
                       id="mobile-no"
                       value={payload?.mobileNumber}
                       name="mobileNumber"
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({
+                          ...payload,
+                          mobileNumber: e.target.value,
+                        });
+                      }}
                       placeholder="Mobile Number"
                       className="border-b border-b-primary bg-white mt-4"
-                    />
+                    /> */}
                     {errors.mobileNumber && (
                       <small className="text-red-500">
                         {errors.mobileNumber.message}
@@ -265,7 +306,9 @@ const Account = () => {
                       id="email"
                       name="email"
                       value={payload?.email}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, email: e.target.value });
+                      }}
                       placeholder="Email Address"
                       className="border-b border-b-primary bg-white mt-4"
                     />
@@ -280,7 +323,12 @@ const Account = () => {
                       id="billing-email"
                       value={payload?.billingEmail}
                       name="billingEmail"
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({
+                          ...payload,
+                          billingEmail: e.target.value,
+                        });
+                      }}
                       placeholder="Billing Email Address"
                       className="border-b border-b-primary bg-white mt-4 "
                     />
@@ -316,7 +364,10 @@ const Account = () => {
                       type="text"
                       value={payload?.billingLine1}
                       onChange={(e) => {
-                        setPayload({ ...payload, billingLine1: e.target.value });
+                        setPayload({
+                          ...payload,
+                          billingLine1: e.target.value,
+                        });
                       }}
                       id="billing-line-1"
                       name="billingLine1"
@@ -335,7 +386,10 @@ const Account = () => {
                       name="billingLine2"
                       value={payload?.billingLine2}
                       onChange={(e) => {
-                        setPayload({ ...payload, billingLine2: e.target.value });
+                        setPayload({
+                          ...payload,
+                          billingLine2: e.target.value,
+                        });
                       }}
                       placeholder="Billing Line 2"
                       className="border-b border-b-primary bg-white mt-4"
@@ -351,7 +405,9 @@ const Account = () => {
                       id="postal-code"
                       name="postalCode"
                       value={payload?.postalCode}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setPayload({ ...payload, postalCode: e.target.value });
+                      }}
                       placeholder="Postal Code"
                       className="border-b border-b-primary bg-white mt-4"
                     />

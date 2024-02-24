@@ -35,7 +35,6 @@ const ForgotPasswordSchema = z.object({
   }),
 });
 
-
 const VerifyNumberSchema = z.object({
   verifyCode: z.string().length(1, {
     message: "Verification code is required",
@@ -51,11 +50,17 @@ const VerifyNumberSchema = z.object({
   }),
 });
 
-
 const FillProfilePageSchema = z.object({
-  fullName: z.string()
-  .min(1, { message: "Full Name is required" })
-  .regex(/^[a-zA-Z0-9 ]*$/, { message: "Full Name must only contain alphanumeric characters and spaces" }),
+  fullName: z
+    .string()
+    .min(1, { message: "Full Name is required" })
+    .regex(
+      /^[a-zA-Z0-9 !@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*[a-zA-Z][a-zA-Z0-9 !@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/,
+      {
+        message:
+          "Full Name must contain at least letter and can include alphanumeric characters",
+      }
+    ),
   companyName: z.string().min(1, {
     message: "Company Name is required",
   }),
@@ -74,22 +79,20 @@ const VerifyPasswordSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  otp:z.string().min(0, {
-    message:"OTP is required",
+  otp: z.string().min(0, {
+    message: "OTP is required",
   }),
-  password:z.string().min(0, {
-    message:"Password is required",
+  password: z.string().min(0, {
+    message: "Password is required",
   }),
-
 });
-
 
 const NewPasswordSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  password:z.string().min(0, {
-    message:"Password is required",
+  password: z.string().min(0, {
+    message: "Password is required",
   }),
 });
 
@@ -102,5 +105,4 @@ module.exports = {
   ForgotPasswordSchema,
   VerifyPasswordSchema,
   NewPasswordSchema,
-  
 };
