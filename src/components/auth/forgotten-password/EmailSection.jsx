@@ -65,11 +65,11 @@ const EmailSection = ({nextStep,setEmail}) => {
   return (
 <CardWrapper
           headerText="Forgot-Password"
-          headerPadding="pb-2"
+          headerPadding="pb-2 mt-4"
           backButtonLabel="Go back to?"
           // backButtonHref="/auth/register"
           headerLogo
-          className=""
+          className="mt-16"
         >          <Form {...form}>
              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                <FormField

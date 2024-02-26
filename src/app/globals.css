@@ -11,9 +11,6 @@ body,
 .react-international-phone-input {
   background-color: rgba(129, 74, 223, 0.05) !important;
 }
-.react-international-phone-input2 {
-  background-color: white !important;
-}
 
 .countrySelect {
   cursor: pointer;
@@ -113,8 +110,9 @@ body,
   }
 }
 /* smooth scrolling for mobiles */
-html {
+html{
   scroll-behavior: smooth;
+  
 }
 /* only elemets with .bar-scroll will have this custom scroll bar */
 /* For WebKit browsers (Chrome, Safari) */
@@ -123,15 +121,11 @@ html {
   height: 0.5vw; /* Set the height of the scrollbar for mobile */
 }
 .bar-scroll::-webkit-scrollbar-thumb {
-  background-color: theme(
-    "colors.primary.light"
-  ); /* Set the background color of the scrollbar thumb */
+  background-color: theme('colors.primary.light'); /* Set the background color of the scrollbar thumb */
   border-radius: 2em; /* Set the border radius of the scrollbar thumb */
 }
 .bar-scroll::-webkit-scrollbar-track {
-  background-color: theme(
-    "colors.site_secondary"
-  ); /* Set the background color of the scrollbar track */
+  background-color: theme('colors.site_secondary');  /* Set the background color of the scrollbar track */
   border-radius: 2em;
 }
 
@@ -141,13 +135,11 @@ html {
 }
 
 /* Firefox */
-@supports (
-  scrollbar-color: theme("colors.primary.light") theme("colors.secondary")
-) {
+@supports (scrollbar-color: theme('colors.primary.light') theme('colors.secondary')) {
   .bar-scroll {
-    scrollbar-color: theme("colors.primary.light")
-      theme("colors.site_secondary");
+    scrollbar-color: theme('colors.primary.light') theme('colors.site_secondary'); 
     scrollbar-width: thin !important;
+   
   }
 }
 
@@ -172,6 +164,7 @@ html {
   }
 }
 
+
 input[type="checkbox"]:checked {
-  background-color: #8d5ce2 !important;
+  background-color: #8d5ce2 !important; 
 }

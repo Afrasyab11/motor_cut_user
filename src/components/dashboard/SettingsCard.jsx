@@ -70,7 +70,7 @@ const SettingsCard = () => {
             width={1600}
             height={900}
             // className="w-full h-full object-cover rounded-2xl"
-            className="w-full h-[150px] object-fit shadow rounded-2xl"
+            className="w-full h-[150px] object-cover shadow rounded-2xl"
           />
         </div>
       </div>

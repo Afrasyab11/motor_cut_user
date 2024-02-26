@@ -37,10 +37,13 @@ const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
+
+
 console.log("dashboard states",states)
 console.log("getProfile",getProfile)
   const [invoices, setInvoices] = useState([]);
-  console.log("invoices", invoices);
+  const [stats,setStats]=useState('')
+  console.log('stats: ', stats);
   const [loadingStates, setLoadingStates] = useState({
     profile: true,
     invoices: true,
@@ -55,8 +58,6 @@ console.log("getProfile",getProfile)
   };
 
   let user = JSON.parse(getCookie("user") || "{}");
-  console.log("user===", user);
-
   useEffect(() => {
     const fetchData = async () => {
       if (user.UserId) {
@@ -66,18 +67,15 @@ console.log("getProfile",getProfile)
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
     };
     fetchData();
-  }, [ user.UserId]);
+  }, [user.UserId]);
 
-  console.log("getProfile",)
   const fetchInvoices = async () => {
-    console.log("calling")
     if (user?.StripeCustomerId) {
       try {
         const customerInvoices = await getCustomerInvoices(
           user?.StripeCustomerId,
           lastInvoiceId
         );
-        console.log("customerInvoices", customerInvoices);
         setInvoices(customerInvoices.data);
 
         if (customerInvoices.data.length > 0) {
@@ -124,7 +122,7 @@ console.log("getProfile",getProfile)
     console.log("res",res)
     if (res.success) {
       toast.success("Subscription cancelled successfully1");
-      fetchInvoices();
+      // fetchInvoices();
       dispatch(dashboardStatsAction(user.UserId));
       console.log("userId",user.UserId)
     
@@ -213,6 +211,13 @@ console.log("getProfile",getProfile)
     borderBottom: "1px solid #814adf",
     width: "100%",
   };
+
+
+
+  useEffect(()=>{
+
+    setStats(states)
+  },[states])
   return (
     <>
       {
@@ -220,7 +225,7 @@ console.log("getProfile",getProfile)
           <article className="profile bg-gray-100 rounded-3xl row-span-2 p-2 ">
             <div className="">
               <form onSubmit={handleSubmit(SubmitHanler)}>
-                <Card>
+                <Card className="shadow-none">
                   <CardHeader>
                     <CardTitle className="text-2xl font-medium tracking-normal ">
                       Account Profile
@@ -263,31 +268,31 @@ console.log("getProfile",getProfile)
                       </small>
                     )}
                     <Controller
-                    name="mobileNumber"
-                    control={control}
-                    defaultValue={payload.mobileNumber}
-                    render={({ field }) => (
-                      <PhoneInput
-                      {...register("mobileNumber")}
-                      {...field}
-                        defaultCountry="us"
-                        value={payload?.mobileNumber}
-                        onChange={(val) => {
-                          field.onChange(val);
-                          setPayload({ ...payload, mobileNumber: val });
-                        }}
-                        forceDialCode
-                        inputStyle={inputStyles}
-                        className="react-international-phone-input2 mt-4 bg-whitee"
-                        countrySelectorStyleProps={{
-                          buttonStyle: { border: "none" },
-                          dropdownStyleProps: {
-                            style: { borderRadius: "15px" },
-                          },
-                        }}
-                      />
-                    )}
-                  />
+                      name="mobileNumber"
+                      control={control}
+                      defaultValue={payload.mobileNumber}
+                      render={({ field }) => (
+                        <PhoneInput
+                          {...register("mobileNumber")}
+                          {...field}
+                          defaultCountry="us"
+                          value={payload?.mobileNumber}
+                          onChange={(val) => {
+                            field.onChange(val);
+                            setPayload({ ...payload, mobileNumber: val });
+                          }}
+                          forceDialCode
+                          inputStyle={inputStyles}
+                          className="react-international-phone-input2 mt-4 bg-whitee"
+                          countrySelectorStyleProps={{
+                            buttonStyle: { border: "none" },
+                            dropdownStyleProps: {
+                              style: { borderRadius: "15px" },
+                            },
+                          }}
+                        />
+                      )}
+                    />
                     {/* <Input
                       {...register("mobileNumber")}
                       type="text"
@@ -543,7 +548,7 @@ console.log("getProfile",getProfile)
             </div>
           </article>
           <article className="subscription bg-gray-100 rounded-3xl row-span-1">
-            <Card>
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle className="text-2xl font-medium tracking-normal py-3 ">
                   Subscription
@@ -561,7 +566,7 @@ console.log("getProfile",getProfile)
                   </div>
                   <div className="basis-2/3">
                     <h4 className="font-bold sm:text-sm lg:text-md">
-                      {states?.PackageName || 0}
+                      {stats?.PackageName || 0}
                     </h4>
                     <p className="text-sm">package</p>
                   </div>
@@ -577,18 +582,18 @@ console.log("getProfile",getProfile)
                   </div>
                   <div className="basis-2/3">
                     <h4 className="font-bold sm:text-sm lg:text-md">
-                      {states?.RenewalDate || 0}
+                      {stats?.RenewalDate || 0}
                     </h4>
                     <p className="text-sm">Renewal Date</p>
                   </div>
                 </div>
               </CardContent>
 
-              <CardFooter className="flex-col">
+              <CardFooter className="flex-col ">
                 {loadingStates.invoices ? (
                   <ImSpinner8 className="spinning-icon" />
                 ) : 
-                  states?.PackageName != "Free Tier"  && states?.PackageName
+                  stats?.PackageName != "Free Tier" &&stats?.RenewalDate != "Cancelled"  && stats?.PackageName
                   ?  (
                   <Button
                     variant="outline"
@@ -604,14 +609,16 @@ console.log("getProfile",getProfile)
                   </Button>
                 ) : (
                   <Button
+                    variant="outline"
+                    className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-1/2"
                     onClick={(e) => {
                       e.preventDefault();
                       route.push("/main/account/subscriptions");
                     }}
-                    className="library-btn basis-1/2 text-sm text-justify  rounded-full bg-primary-light  text-white px-3 py-1 mx-4 "
                   >
-                    See Subscriptions
+                 See Subscriptions
                   </Button>
+                
                 )}
               </CardFooter>
             </Card>

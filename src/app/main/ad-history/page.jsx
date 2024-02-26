@@ -22,12 +22,13 @@ export default function AdHistory() {
     setFilter(e.target.value.toLowerCase());
   };
   const visibleCards =
-    filter.length > 0
-      ? advert
-          ?.filter((item) => item.Label.toLowerCase().includes(filter))
-          .slice(0, showData)
-      : advert?.slice(0, showData);
-
+  filter.length > 0
+  ? advert
+  ?.filter((item) => item.Label.toLowerCase().includes(filter))
+  .slice(0, showData)
+  : advert?.slice(0, showData);
+  
+  console.log('visibleCards: ', visibleCards);
   const handleLoadMore = (e) => {
     e.preventDefault();
     setShowCard(showData + 6);
@@ -51,7 +52,7 @@ export default function AdHistory() {
 
       <AdvertCard data={visibleCards} showCard={showCard} />
       <div className="flex justify-center">
-        {showData < advert?.length && (
+        {showData < advert?.length && (!(visibleCards?.length < 6)) && (
           <a
             className="text-primary cursor-pointer text-sm sm:text-md font-medium"
             onClick={handleLoadMore}

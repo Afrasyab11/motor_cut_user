@@ -146,6 +146,14 @@ export default function CreateAdvert() {
           </div>
         </div>
         <div className="mt-6 flex justify-center">
+          {/* <Image
+            className="w-full lg:h-[200px] rounded-3xl mx-2 overflow-hidden"
+            src={`${baseDomain}get-file?filename=${background?.BackgroundImage}`}
+            objectFit="cover"
+            height={30}
+            width={30}
+            alt=""
+          /> */}
           <div className="rounded-2xl">
             <Image
               src={
@@ -161,7 +169,6 @@ export default function CreateAdvert() {
             />
           </div>
         </div>
-
         <div className=" text-center">
           <a
             onClick={handleBackgroundDialog}

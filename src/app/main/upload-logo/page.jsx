@@ -124,7 +124,7 @@ const UploadLogo = () => {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="grid lg:place-items-end md:place-items-end ">
+              <CardFooter className="grid place-items-end ">
                 <Button
                   type="button"
                   className="text-white bg-primary rounded-full w-full xs:max-w-28 sm:max-w-28 md:max-w-40 "

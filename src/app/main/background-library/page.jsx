@@ -160,7 +160,7 @@ const BackgroundLibrary = () => {
 
                   <Card
                     key={index}
-                    className="bg-white p-1 rounded-2xl border-none "
+                    className="bg-white p-1 rounded-2xl border-none  min-w-[290px]"
                   >
                     <CardContent className="p-1">
                       <div className="rounded-2xl">
