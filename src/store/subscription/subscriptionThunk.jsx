@@ -19,3 +19,25 @@ export const getSubscriptionAction = createAsyncThunk(
     }
   }
 );
+
+
+export const getCouponID = createAsyncThunk(
+  "subscrition/getCouponID",
+  async ({couponCode,onSuccess,onError}, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/Discounts/Get-Stripe-Coupon-Id?DiscountCode=${couponCode}`
+      );
+      if (data?.status_code === 200) {
+        onSuccess(data?.detail)
+        return data?.detail;
+      } else {
+        onError(data?.detail)
+        console.error(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+

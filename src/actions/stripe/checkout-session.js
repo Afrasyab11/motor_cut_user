@@ -73,6 +73,148 @@ const stripe = new Stripe(
   }
 );
 
+// async function CreateStripeCheckoutSession(data) {
+//   const {
+//     userEmail,
+//     userId,
+//     priceId,
+//     authToken,
+//     userName,
+//     packageName,
+//     packagePrice,
+//     couponCodeID
+//   } = data;
+//   console.log('data: ', data);
+
+//   try {
+//     let existingUser;
+//     let stripeCustomerId;
+
+//     if (userId) {
+//       existingUser = await getUserById(userId);
+//     }
+
+//     if (existingUser.stripeCustomerId) {
+//       stripeCustomerId = existingUser.stripeCustomerId;
+//       // console.log("existing user Id=", existingUser.stripeCustomerId);
+//     } else {
+//       const stripeCustomer = await stripe.customers.create({
+//         email: userEmail,
+//       });
+
+//       try {
+//         await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
+//       } catch (error) {
+//         console.error("Failed to update customer ID:", error);
+//         throw new Error("Failed to update customer ID, cannot proceed.");
+//       }
+
+//       stripeCustomerId = stripeCustomer.id;
+//     }
+
+//     try {
+
+//     let payload={}
+//       if(couponCodeID){
+
+//         payload= {
+//           mode: "subscription",
+//           customer: stripeCustomerId,
+//           discounts:[{
+//                       coupon:couponCodeID
+//                     }],
+//           line_items: [
+//             {
+//               price: priceId,
+//               quantity: 1,
+              
+//             },
+//           ],
+//           // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
+//           success_url: `http://localhost:3000/main/account`,
+//           cancel_url: "http://localhost:3000/main/account",
+  
+//           // cancel_url: process.env.NEXT_PUBLIC_APP_URL,
+//           subscription_data: {
+//             metadata: {
+//               UserId: userId,
+//               UserName: userName,
+//               PackageName: packageName,
+//               PackagePrice: packagePrice,
+//               // toolUrl: toolUrl,
+//               // planType: planType,
+//             },
+//           },
+//         }
+//       }else{
+
+//         payload= {
+//           mode: "subscription",
+//           customer: stripeCustomerId,
+         
+//           line_items: [
+//             {
+//               price: priceId,
+//               quantity: 1,
+              
+//             },
+//           ],
+//           // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
+//           success_url: `http://localhost:3000/main/account`,
+//           cancel_url: "http://localhost:3000/main/account",
+  
+//           // cancel_url: process.env.NEXT_PUBLIC_APP_URL,
+//           subscription_data: {
+//             metadata: {
+//               UserId: userId,
+//               UserName: userName,
+//               PackageName: packageName,
+//               PackagePrice: packagePrice,
+//               // toolUrl: toolUrl,
+//               // planType: planType,
+//             },
+//           },
+//         }
+//       }
+
+
+//       const checkoutSession = await stripe.checkout.sessions.create(payload);
+
+//       if (!checkoutSession.url) {
+//         throw new Error("Could not create checkout session");
+//       }
+
+//       return {
+//         StripeCustomerId: stripeCustomerId,
+//         session: {
+//           id: checkoutSession.id,
+//           url: checkoutSession.url,
+//         },
+//       };
+//     } catch (error) {
+//       console.error("Failed to create Stripe checkout session:", error);
+
+//       return {
+//         error: {
+//           message:
+//             "Failed to initiate payment process. Please try again later.",
+//           details: error.message,
+//         },
+//       };
+//     }
+//   } catch (error) {
+//     console.error("Failed to authenticate session:", error);
+
+//     return {
+//       error: {
+//         message: "Failed to authenticate session. Please try again later.",
+//         details: error.message,
+//       },
+//     };
+//   }
+// }
+
+
 async function CreateStripeCheckoutSession(data) {
   const {
     userEmail,
@@ -82,103 +224,93 @@ async function CreateStripeCheckoutSession(data) {
     userName,
     packageName,
     packagePrice,
-    // currentPromoCode
+    couponCodeID,
   } = data;
 
   try {
-    let existingUser;
-    let stripeCustomerId;
+    let stripeCustomerId = await ensureStripeCustomer({ userId, userEmail, authToken });
 
-    if (userId) {
-      existingUser = await getUserById(userId);
+    const payload = buildCheckoutSessionPayload({
+      stripeCustomerId,
+      priceId,
+      couponCodeID,
+      userId,
+      userName,
+      packageName,
+      packagePrice
+    });
+
+    const checkoutSession = await stripe.checkout.sessions.create(payload);
+
+    if (!checkoutSession.url) {
+      throw new Error("Could not create checkout session");
     }
-
-    if (existingUser.stripeCustomerId) {
-      stripeCustomerId = existingUser.stripeCustomerId;
-      console.log("existing user Id=", existingUser.stripeCustomerId);
-    } else {
-      const stripeCustomer = await stripe.customers.create({
-        email: userEmail,
-      });
-
-      try {
-        await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
-      } catch (error) {
-        console.error("Failed to update customer ID:", error);
-        throw new Error("Failed to update customer ID, cannot proceed.");
-      }
-
-      stripeCustomerId = stripeCustomer.id;
-    }
-
-    try {
-      const checkoutSession = await stripe.checkout.sessions.create({
-        mode: "subscription",
-        customer: stripeCustomerId,
-        // discounts: {
-        //   discount: {
-        //     coupon: {
-        //       name: currentPromoCode,
-        //     },
-        //   },
-        // },
-        // customer: existingUser.stripeCustomerId,
-        line_items: [
-          {
-            price: priceId,
-            quantity: 1,
-            
-          },
-        ],
-        // success_url: `${process.env.NEXT_PUBLIC_APP_URL}/main/dashboard`,
-        success_url: `https://motorcutuser.vercel.app/main/account`,
-        cancel_url: "https://motorcutuser.vercel.app/main/account",
-
-        // cancel_url: process.env.NEXT_PUBLIC_APP_URL,
-        subscription_data: {
-          metadata: {
-            UserId: userId,
-            UserName: userName,
-            PackageName: packageName,
-            PackagePrice: packagePrice,
-            // toolUrl: toolUrl,
-            // planType: planType,
-          },
-        },
-      });
-
-      if (!checkoutSession.url) {
-        throw new Error("Could not create checkout session");
-      }
-
-      return {
-        StripeCustomerId: stripeCustomerId,
-        session: {
-          id: checkoutSession.id,
-          url: checkoutSession.url,
-        },
-      };
-    } catch (error) {
-      console.error("Failed to create Stripe checkout session:", error);
-
-      return {
-        error: {
-          message:
-            "Failed to initiate payment process. Please try again later.",
-          details: error.message,
-        },
-      };
-    }
-  } catch (error) {
-    console.error("Failed to authenticate session:", error);
 
     return {
-      error: {
-        message: "Failed to authenticate session. Please try again later.",
-        details: error.message,
+      StripeCustomerId: stripeCustomerId,
+      session: {
+        id: checkoutSession.id,
+        url: checkoutSession.url,
       },
     };
+  } catch (error) {
+    console.error("Checkout session creation failed:", error);
+    throw new Error("Failed to initiate payment process. Please try again later.");
   }
 }
 
-export { CreateStripeCheckoutSession };
+async function ensureStripeCustomer({ userId, userEmail, authToken }) {
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+
+  const existingUser = await getUserById(userId);
+  if (existingUser && existingUser.stripeCustomerId) {
+    return existingUser.stripeCustomerId;
+  } else {
+    const stripeCustomer = await stripe.customers.create({ email: userEmail });
+    await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
+    return stripeCustomer.id;
+  }
+}
+
+function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, userId, userName, packageName, packagePrice }) {
+  let payload = {
+    mode: "subscription",
+    customer: stripeCustomerId,
+    success_url: `${"http://localhost:3000"}/main/account`,
+    cancel_url: `${"http://localhost:3000"}/main/account`,
+    line_items: [{ price: priceId, quantity: 1 }],
+    subscription_data: {
+      metadata: {
+        UserId: userId,
+        UserName: userName,
+        PackageName: packageName,
+        PackagePrice: packagePrice,
+      },
+    },
+  };
+
+  if (couponCodeID) {
+    payload.discounts = [{ coupon: couponCodeID }];
+  }
+
+  return payload;
+}
+
+async function checkPromoCode(couponCode,selectedCurrency) {
+  try {
+    const {valid,currency} = await stripe.coupons.retrieve(couponCode);
+     let currencyMatch=currency.toLowerCase()==selectedCurrency.toLowerCase()
+    if (valid && currencyMatch) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error checking promo code:", error);
+    return  { error: true, message: error.message };
+  }
+}
+
+export { CreateStripeCheckoutSession ,checkPromoCode };

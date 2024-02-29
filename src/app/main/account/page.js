@@ -37,8 +37,6 @@ const Account = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
-
-
 console.log("dashboard states",states)
 console.log("getProfile",getProfile)
   const [invoices, setInvoices] = useState([]);
@@ -215,7 +213,6 @@ console.log("getProfile",getProfile)
 
 
   useEffect(()=>{
-
     setStats(states)
   },[states])
   return (

@@ -13,12 +13,31 @@ import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useState,useEffect } from "react";
 export default function AdvertCard({ data, showCard }) {
+  //  data = []
   const dispatch = useDispatch();
   const router = useRouter();
   let userString = getCookie("user");
-  const { advertLoader } = useSelector((state) => state?.advert);
   let user = userString ? JSON.parse(userString) : null;
+  const { advertLoader } = useSelector((state) => state?.advert);
+  const [loader,setLoader] = useState (true);
+  
+  useEffect(() => {
+    setTimeout(() => {
+      if(data.length != 0 )
+      {
+        
+          setLoader(false)
+       
+      }
+      else
+      {
+        setLoader(false)
+      }
+    }, 1000);
+  }, [data])
+  
   const downloadImagesHandler = (e, item) => {
     if (!(item?.Status == "Completed")) {
       toast.warning("Not Completed Yet..!");
@@ -74,20 +93,21 @@ export default function AdvertCard({ data, showCard }) {
     >
       {data.length > 0 ? (
         data?.slice(0, showCard)?.map((item, index) => (
+  
           <div
             key={index}
             className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:gird sm:grid-cols-12 bg-whitee gap-3 gap-y-2 p-4 rounded-2xl mb-5 shadow-xl"
           >
             {/* Image Section */}
             <div className="col-span-5 mb-2">
-              <div className="rounded-2xl">
+              <div className="rounded-2xl flex justify-center items-center w-full h-full  ">
                 <Image
                   src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}
                   alt={"BackgroundLibrary"}
-                  width={1600}
-                  height={900}
+                  width={1900}
+                  height={600}
                   // className="w-full h-full object-cover rounded-2xl"
-                  className="w-full lg:min-h-[120px] lg:max-h-[120px] object-cover rounded-2xl"
+                  className=" object-fill w-full lg:h-[120px] md:h-[80px] rounded-2xl "
                 />
               </div>
             </div>
@@ -167,11 +187,12 @@ export default function AdvertCard({ data, showCard }) {
             </div>
           </div>
         ))
-      ) : advertLoader ? (
+      ) : loader  ? (
         [...Array(showCard)].map((_, index) => <SkeletonCard key={index} />)
-      ) : (
+      ) : data.length === 0 ?(
         <span>No Data Found</span>
-      )}
+      )
+    :''}
     </div>
   );
 }
