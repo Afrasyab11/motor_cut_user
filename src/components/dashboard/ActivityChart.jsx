@@ -11,14 +11,14 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 const ActivityChart = () => {
   const dispatch = useDispatch();
-  const { activity } = useSelector((state) => state?.advert);
+  const { activity, chartLoader } = useSelector((state) => state?.advert);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
 
   useEffect(() => {
     dispatch(getActivityChartAction(user?.UserId));
   }, []);
-  
+
   const formattedDates = activity?.map((detail) => {
     const date = new Date(detail.Date);
     return `${date.getDate().toString().padStart(2, "0")}/${(
@@ -45,7 +45,7 @@ const ActivityChart = () => {
 
   const options = {
     chart: {
-      height: 350,
+      // height: 350,
       type: "area",
     },
     dataLabels: {
@@ -72,21 +72,27 @@ const ActivityChart = () => {
     },
   };
   return (
-    <div className="w-full h-full">
-      <>
-        <div id="chart">
-          {ReactApexChart && (
-            <ReactApexChart
-              className="w-full"
-              options={options}
-              series={series}
-              type="area"
-              height={250}
-            />
-          )}
+    <div className="h-auto">
+      {activity.length > 0 && series ? (
+        <div className="min-h-[40vh]">
+          <ReactApexChart
+            className="w-full"
+            options={options}
+            series={series}
+            type="area"
+            width={"100%"}
+            height={"100%"}
+          />
         </div>
-        <div id="html-dist"></div>
-      </>
+      ) : chartLoader ? (
+        <div className={`flex justify-center items-center min-h-[40vh]`}>
+          <span>Loading...</span>
+        </div>
+      ) : (
+        <div className={`flex justify-center min-h-[40vh]`}>
+          <span>No Data found</span>
+        </div>
+      )}
     </div>
   );
 };

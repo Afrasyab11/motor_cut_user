@@ -55,7 +55,7 @@ export default function DashBoard() {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 md:gap-x-4 lg:gap-x-8 md:gap-y-4 lg:gap-y-10 xl:gap-y-8 2xl:gap-y-10">
         <div className="grid grid-cols-12 gap-4">
           {stats.map((stat, index) => (
             <div
@@ -67,7 +67,7 @@ export default function DashBoard() {
           ))}
         </div>
 
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4 md:gap-x-4 lg:gap-x-5 md:gap-y-4 lg:gap-y-8">
           <div className="lg:col-span-4 md:col-span-6 bg-site_secondary rounded-lg p-5 col-span-12">
             <h5 className="font-medium">Create Advert</h5>
             <AdvertForm />
@@ -86,7 +86,7 @@ export default function DashBoard() {
               key={`dashboard-comp-${index}`}
             >
               <h5 className="font-medium">{title}</h5>
-              <div className="bg-white rounded-lg mt-3 p-5 h-[300px]">
+              <div className="bg-white rounded-lg mt-3 p-5 ">
                 {Component}
               </div>
             </div>

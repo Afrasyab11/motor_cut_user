@@ -49,15 +49,8 @@ const SettingsCard = () => {
     );
   };
   return (
-    <div className="flex flex-col justify-around  h-full">
+    <div className="flex flex-col justify-between  min-h-[40vh] ">
       <div className="flex justify-center">
-        {/* <Image
-          className="rounded-lg w-80"
-          alt=""
-          src={background?.BackgroundImage?`${baseDomain}get-file?filename=${background?.BackgroundImage}`:TestImg}
-          width={30}
-          height={30}
-        ></Image> */}
         <div className="rounded-2xl">
           <Image
             src={
@@ -66,11 +59,11 @@ const SettingsCard = () => {
                 ? `${baseDomain}get-file?filename=${background?.BackgroundImage}`
                 : placeholder
             }
-            alt={"background"}
+            alt={"bg"}
             width={1600}
             height={900}
             // className="w-full h-full object-cover rounded-2xl"
-            className="w-full h-[150px] object-cover shadow rounded-2xl"
+            className="w-full h-full object-cover shadow rounded-2xl"
           />
         </div>
       </div>
@@ -83,7 +76,7 @@ const SettingsCard = () => {
           Change Background
         </a>
         <div className="flex gap-4 ">
-          <h5> Display Logo </h5>{" "}
+          <p className="text-sm sm:text-md"> Display Logo </p>{" "}
           <Switch
             checked={logo?.DisplayLogo}
             onCheckedChange={(isActive) => handleStatusChange(isActive)}

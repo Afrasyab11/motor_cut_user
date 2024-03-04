@@ -10,8 +10,8 @@ export const createLogoAction = createAsyncThunk(
         formData
       );
       if (data?.status_code === 200) {
-        toast.success(data?.detail);
         onSuccess();
+        toast.success("Logo successfully Uploaded");
       } else {
         toast.warning(data?.detail);
         // return rejectWithValue(data?.detail);
@@ -52,6 +52,26 @@ export const UpdateLogoPositionAction = createAsyncThunk(
         toast.success(data?.detail);
       } else {
         toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
+
+export const removeUserLogoAction = createAsyncThunk(
+  "logo/RemoveUserLogo",
+  async ({ UserId, onSuccess }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        `User/Remove-User-Logo?UserId=${UserId}`
+      );
+      onSuccess();
+      if (data?.status_code === 200) {
+        toast.success(data?.detail);
+      } else {
+        toast.warning(data?.detail);
+        // return rejectWithValue(data?.detail);
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux

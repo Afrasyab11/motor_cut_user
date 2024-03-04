@@ -19,11 +19,10 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
-import { createLogoAction } from "@/store/uploadLogo/logoThunk";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
-import { getLogoAction } from "@/store/uploadLogo/logoThunk";
+import { createLogoAction, getLogoAction,removeUserLogoAction } from "@/store/uploadLogo/logoThunk";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadLogoSchema } from "@/schemas/uploadLogoSchema";
@@ -34,7 +33,7 @@ import { getCookie } from "cookies-next";
 
 const UploadLogo = () => {
   const dispatch = useDispatch();
-  const { logo, logoLoader, getLogoLoader } = useSelector(
+  const { logo, logoLoader, getLogoLoader,removeLogoLoader } = useSelector(
     (state) => state.logo
   );
   let userString = getCookie("user");
@@ -84,6 +83,18 @@ const UploadLogo = () => {
       })
     );
   };
+
+  const removeHandler = () => {
+    dispatch(
+      removeUserLogoAction({
+        UserId: user?.UserId,
+        onSuccess: () => {
+          setSelectedFile("");
+          dispatch(getLogoAction(user?.UserId));
+        },
+      })
+    );
+  };
   return (
     <>
       {/* logo uploader */}
@@ -103,7 +114,7 @@ const UploadLogo = () => {
                     src={
                       selectedFile
                         ? URL.createObjectURL(selectedFile)
-                        : logo?.Logo !== undefined && logo?.Logo
+                        : logo?.Logo !== null && logo?.Logo
                         ? `${baseDomain}get-file?filename=${logo?.Logo}`
                         : placeholder
                     }
@@ -237,14 +248,27 @@ const UploadLogo = () => {
           </section>
           <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3 ">
             <Card>
-              <CardContent className="flex basis-1/2 justify-center items-center pt-5">
+              <CardContent className="flex basis-1/2 justify-center items-center gap-x-4 pt-5">
                 <Button
                   disabled={logoLoader}
-                  className={`text-white bg-primary rounded-full w-full max-w-48`}
+                  className={`text-white bg-primary rounded-full w-3/6`}
                 >
-                  Submit{" "}
+                  Save{" "}
                   {logoLoader && <ImSpinner8 className="spinning-icon" />}
                 </Button>
+                {logo && logo?.Logo !== null && (
+                  <Button
+                    type="button"
+                    disabled={removeLogoLoader}
+                    className={`text-white bg-primary rounded-full w-3/6 `}
+                    onClick={removeHandler}
+                  >
+                    Remove{" "}
+                    {removeLogoLoader && (
+                      <ImSpinner8 className="spinning-icon" />
+                    )}
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </section>

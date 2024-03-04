@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createLogoAction, getLogoAction } from "./logoThunk";
+import { createLogoAction, getLogoAction, removeUserLogoAction } from "./logoThunk";
 
 const initialState = {
   logoLoader: false,
   getLogoLoader:false,
+  removeLogoLoader:false,
   error: null,
   logo: [],
 };
@@ -35,6 +36,17 @@ export const logoSlice = createSlice({
       })
       .addCase(getLogoAction.rejected, (state, action) => {
         state.getLogoLoader = false;
+        state.error = action.payload;
+      })
+      .addCase(removeUserLogoAction.pending, (state) => {
+        state.removeLogoLoader = true;
+      })
+      .addCase(removeUserLogoAction.fulfilled, (state, action) => {
+        state.removeLogoLoader = false;
+        state.logo = action.payload;
+      })
+      .addCase(removeUserLogoAction.rejected, (state, action) => {
+        state.removeLogoLoader = false;
         state.error = action.payload;
       });
   },

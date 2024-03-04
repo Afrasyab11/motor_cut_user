@@ -80,164 +80,147 @@ const BackgroundLibrary = () => {
 
   return (
     <>
-      <main className="">
-        <main className="m-4 bg-gray-100 rounded-2xl p-2 md:p-4 ">
-          <div className="p-4">
-            <h1 className="text-3xl">Background Library</h1>
-          </div>
-          <main className="  flex flex-col  lg:flex-row h-fit ">
-            <section className="categories flex flex-col  h-[130px]  lg:min-h-[70vh] lg:max-h-full  align-items-center justify-content-center mb-4 lg:mb-1 lg:mr-4 bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
-              <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mr-0 lg:mb-2">
-                Categories
-              </Button>
-              <div className="bar-scroll flex flex-row  lg:justify-start lg:flex-col overflow-x-auto ">
-                <p
-                  onClick={() => filterHandler("All")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "All" ? "font-bold text-primary" : ""
-                  }`}
-                >
-                  All
-                </p>
-                <p
-                  onClick={() => filterHandler("Indoor")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "Indoor"
-                      ? "font-bold text-primary"
-                      : ""
-                  }`}
-                >
-                  Indoor
-                </p>
-                <p
-                  onClick={() => filterHandler("Outdoor")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "Outdoor"
-                      ? "font-bold text-primary"
-                      : ""
-                  }`}
-                >
-                  Outdoor
-                </p>
-                <p
-                  onClick={() => filterHandler("Simple")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "Simple"
-                      ? "font-bold text-primary"
-                      : ""
-                  }`}
-                >
-                  Simple
-                </p>
-                <p
-                  onClick={() => filterHandler("Creative")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "Creative"
-                      ? "font-bold text-primary"
-                      : ""
-                  }`}
-                >
-                  Creative
-                </p>
-                <p
-                  onClick={() => filterHandler("Studio")}
-                  className={`mx-2 py-2 cursor-pointer ${
-                    selectedCategory === "Studio"
-                      ? "font-bold text-primary"
-                      : ""
-                  }`}
-                >
-                  Studio
-                </p>
-              </div>
-            </section>
+      <main className="m-4 bg-gray-100 rounded-2xl p-2 md:p-4 h-screen">
+        <div className="p-4">
+          <h1 className="text-3xl">Background Library</h1>
+        </div>
+        <main className="  flex flex-col  lg:flex-row h-fit ">
+          <section className="categories flex flex-col  h-max-full lg:min-h-[80vh] border lg:max-h-[80vh]  align-items-center justify-content-center mb-4 lg:mb-1 lg:mr-4 bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
+            <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mr-0 lg:mb-2">
+              Categories
+            </Button>
+            <div className="bar-scroll flex flex-row  lg:justify-start lg:flex-col overflow-x-auto ">
+              <p
+                onClick={() => filterHandler("All")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ${
+                  selectedCategory === "All" ? "font-bold text-primary" : ""
+                }`}
+              >
+                All
+              </p>
+              <p
+                onClick={() => filterHandler("Indoor")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ${
+                  selectedCategory === "Indoor" ? "font-bold text-primary" : ""
+                }`}
+              >
+                Indoor
+              </p>
+              <p
+                onClick={() => filterHandler("Outdoor")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ${
+                  selectedCategory === "Outdoor" ? "font-bold text-primary" : ""
+                }`}
+              >
+                Outdoor
+              </p>
+              <p
+                onClick={() => filterHandler("Simple")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ${
+                  selectedCategory === "Simple" ? "font-bold text-primary" : ""
+                }`}
+              >
+                Simple
+              </p>
+              <p
+                onClick={() => filterHandler("Creative")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px]  ${
+                  selectedCategory === "Creative"
+                    ? "font-bold text-primary"
+                    : ""
+                }`}
+              >
+                Creative
+              </p>
+              <p
+                onClick={() => filterHandler("Studio")}
+                className={`mx-2 py-2 cursor-pointer lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ${
+                  selectedCategory === "Studio" ? "font-bold text-primary" : ""
+                }`}
+              >
+                Studio
+              </p>
+            </div>
+          </section>
 
-              {allBackground &&
-              allBackground.length > 0 &&
-              filteredBackgrounds.length > 0 ? (
+          {allBackground &&
+          allBackground.length > 0 &&
+          filteredBackgrounds.length > 0 ? (
             <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
-              {  filteredBackgrounds.slice(0, showCard)?.map((card, index) => (
-
-                  <Card
-                    key={index}
-                    className="bg-white p-1 rounded-2xl border-none  min-w-[290px]"
-                  >
-                    <CardContent className="p-1">
-                      <div className="rounded-2xl">
-                        <Image
-                          src={`${baseDomain}get-file?filename=${card?.Path}`}
-                          alt={"BackgroundLibrary"}
-                          width={1600}
-                          height={900}
-                          // className="w-full h-full object-cover rounded-2xl"
-                          className="w-full h-[150px] object-cover rounded-2xl"
-                        />
-                      </div>
-                    </CardContent>
-                    <CardFooter className="p-1 flex justify-center m-auto">
-                      {/* <Button
-                        variant="outline"
-                        className="library-btn basis-1/2 text-sm  rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  mr-2"
-                      >
-                        See Example
-                      </Button> */}
-                      <a
-                        href={`${baseDomain}get-file?filename=${card?.Path}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="outline"
-                        className="library-btn basis-1/2 text-sm text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  mr-2"
-                      >
-                        See Example
-                      </a>
-                      <Button
-                        // disabled={backgroundLoader}
-                        onClick={(e) => {
-                          backgroundSelectHandler(e, card?.Path, index);
-                        }}
-                        className="library-btn basis-1/2  text-sm text-justify rounded-full bg-primary-light  text-white px-3  ml-2 "
-                      >
-                        Select{" "}
-                        {/* {backgroundLoader && card.spiner === true && (
+              {filteredBackgrounds.slice(0, showCard)?.map((card, index) => (
+                <Card
+                  key={index}
+                  className="bg-white p-1 rounded-2xl border-none"
+                >
+                  <CardContent className="p-1">
+                    <div className="rounded-2xl">
+                      <Image
+                        src={`${baseDomain}get-file?filename=${card?.Path}`}
+                        alt={"BackgroundLibrary"}
+                        width={1600}
+                        height={900}
+                        className="w-full min-h-[150px] max-h-[150px] object-contain rounded-3xl"
+                      />
+                    </div>
+                  </CardContent>
+                  <CardFooter className="p-1 flex justify-center m-auto">
+                    <a
+                      href={`${baseDomain}get-file?filename=${card?.Path}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="outline"
+                      className="library-btn basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  mr-2"
+                    >
+                      See Example
+                    </a>
+                    <Button
+                      // disabled={backgroundLoader}
+                      onClick={(e) => {
+                        backgroundSelectHandler(e, card?.Path, index);
+                      }}
+                      className="library-btn basis-1/2  text-sm  lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-justify rounded-full bg-primary-light  text-white px-3  ml-2 "
+                    >
+                      Select{" "}
+                      {/* {backgroundLoader && card.spiner === true && (
                           <ImSpinner8 className="spinning-icon" />
                         )} */}
-                      </Button>
-                    </CardFooter>
-                  </Card>
-              ))} </section>
-              ) : backgroundLoader ? (
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}{" "}
+            </section>
+          ) : backgroundLoader ? (
             <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
-               { [...Array(9)].map((_, index) => (
-
-                  <div
-                    key={index}
-                    className="flex flex-col mx-1 p-2 bg-whitee  rounded-xl"
-                  >
-                    <Skeleton className="w-[210px] sm:w-full h-[125px] lg:w-full rounded-xl pl-6 pt-6" />
-                    <div className="space-x-2 flex lg:flex-row md:flex-col sm:flex-col mt-2">
-                      <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px] " />
-                      <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px]" />
-                    </div>
+              {[...Array(9)].map((_, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col mx-1 p-2 bg-whitee  rounded-xl"
+                >
+                  <Skeleton className="w-[210px] sm:w-full h-[125px] lg:w-full rounded-xl pl-6 pt-6" />
+                  <div className="space-x-2 flex lg:flex-row md:flex-col sm:flex-col mt-2">
+                    <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px] " />
+                    <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px]" />
                   </div>
-                   ))}</section>
-              ) : (
-                <div className="w-full flex justify-center items-center"><span className="font-medium">No Data Found</span></div>
-
-              )}
-           
-          </main>
-        </main>
-        <div className="flex justify-center mt-3">
-          {showData < filteredBackgrounds?.length && (
-            <a
-              className="text-primary cursor-pointer text-sm sm:text-md font-medium"
-              onClick={handleLoadMore}
-            >
-              Load More
-            </a>
+                </div>
+              ))}
+            </section>
+          ) : (
+            <div className="w-full flex justify-center items-center">
+              <span className="font-medium">No Data Found</span>
+            </div>
           )}
-        </div>
+        </main>
       </main>
+      <div className="flex justify-center mt-3">
+        {showData < filteredBackgrounds?.length && (
+          <a
+            className="text-primary cursor-pointer text-sm sm:text-md font-medium"
+            onClick={handleLoadMore}
+          >
+            Load More
+          </a>
+        )}
+      </div>
     </>
   );
 };

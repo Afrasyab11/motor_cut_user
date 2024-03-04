@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   advertLoader: false,
+  chartLoader:false,
   error: null,
   advert: [],
   processAdvert: [],
@@ -55,14 +56,14 @@ export const advertSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getActivityChartAction.pending, (state) => {
-        state.advertLoader = true;
+        state.chartLoader = true;
       })
       .addCase(getActivityChartAction.fulfilled, (state, action) => {
-        state.advertLoader = false;
+        state.chartLoader = false;
         state.activity = action.payload;
       })
       .addCase(getActivityChartAction.rejected, (state, action) => {
-        state.advertLoader = false;
+        state.chartLoader = false;
         state.error = action.payload;
       })
      

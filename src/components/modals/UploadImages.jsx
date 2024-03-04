@@ -102,7 +102,7 @@ export default function UploadImages({
   };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:h-[95vh]`}>
+      <AlertDialogContent className={` overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[100vh]`}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">
