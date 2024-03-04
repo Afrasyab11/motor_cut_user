@@ -82,8 +82,8 @@ export default function AdvertCard({ data, showCard }) {
     <div
       className={`lg:grid md:grid sm:grid  ${
         showCard % 2 !== 0
-          ? "lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-4 "
-          : "lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-4 "
+          ? "lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-4 px-2"
+          : "lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-4 px-2 "
       }`}
     >
       {data.length > 0 ? (

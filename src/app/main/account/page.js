@@ -218,7 +218,7 @@ console.log("getProfile",getProfile)
   return (
     <>
       {
-        <section className="   grid md:grid-cols-2 md:grid-rows-2 gap-x-2 gap-y-3 lg:h-100 p-0">
+        <section className="grid md:grid-cols-2 md:grid-rows-2 gap-x-2 gap-y-3">
           <article className="profile bg-gray-100 rounded-3xl row-span-2 p-2 ">
             <div className="">
               <form onSubmit={handleSubmit(SubmitHanler)}>
@@ -449,7 +449,7 @@ console.log("getProfile",getProfile)
               </form>
             </div>
           </article>
-          <article className="billing bg-gray-100 rounded-3xl overflow-y-auto row-span-1 ">
+          <article className="billing bg-gray-100 rounded-3xl  row-span-1 ">
             <div className="">
               <div className="">
                 <h2 className="card-title text-2xl font-medium tracking-normal py-3 px-6">

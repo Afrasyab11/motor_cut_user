@@ -80,11 +80,11 @@ const BackgroundLibrary = () => {
 
   return (
     <>
-      <main className="m-4 bg-gray-100 rounded-2xl p-2 md:p-4 h-screen">
+      <main className="md:m-1 lg:m-4 bg-gray-100 rounded-2xl md:p-2 lg:p-4 h-screen">
         <div className="p-4">
-          <h1 className="text-3xl">Background Library</h1>
+          <p className="md:text-[20px] lg:text-[30]">Background Library</p>
         </div>
-        <main className="  flex flex-col  lg:flex-row h-fit ">
+        <main className="  flex flex-col  lg:flex-row h-fit px-2">
           <section className="categories flex flex-col  h-max-full lg:min-h-[80vh] border lg:max-h-[80vh]  align-items-center justify-content-center mb-4 lg:mb-1 lg:mr-4 bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
             <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mr-0 lg:mb-2">
               Categories

@@ -37,8 +37,8 @@ export default function AdHistory() {
   };
 
   return (
-    <div className="bg-site_secondary p-8 m-3 rounded-2xl gap-8">
-      <div className="flex flex-wrap items-start mb-4">
+    <div className="bg-site_secondary md:p-2 lg:p-8 m-3 rounded-2xl gap-8">
+      <div className="flex flex-wrap items-start mb-4 px-2 pt-3">
         <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl mb-4 mr-6">
           Advert History
         </h2>

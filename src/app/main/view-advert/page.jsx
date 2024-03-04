@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import testimage2 from "../../../../public/Test.jpg";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,28 +19,26 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAdvertProcesByIdAction,
   flageImageAction,
-  downloadAllAdvertImagesAction,
   downloadAdvertImagesAction,
+  downloadZipFileAction,
 } from "@/store/createAdvert/createAdvertThunk";
-import { axiosInstance, baseDomain } from "@/utils/axios";
-import { getCookie } from "cookies-next";
+import { baseDomain } from "@/utils/axios";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRouter } from "next/navigation";
 import { createLogoAction, getLogoAction } from "@/store/uploadLogo/logoThunk";
-
+import placeholder from "../../../../public/placeholder.png";
+import { getCookie } from "cookies-next";
 const ViewAdvert = ({ searchParams }) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { processAdvert, advertLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
-  const [advert, setAdvert] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
+  const [advert, setAdvert] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
-
   useEffect(() => {
     dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
   }, [searchParams?.advertId]);
@@ -49,7 +46,6 @@ const ViewAdvert = ({ searchParams }) => {
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, [user?.UserId]);
-
   const handleOptionChange = async (e) => {
     setSelectedOption(e.target.value);
     console.log("LogoPosition", e.target.value);
@@ -69,6 +65,7 @@ const ViewAdvert = ({ searchParams }) => {
       })
     );
   };
+
   const downloadHandler = () => {
     dispatch(downloadAdvertImagesAction(searchParams?.advertId)).then(
       (response) => {
@@ -99,74 +96,81 @@ const ViewAdvert = ({ searchParams }) => {
 
       // Remove the link from the DOM
       document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading file:", error);
-    }
+    } catch (error) {}
   }
-  const flageImageHandle = (e, item) => {
+
+  const flageImageHandle = (e, Id, ImageUniqueId, index) => {
     e.preventDefault();
-    let payload = {
-      AdvertId: item.Id,
-      UniqueImageId: item.Images.Images[0].UniqueImageId,
+    const uniqueImageId = ImageUniqueId[index].UniqueImageId;
+    var payload = {
+      AdvertId: Id,
+      UniqueImageId: uniqueImageId,
     };
     dispatch(flageImageAction(payload));
   };
   return (
     <AlertDialog>
-      <div className="bg-site_secondary mx-8 my-4 px-8 py-3 rounded-2xl">
-        <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3">
-          <div className="lg:col-span-8 md:col-span-6 sm:col-span-4 flex items-center">
-            <h2 className="text-lg sm:text-md mb-4 font-medium">View Advert</h2>
-          </div>
-          <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 flex items-center ">
-            <button
-              onClick={downloadHandler}
-              className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md  mb-1"
-            >
-              All Download
-            </button>
-          </div>
-          <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 flex items-center">
-            <span className="text-primary text-sm sm:text-md font-medium">
-              Advert ID:{" "}
-            </span>
-            <span className="text-primary text-sm sm:text-md font-medium">
-              {" " + searchParams?.advertId}
-            </span>
-          </div>
-        </div>
-        {advert && advert?.length > 0 ? (
-          advert.map((item) =>
-            item?.Images?.Images?.map((img, index) => (
-              <div
-                key={`ViewAdvert-${index}`}
-                className="bg-whitee px-4 rounded-2xl py-4 my-3"
-              >
-                <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2 ">
-                  <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
-                    <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
-                      <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
-                        <Image
-                          className="w-full lg:min-h-[120px] lg:max-h-[220px] object-fit rounded-lg"
-                          height={900}
-                          width={1600}
-                          src={`${baseDomain}get-file?filename=${img?.Original}`}
-                          // src={testimage2}
-                          alt=""
-                        />
-                      </div>
-                      <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1 relative">
-                        <Image
-                          className="lg:min-h-[120px] lg:max-h-[220px] w-full object-fit rounded-lg"
-                          height={900}
-                          width={1600}
-                          src={`${baseDomain}get-file?filename=${img.Processed}`}
-                          // src={testimage2}
-                          alt=""
-                        />
-                        {logo?.DisplayLogo && (
-                          <Image
-                            className={`h-[50px] w-[120px] absolute  object-contain rounded-md
+      <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
+        {advert.length > 0 ? (
+          <>
+            <div className="2xl:grid 2xl:grid-cols-12 lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 px-2">
+              <div className="2xl:col-span-8 lg:col-span-7 md:col-span-6 sm:col-span-4 flex items-center">
+                <h2 className=" sm:text-md mb-4 font-medium lg:text-[15px] xl:text-[20px] 2xl:text-[25px]">
+                  View Advert
+                </h2>
+              </div>
+              <div className="2xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-4 flex items-center ">
+                <button
+                  onClick={downloadHandler}
+                  className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]  mb-1"
+                >
+                  Download All
+                </button>
+              </div>
+              <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-end items-center">
+                <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[19px] font-medium">
+                  Advert ID:{" "}
+                </span>
+                <span className="text-primary text-sm sm:text-md font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                  {" " + searchParams?.advertId}
+                </span>
+              </div>
+            </div>
+            {advert &&
+              advert.map((item, index) =>
+                item?.Images?.Images?.map((img, i) => (
+                  <div
+                    key={index}
+                    className="bg-whitee px-4 rounded-2xl py-4 my-3"
+                  >
+                    <div
+                      key={i}
+                      className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 lg:gap-x-6 gap-y-2 "
+                    >
+                      <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
+                        <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
+                          <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
+                            <Image
+                              className="w-full object-contain rounded-xl"
+                              src={`${baseDomain}get-file?filename=${img.Original}`}
+                              alt={"OrignalImage"}
+                              width={1600}
+                              height={1600}
+                              // className="w-full h-full object-cover rounded-2xl"
+                            />
+                          </div>
+                          <div className="lg:col-span-6 md:col-span-6 sm:col-span-6  relative mb-1">
+                            <Image
+                              className="w-full object-contain rounded-xl"
+                              height={1600}
+                              width={1600}
+                              src={`${baseDomain}get-file?filename=${img.Processed}`}
+                              // src={testimage2}
+                              alt=""
+                            />
+                            {logo?.DisplayLogo && (
+                              <Image
+                                className={` h-[50px] w-[120px] absolute  object-contain rounded-2xl
                            ${
                              logo?.LogoPosition === "top-right"
                                ? "right-[10px] top-[10px]"
@@ -176,77 +180,90 @@ const ViewAdvert = ({ searchParams }) => {
                                ? "bottom-[10px] left-[10px]"
                                : "bottom-[10px] right-[10px]"
                            }`}
-                            src={`${baseDomain}get-file?filename=${logo?.Logo}`}
-                            alt="Logo"
-                            height={900}
-                            width={1600}
-                          />
-                        )}
+                                // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
+                                src={
+                                  logo?.Logo !== undefined && logo?.Logo
+                                    ? `${baseDomain}get-file?filename=${logo?.Logo}`
+                                    : placeholder
+                                }
+                                alt="Logo"
+                                height={900}
+                                width={1600}
+                              />
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
-                    <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1">
-                      <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                        <button className="bg-primary text-whitee  w-full rounded-full py-2   text-sm">
-                          Edit Background Position
-                        </button>
-                      </div>
-                      <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                        <AlertDialogTrigger className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md">
-                          {/* <AlertDialogTrigger> */}
-                          Crop / Trim
-                          {/* </AlertDialogTrigger> */}
-                        </AlertDialogTrigger>
-                      </div>
-                      <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                        <button className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md">
-                          Reprocess
-                        </button>
-                      </div>
-                      <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1">
-                        <span className="text-sm sm:text-md font-medium">
-                          Logo:
-                        </span>
-                        <select
-                          className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md ml-4 mb-1 cursor-pointer  custom-select"
-                          value={selectedOption}
-                          onChange={handleOptionChange}
-                        >
-                          <option name="" value="">
-                            Position
-                          </option>
-                          <option name="top-left" value="top-left">
-                            Top Left
-                          </option>
-                          <option name="top-right" value="top-right">
-                            Top Right
-                          </option>
-                          <option name="bottom-left" value="bottom-left">
-                            Bottom Left
-                          </option>
-                          <option name="bottom-right" value="bottom-right">
-                            Bottom Right
-                          </option>
-                        </select>
-                      </div>
-                      <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">
-                        <RiFlagFill className="text-site_red" size={15} />
-                        <a
-                          href="#"
-                          onClick={(e) => flageImageHandle(e, item)}
-                          className="ml-4 text-sm sm:text-md text-site_red"
-                        >
-                          Flage Image
-                        </a>
+                      <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
+                        <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
+                            <button className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
+                              Edit Background Position
+                            </button>
+                          </div>
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
+                            <AlertDialogTrigger className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                              {/* <AlertDialogTrigger> */}
+                              Crop / Trim
+                              {/* </AlertDialogTrigger> */}
+                            </AlertDialogTrigger>
+                          </div>
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
+                            <button className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                              Reprocess
+                            </button>
+                          </div>
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                            <span className="text-sm sm:text-md font-medium">
+                              Logo:
+                            </span>
+                            <select
+                              className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select"
+                              value={selectedOption}
+                              onChange={handleOptionChange}
+                            >
+                              <option name="" value="">
+                                Position
+                              </option>
+                              <option name="top-left" value="top-left">
+                                Top Left
+                              </option>
+                              <option name="top-right" value="top-right">
+                                Top Right
+                              </option>
+                              <option name="bottom-left" value="bottom-left">
+                                Bottom Left
+                              </option>
+                              <option name="bottom-right" value="bottom-right">
+                                Bottom Right
+                              </option>
+                            </select>
+                          </div>
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">
+                            <RiFlagFill className="text-site_red" size={15} />
+                            <a
+                              href="#"
+                              onClick={(e) =>
+                                flageImageHandle(
+                                  e,
+                                  item?.Id,
+                                  item?.Images?.Images,
+                                  i
+                                )
+                              }
+                              className="ml-4 text-sm sm:text-md text-site_red"
+                            >
+                              Flag Image
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))
-          )
+                ))
+              )}
+          </>
         ) : advertLoader ? (
           <div className="bg-whitee px-4 py-3 rounded-2xl my-3">
             <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-6 ">

@@ -17,9 +17,9 @@ let user = userString ? JSON.parse(userString) : null;
 
   return (
     // <div className={`grid gap-8 ${recentColumn}`}>
-    <div className="bg-site_secondary p-4 rounded-2xl mb-2">
-      <div className="flex justify-between ">
-        <h2 className="text-lg sm:text-md mb-4 font-medium">Recent Advert</h2>
+    <div className="bg-site_secondary md:p-2 lg:p-4 rounded-2xl mb-2">
+      <div className="flex justify-between px-2 pt-3">
+        <h2 className="md:text-[20px] lg:text-[30px] sm:text-md mb-4 font-medium">Recent Advert</h2>
         <Link href="/main/ad-history" className="text-primary text-sm sm:text-md font-normal">
           All History
         </Link>

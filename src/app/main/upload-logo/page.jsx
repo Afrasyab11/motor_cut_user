@@ -104,7 +104,7 @@ const UploadLogo = () => {
           <section className="bg-gray-100 rounded-2xl w-full  md:w-1/2 my-3 px-2 ">
             <Card>
               <CardHeader>
-                <h2 className="text-2xl font-medium tracking-normal">
+                <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                   Upload Logo
                 </h2>
               </CardHeader>
@@ -192,7 +192,7 @@ const UploadLogo = () => {
           <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">
             <Card>
               <CardHeader>
-                <h2 className="text-2xl font-medium tracking-normal">
+                <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                   Download Format
                 </h2>
               </CardHeader>
@@ -277,7 +277,7 @@ const UploadLogo = () => {
         <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">
           <Card>
             <CardHeader>
-              <h2 className="text-2xl font-medium tracking-normal">
+              <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 License Plate Covers (coming soon)
               </h2>
             </CardHeader>
