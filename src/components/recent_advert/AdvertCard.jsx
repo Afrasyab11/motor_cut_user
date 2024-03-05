@@ -100,12 +100,12 @@ export default function AdvertCard({ data, showCard }) {
                 width={1600}
                 height={900}
                 // className="w-full h-full object-cover rounded-2xl"
-                className="w-full min-h-[120px] max-h-[120px] object-contain rounded-2xl"
+                className="w-full min-h-[120px]  cover-fit rounded-2xl"
               />
             </div>
             {/* Details Section */}
             <div className="lg:col-span-7  md:col-span-12 mb-2">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-2 gap-2 md:gap-y-2 lg:gap-y-1 xl:gap-y-1 2xl:gap-y-1 3xl:gap-y-2 mt-2 sm:mt-2 mb-1 pt-1 lg:m-0">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-2 gap-2 md:gap-y-2 lg:gap-y-1 xl:gap-y-1 2xl:gap-y-1 3xl:gap-y-4 mt-2 sm:mt-2 mb-1 pt-1 lg:m-0">
                 <div>
                   <span className="text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
                     Label:

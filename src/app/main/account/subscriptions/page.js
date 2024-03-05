@@ -19,9 +19,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
 
-import { CreateStripeCheckoutSession, checkPromoCode } from "@/actions/stripe/checkout-session";
+import {
+  CreateStripeCheckoutSession,
+  checkPromoCode,
+} from "@/actions/stripe/checkout-session";
 import getStripe from "@/utils/get-stripe";
-import { getCouponID, getSubscriptionAction } from "@/store/subscription/subscriptionThunk";
+import {
+  getCouponID,
+  getSubscriptionAction,
+} from "@/store/subscription/subscriptionThunk";
 import { IoCheckbox } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormError } from "@/components/auth/form-error";
@@ -49,44 +55,40 @@ const Subscription = () => {
   );
   const [currency, setCurrency] = useState("GBP");
   const [couponCodeID, setCouponCodeID] = useState("");
-  console.log('couponCodeID: ', couponCodeID);
-
+  console.log("couponCodeID: ", couponCodeID);
 
   let userString = getCookie("user");
   let userInfo = userString ? JSON.parse(userString) : null;
 
   const [promoCode, setPromoCode] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
-  const [selectedApply,setSelectedApply]=useState("")
-  
+  const [selectedApply, setSelectedApply] = useState("");
+
   const userEmail = userInfo?.UserEmail;
   const userId = userInfo?.UserId;
   const authToken = userInfo?.AccessToken;
-  const userName=userInfo?.UserName;
-   const [loader,setLoader] = useState (true);
-  console.log("userIfO",userInfo)
+  const userName = userInfo?.UserName;
+  const [loader, setLoader] = useState(true);
+  console.log("userIfO", userInfo);
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
   useEffect(() => {
     setTimeout(() => {
-      if(subscription.length != 0 )
-      {
-          setLoader(false)
-      }
-      else
-      {
-        setLoader(false)
+      if (subscription.length != 0) {
+        setLoader(false);
+      } else {
+        setLoader(false);
       }
     }, 1000);
-  }, [subscription])
+  }, [subscription]);
   const UKChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("GBP");
     dispatch(getSubscriptionAction("GBP"));
     setPromoCode({});
-    setError("")
-    setSuccess("")
+    setError("");
+    setSuccess("");
     setErrorMessages({});
   };
   const USAChangeHanler = (e) => {
@@ -94,66 +96,51 @@ const Subscription = () => {
     setCurrency("USD");
     dispatch(getSubscriptionAction("USD"));
     setPromoCode({});
-    setError("")
-    setSuccess("")
+    setError("");
+    setSuccess("");
     setErrorMessages({});
   };
- 
 
-  const handlePromo=(index)=>{
-    setError("")
-    setSuccess("")
-    
-    setSelectedApply(()=>index)
+  const handlePromo = (index) => {
+    setError("");
+    setSuccess("");
+
+    setSelectedApply(() => index);
     const couponCode = promoCode[index];
 
-   dispatch(getCouponID({couponCode,onSuccess:(ID)=>{ 
-    currency
-    checkPromoCode(ID,currency).then(isValid => {
+    dispatch(
+      getCouponID({
+        couponCode,
+        onSuccess: (ID) => {
+          currency;
+          checkPromoCode(ID, currency).then((isValid) => {
+            if (isValid) {
+              setSuccess("Promo Code applied..!");
+              setCouponCodeID(ID);
+            } else {
+              setError("Promo Code not valid");
+            }
+          });
+        },
+        onError: (error) => {
+          setError(error);
+          setSelectedApply(() => "");
+        },
+      })
+    );
+  };
 
-         if(isValid){
-          setSuccess("Promo Code applied..!")
-          setCouponCodeID(ID)
-
-         }else{ 
-           setError("Promo Code not valid")
-         }
-
-    })
-
-  },onError:(error)=>{
-    setError(error)
-    setSelectedApply(()=>"")
-  }}))
-
-   
-  
-  }
-
-
-  const HandleCreateCheckout = async (e, priceId,packageName,packagePrice, index) => {
+  const HandleCreateCheckout = async (
+    e,
+    priceId,
+    packageName,
+    packagePrice,
+    index
+  ) => {
     e.preventDefault();
     // console.log("promoCode",promoCode)
     const currentPromoCode = promoCode[index] || "";
-    // console.log("currentPromoCode",currentPromoCode)
-    if (!currentPromoCode.trim()) {
-      setErrorMessages({
-        ...errorMessages,
-        [index]: "Promotional code is required.",
-      });
-      return;
-    }
-    // setErrorMessages({ ...errorMessages, [index]: "" });
-
-    // console.log(
-    //   "Proceeding with promo code: and PriceID",
-    //   priceId,
-    //   currentPromoCode
-    // );
-    // console.log(" userEmail,  userId, priceId,authToken,", userEmail,
-    // userId,
-    // priceId,
-    // authToken,)
+    console.log("currentPromoCode",currentPromoCode)
 
     try {
       const response = await CreateStripeCheckoutSession({
@@ -165,7 +152,6 @@ const Subscription = () => {
         packageName,
         packagePrice,
         couponCodeID,
-        
       });
       // console.log("response__",response)
 
@@ -240,7 +226,7 @@ const Subscription = () => {
         </div>
       </section>
       <main className="subscriptions grid  sm:grid-cols-1 p-8  md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-10 gap-y-6 lg:h-100 ">
-        { subscription.length > 0 ? (
+        {subscription.length > 0 ? (
           subscription.map((item, index) => (
             <>
               <Card key={index} className=" bg-gray-100">
@@ -290,11 +276,7 @@ const Subscription = () => {
                           setPromoCode((previous) => ({
                             ...previous,
                             [index]: e.target.value,
-                          })),
-                            setErrorMessages((prev) => ({
-                              ...prev,
-                              [index]: "",
-                            }));
+                          }))
                         }}
                       />
                       <button
@@ -305,19 +287,30 @@ const Subscription = () => {
                           transform: "translateY(-50%)",
                           right: "0",
                         }}
-                        onClick={()=>handlePromo(index)}
+                        onClick={() => handlePromo(index)}
                       >
-                        {couponLoader && selectedApply==index? "verifying..":"Apply"}
+                        {couponLoader && selectedApply == index
+                          ? "verifying.."
+                          : "Apply"}
                       </button>
                     </div>
-{            error && selectedApply==index && <FormError message={error} />}
-{            success && selectedApply==index && <FormSuccess message={success} />}
+                    {error && selectedApply == index && (
+                      <FormError message={error} />
+                    )}
+                    {success && selectedApply == index && (
+                      <FormSuccess message={success} />
+                    )}
 
-                   
                     <Button
                       className="bg-primary text-white rounded-full mx-2 w-full"
                       onClick={(e) =>
-                        HandleCreateCheckout(e, item?.StripePriceId,item?.Name,item?.Price, index)
+                        HandleCreateCheckout(
+                          e,
+                          item?.StripePriceId,
+                          item?.Name,
+                          item?.Price,
+                          index
+                        )
                       }
                     >
                       Purchase
@@ -353,10 +346,11 @@ const Subscription = () => {
               </div>
             </Card>
           ))
-        ) : subscription.length === 0 && loader === false ?(
+        ) : subscription.length === 0 && loader === false ? (
           <span>No Data Found</span>
-        )
-      :''}
+        ) : (
+          ""
+        )}
       </main>
     </>
   );

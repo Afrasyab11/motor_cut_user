@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
+import logo from '../../public/logo.png'
 // import SignIn from "./SignIn";
 // import SignUp from "./SignUp";
 // import Search from "./Search";
@@ -14,7 +14,7 @@ export default function Header(props) {
   return (
     <div className="bg-white shadow fixed  xl:static left-0 top-0 right-0 h-[70px] w-full  xl:hidden flex justify-between items-center px-4 pr-4 z-10  dark:bg-black dark:border-b dark:border-b-dark-400">
       <a href="/">
-        <Image alt="" src="/logo.png" height={200} width={200} className="rounded-lg" />
+        <Image alt="" src={logo} height={200} width={200} className="rounded-lg" />
       </a>
 
       <div className="flex items-center justify-end">

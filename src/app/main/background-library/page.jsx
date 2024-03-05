@@ -26,9 +26,15 @@ import { getCookie } from "cookies-next";
 
 const BackgroundLibrary = () => {
   const dispatch = useDispatch();
-  const { allBackground, backgroundLoader } = useSelector(
+  const { allBackground, backgroundLoader, background } = useSelector(
     (state) => state.background
   );
+  console.log(
+    "dash path ",
+    background?.BackgroundImage + "libray path " + allBackground?.Path
+  );
+  let userString = getCookie("user");
+  let user = userString ? JSON.parse(userString) : null;
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showData, setShowData] = useState(9);
   const [showCard, setShowCard] = useState(9);
@@ -37,6 +43,12 @@ const BackgroundLibrary = () => {
   useEffect(() => {
     dispatch(getAllBackgroundImagesAction());
   }, []);
+
+  useEffect(() => {
+    if (user?.UserId) {
+      dispatch(getchanngeBackgroundImageAction(user?.UserId));
+    }
+  }, [user?.UserId]);
 
   const filterHandler = (category) => {
     setSelectedCategory(category);
@@ -48,7 +60,10 @@ const BackgroundLibrary = () => {
       tag.toLowerCase().includes(selectedCategory.toLowerCase())
     );
   });
-
+  console.log(
+    "dash path ",
+    background?.BackgroundImage + "libray path " + allBackground
+  );
   const handleLoadMore = (e) => {
     e.preventDefault();
     setShowCard(showData + 9);
@@ -146,20 +161,23 @@ const BackgroundLibrary = () => {
           {allBackground &&
           allBackground.length > 0 &&
           filteredBackgrounds.length > 0 ? (
-            <section className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
+            <section className="bar-scroll  rounded-sm cards  grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit  ">
               {filteredBackgrounds.slice(0, showCard)?.map((card, index) => (
                 <Card
                   key={index}
                   className="bg-white p-1 rounded-2xl border-none"
                 >
+                  {console.log("card path", card.Path)}
                   <CardContent className="p-1">
-                    <div className="rounded-2xl">
+                    <div
+                      className={`rounded-2xl`}
+                    >
                       <Image
                         src={`${baseDomain}get-file?filename=${card?.Path}`}
                         alt={"BackgroundLibrary"}
                         width={1600}
                         height={900}
-                        className="w-full min-h-[150px] max-h-[150px] object-contain rounded-3xl"
+                        className="w-full min-h-[150px] cover-fit rounded-3xl"
                       />
                     </div>
                   </CardContent>
@@ -179,8 +197,15 @@ const BackgroundLibrary = () => {
                         backgroundSelectHandler(e, card?.Path, index);
                       }}
                       className="library-btn basis-1/2  text-sm  lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-justify rounded-full bg-primary-light  text-white px-3  ml-2 "
+                      disabled={
+                        card?.Id === background?.BackgroundImageId &&
+                        background?.BackgroundImageId !== null
+                      }
                     >
-                      Select{" "}
+                      {card?.Id === background?.BackgroundImageId &&
+                      background?.BackgroundImageId !== null
+                        ? "Selected"
+                        : "Select"}
                       {/* {backgroundLoader && card.spiner === true && (
                           <ImSpinner8 className="spinning-icon" />
                         )} */}

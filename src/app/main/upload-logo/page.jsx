@@ -102,7 +102,6 @@ const UploadLogo = () => {
       <main className="upload-logo-section">
         <form onSubmit={handleSubmit(onSubmit)}>
           <section className="bg-gray-100 rounded-2xl w-full  md:w-1/2 my-3 px-2 ">
-            <Card>
               <CardHeader>
                 <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                   Upload Logo
@@ -186,11 +185,6 @@ const UploadLogo = () => {
                   </small>
                 )}
               </CardFooter>
-            </Card>
-          </section>
-          {/* Download Format */}
-          <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">
-            <Card>
               <CardHeader>
                 <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                   Download Format
@@ -244,10 +238,6 @@ const UploadLogo = () => {
                   </label>
                 </div>
               </CardContent>
-            </Card>
-          </section>
-          <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3 ">
-            <Card>
               <CardContent className="flex basis-1/2 justify-center items-center gap-x-4 pt-5">
                 <Button
                   disabled={logoLoader}
@@ -270,8 +260,8 @@ const UploadLogo = () => {
                   </Button>
                 )}
               </CardContent>
-            </Card>
           </section>
+        
         </form>
         {/* License Plate covers */}
         <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">

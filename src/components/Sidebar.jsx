@@ -82,8 +82,8 @@ export default function Sidebar(props) {
         "translate-x-full sm:translate-x-full xl:translate-x-0"
         }`}
     >
-      <div className="h-[60vh] flex flex-col lg:justify-between ">
-        <Image src={Logo} alt=""  height={200} width={300}></Image> 
+      <div className="h-[60vh] flex flex-col justify-between ">
+        <Image className="hidden xl:block" src={Logo} alt=""  height={200} width={300}></Image> 
         {categories.map((category, index) => (
           category.name === "Support Tickets" ? (
             <div key={index}>
@@ -105,17 +105,21 @@ export default function Sidebar(props) {
           )
         ))}
       </div>
-      <div className="footer mt-2">
-        <Button
-          variant="outline"
-          className="w-full mb-2 rounded-full border-primary-dark"
-          onClick={logout}
-        >
-          Log Out
-        </Button>
-        <p className="text-[10px] ">
-          Privacy Policy Cookies Term and condition
-        </p>
+      <div className=" mt-2 ">
+        <div className="flex  justify-center mb-2">
+          <Button
+            onClick={logout}
+            variant="outline"
+            className="w-3/6   rounded-full border-primary-dark"
+          >
+            Log Out
+          </Button>
+        </div>
+        <div className="flex  justify-center">
+          <p className="text-[10px] ">
+            Privacy Policy Cookies Term and condition
+          </p>
+        </div>
       </div>
     </div>
   );

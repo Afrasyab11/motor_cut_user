@@ -88,7 +88,7 @@ export default function ChangeBackgroudImage({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:h-[95vh]`}>
+      <AlertDialogContent className={`overflow-y-auto h-5/6 lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">
@@ -101,7 +101,7 @@ export default function ChangeBackgroudImage({
           <AlertDialogDescription className="text-center">
             <div
               {...getRootProps()}
-              className="w-full  lg:w-[400px] h-[200px] mt-2 border text-black border-black rounded-3xl mx-auto flex justify-center gap-y-10 items-center flex-col hover:cursor-pointer"
+              className=" w-6/6 h-[200px] mt-2 border text-black border-black rounded-3xl mx-auto flex justify-center gap-y-10 items-center flex-col hover:cursor-pointer"
             >
               <input {...getInputProps()} />
               <p>Drag and drop upload</p>
@@ -116,7 +116,7 @@ export default function ChangeBackgroudImage({
             {file && (
               <div className="relative mt-2">
                 <Image
-                  className="rounded-lg w-full h-[150px]"
+                  className="rounded-lg w-full cover-fit min-h-[150px]"
                   src={URL.createObjectURL(file)} // Use URL.createObjectURL to display the selected file
                   alt={`Background`}
                   width={50}

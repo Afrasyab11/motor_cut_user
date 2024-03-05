@@ -151,7 +151,7 @@ const ViewAdvert = ({ searchParams }) => {
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
                             <Image
-                              className="w-full object-contain rounded-xl"
+                              className="w-full cover-fit rounded-xl"
                               src={`${baseDomain}get-file?filename=${img.Original}`}
                               alt={"OrignalImage"}
                               width={1600}
@@ -161,7 +161,7 @@ const ViewAdvert = ({ searchParams }) => {
                           </div>
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6  relative mb-1">
                             <Image
-                              className="w-full object-contain rounded-xl"
+                              className="w-full cover-fit rounded-xl"
                               height={1600}
                               width={1600}
                               src={`${baseDomain}get-file?filename=${img.Processed}`}
@@ -170,7 +170,7 @@ const ViewAdvert = ({ searchParams }) => {
                             />
                             {logo?.DisplayLogo && (
                               <Image
-                                className={` h-[50px] w-[120px] absolute  object-contain rounded-2xl
+                                className={` h-[50px] w-[120px] absolute  cover-fit rounded-lg
                            ${
                              logo?.LogoPosition === "top-right"
                                ? "right-[10px] top-[10px]"
