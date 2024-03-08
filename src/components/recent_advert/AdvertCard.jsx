@@ -93,15 +93,17 @@ export default function AdvertCard({ data, showCard }) {
             className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:gird sm:grid-cols-12 bg-whitee gap-3 gap-x-5 gap-y-2 p-4 rounded-2xl mb-5 shadow-xl"
           >
             {/* Image Section */}
-            <div className="lg:col-span-5 md:col-span-12 mb-1">
-              <Image
-                src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}
-                alt={"advert"}
-                width={1600}
-                height={900}
-                // className="w-full h-full object-cover rounded-2xl"
-                className="w-full min-h-[120px]  cover-fit rounded-2xl"
-              />
+            <div className="col-span-5 mb-2">
+              <div className="rounded-2xl flex justify-center items-center w-full h-full  ">
+                <Image
+                  src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}
+                  alt={"BackgroundLibrary"}
+                  width={1900}
+                  height={600}
+                  // className="w-full h-full object-cover rounded-2xl"
+                  className=" object-fill rounded-2xl picture "
+                />
+              </div>
             </div>
             {/* Details Section */}
             <div className="lg:col-span-7  md:col-span-12 mb-2">

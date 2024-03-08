@@ -49,8 +49,15 @@ const SettingsCard = () => {
     );
   };
   return (
-    <div className="flex flex-col justify-between  min-h-[40vh] ">
-      <div className="flex justify-center">
+    <div className="flex flex-col justify-between min-h-[40vh]">
+      <div className="">
+        {/* <Image
+          className="rounded-lg w-80"
+          alt=""
+          src={background?.BackgroundImage?`${baseDomain}get-file?filename=${background?.BackgroundImage}`:TestImg}
+          width={30}
+          height={30}
+        ></Image> */}
         <div className="rounded-2xl">
           <Image
             src={

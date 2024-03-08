@@ -72,29 +72,22 @@ const ActivityChart = () => {
     },
   };
   return (
-    <div className="h-auto">
-      {activity.length > 0 && series ? (
-        <div className="min-h-[40vh]">
-          <ReactApexChart
-            className="w-full"
-            options={options}
-            series={series}
-            type="area"
-            width={"100%"}
-            height={"100%"}
-          />
+    <div className="w-full h-auto">
+        <div id="chart" className=" min-h-[40vh]">
+          {ReactApexChart && (
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="area"
+              height={"100%"}
+              width={"100%"}
+              
+            />
+          )}
         </div>
-      ) : chartLoader ? (
-        <div className={`flex justify-center items-center min-h-[40vh]`}>
-          <span>Loading...</span>
-        </div>
-      ) : (
-        <div className={`flex justify-center min-h-[40vh]`}>
-          <span>No Data found</span>
-        </div>
-      )}
+      
     </div>
   );
 };
 
-export default ActivityChart;
+export default ActivityChart ;
