@@ -91,7 +91,6 @@ export default function Sidebar(props) {
                 key={index}
                 name={category.name}
                 icon={category.icon}
-                
               />
             </div>
           ) : (
