@@ -26,22 +26,22 @@ export default function DashBoard() {
   }, [user?.UserId]);
   const stats = [
     {
-      icon: <IoIosPerson className=" text-white"/>,
+      icon: <IoIosPerson />,
       title: states?.PackageName ,
       description: "Package",
     },
     {
-      icon: <IoIosPerson className=" text-white"/>,
+      icon: <IoIosPerson />,
       title: (states.ImagesProcessed || 0) + "/" + (states.TotalAllowedImages || 0),
       description: "Images Processed",
     },
     {
-      icon: <IoIosPerson className=" text-white"/>,
+      icon: <IoIosPerson />,
       title: states?.RenewalDate || 0,
       description: "Renewal Date",
     },
     {
-      icon: <IoIosPerson className=" text-white" />,
+      icon: <IoIosPerson />,
       title: states?.AdvertsCreated || 0,
       description: "Adverts Created",
     },

@@ -47,7 +47,8 @@ export const getAllBackgroundImagesAction = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail?.reverse();
       } else {
-        toast.warning(data?.detail);
+       console.log(data?.detail);
+       
       }
     } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux

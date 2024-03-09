@@ -90,7 +90,7 @@ export default function AdvertCard({ data, showCard }) {
         data?.slice(0, showCard)?.map((item, index) => (
           <div
             key={index}
-            className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:gird sm:grid-cols-12 bg-whitee gap-3 gap-x-5 gap-y-2 p-4 rounded-2xl mb-5 shadow-xl"
+            className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:gird sm:grid-cols-12 bg-whitee gap-3 gap-y-2 p-4 rounded-2xl mb-5 shadow-xl"
           >
             {/* Image Section */}
             <div className="col-span-5 mb-2">
@@ -106,7 +106,7 @@ export default function AdvertCard({ data, showCard }) {
               </div>
             </div>
             {/* Details Section */}
-            <div className="lg:col-span-7  md:col-span-12 mb-2">
+            <div className="col-span-7 mb-2">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-2 gap-2 md:gap-y-2 lg:gap-y-1 xl:gap-y-1 2xl:gap-y-1 3xl:gap-y-4 mt-2 sm:mt-2 mb-1 pt-1 lg:m-0">
                 <div>
                   <span className="text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">

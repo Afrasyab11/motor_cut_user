@@ -59,7 +59,6 @@ const SettingsCard = () => {
           height={30}
         ></Image> */}
         <div className="rounded-2xl">
-
           <Image
             src={
               background?.BackgroundImage !== undefined &&

@@ -54,7 +54,7 @@ const BackgroundLibrary = () => {
     setSelectedCategory(category);
   };
 
-  const filteredBackgrounds = allBackground.filter((bg) => {
+  const filteredBackgrounds = allBackground?.filter((bg) => {
     if (selectedCategory === "All") return true;
     return bg.BackgroundTags.some((tag) =>
       tag.toLowerCase().includes(selectedCategory.toLowerCase())
