@@ -168,3 +168,295 @@ html{
 input[type="checkbox"]:checked {
   background-color: #8d5ce2 !important; 
 }
+
+@media (min-width: 1280px) {
+  .text-lg-screen {
+    font-size: 16px; /* Large Screen: 16px */
+  }
+}
+
+@media (min-width: 1536px) {
+  .text-xl-screen {
+    font-size: 18px; /* Extra Large Screen: 18px */
+  }
+}
+
+@media (min-width: 1920px) {
+  .text-2xl-screen {
+    font-size: 20px; /* Double Extra Large Screen: 20px */
+  }
+}
+
+@media (min-width: 1800px) {
+  .text-1800-screen {
+    font-size: 25px; /* 1800px Screen: 25px */
+  }
+}
+
+@media (min-width: 2000px) {
+  .text-2000-screen {
+    font-size: 30px; /* 2000px Screen: 30px */
+  }
+}
+
+@media (min-width: 3840px) {
+  .text-4k-screen {
+    font-size: 35px; /* 4K Screen: 35px */
+  }
+}
+
+
+@media (min-width: 1280px) {
+  .image-card {
+    height: 350px;
+  }
+}
+
+.rounded-2xl {
+  border-radius: 1rem; 
+}
+
+
+
+.picture {
+  object-fit: fill;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+@media (min-width: 640px) {
+  /* Medium screens */
+  .picture {
+      height: full;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Large screens */
+  .picture {
+      height: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Extra large screens */
+  .picture {
+      height: 140px;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* 2XL screens */
+  .picture {
+      height: 140px;
+  }
+}
+
+@media (min-width: 1800px) {
+  /* Screens wider than 1800px */
+  .picture {
+      height: 170px;
+  }
+}
+
+@media (min-width: 2000px) {
+  /* Screens wider than 2000px */
+  .picture {
+      height: 200px;
+  }
+}
+
+@media (min-width: 3840px) {
+  /* 4K screens */
+  .picture {
+      height: 270px;
+  }
+}
+
+.background-library-picture {
+  width: 100%;
+  object-fit: fill;
+  border-radius: 1rem;
+  height: 210px; /* Default height for small screens */
+}
+@media (min-width: 640px) {
+  /* Medium screens */
+  .background-library-picture {
+      height: 210px; /* Adjust as needed */
+  }
+}
+@media (min-width: 768px) {
+  /* Large screens */
+  .background-library-picture {
+      height: 220px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1024px) {
+  /* Extra large screens */
+  .background-library-picture {
+      height: 200px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1280px) {
+  /* 2XL screens */
+  .background-library-picture {
+      height: 200px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1800px) {
+  /* Screens wider than 1800px */
+  .background-library-picture {
+      height: 280px; /* Adjust as needed */
+  }
+  
+}
+@media (min-width: 2000px) {
+  /* Screens wider than 2000px */
+  .background-library-picture {
+      height: 310px; /* Adjust as needed */
+  }
+}
+@media (min-width: 3840px) {
+  /* 4K screens */
+  .background-library-picture {
+      height: 350px; /* Adjust as needed */
+  }
+}
+
+@media (min-width: 1280px) {
+  .text-lg-screen {
+    font-size: 16px; /* Large Screen: 16px */
+  }
+}
+@media (min-width: 1536px) {
+  .text-xl-screen {
+    font-size: 18px; /* Extra Large Screen: 18px */
+  }
+}
+@media (min-width: 1920px) {
+  .text-2xl-screen {
+    font-size: 20px; /* Double Extra Large Screen: 20px */
+  }
+}
+@media (min-width: 1800px) {
+  .text-1800-screen {
+    font-size: 25px; /* 1800px Screen: 25px */
+  }
+}
+@media (min-width: 2000px) {
+  .text-2000-screen {
+    font-size: 30px; /* 2000px Screen: 30px */
+  }
+}
+@media (min-width: 3840px) {
+  .text-4k-screen {
+    font-size: 35px; /* 4K Screen: 35px */
+  }
+}
+@media (min-width: 1280px) {
+  .image-card {
+    height: 350px;
+  }
+}
+.rounded-2xl {
+  border-radius: 1rem;
+}
+.picture {
+  object-fit: fill;
+  width: 100%;
+  border-radius: 1rem;
+}
+@media (min-width: 640px) {
+  /* Medium screens */
+  .picture {
+      height: full;
+  }
+}
+@media (min-width: 768px) {
+  /* Large screens */
+  .picture {
+      height: 120px;
+  }
+}
+@media (min-width: 1024px) {
+  /* Extra large screens */
+  .picture {
+      height: 140px;
+  }
+}
+@media (min-width: 1280px) {
+  /* 2XL screens */
+  .picture {
+      height: 140px;
+  }
+}
+@media (min-width: 1800px) {
+  /* Screens wider than 1800px */
+  .picture {
+      height: 170px;
+  }
+}
+@media (min-width: 2000px) {
+  /* Screens wider than 2000px */
+  .picture {
+      height: 200px;
+  }
+}
+@media (min-width: 3840px) {
+  /* 4K screens */
+  .picture {
+      height: 270px;
+  }
+}
+.background-library-picture {
+  width: 100%;
+  object-fit: fill;
+  border-radius: 1rem;
+  height: 210px; /* Default height for small screens */
+}
+@media (min-width: 640px) {
+  /* Medium screens */
+  .background-library-picture {
+      height: 210px; /* Adjust as needed */
+  }
+}
+@media (min-width: 768px) {
+  /* Large screens */
+  .background-library-picture {
+      height: 220px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1024px) {
+  /* Extra large screens */
+  .background-library-picture {
+      height: 200px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1280px) {
+  /* 2XL screens */
+  .background-library-picture {
+      height: 200px; /* Adjust as needed */
+  }
+}
+@media (min-width: 1800px) {
+  /* Screens wider than 1800px */
+  .background-library-picture {
+      height: 280px; /* Adjust as needed */
+  }
+}
+@media (min-width: 2000px) {
+  /* Screens wider than 2000px */
+  .background-library-picture {
+      height: 310px; /* Adjust as needed */
+  }
+}
+@media (min-width: 3840px) {
+  /* 4K screens */
+  .background-library-picture {
+      height: 350px; /* Adjust as needed */
+  }
+}
+
+
+
+

@@ -73,6 +73,7 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
+  
   useEffect(() => {
     setTimeout(() => {
       if (subscription.length != 0) {

@@ -156,9 +156,9 @@ export default function CreateAdvert() {
                   : placeholder
               }
               alt={"Background"}
+              width={1900}
               height={600}
-              width={900}
-              className="w-full h-[200px] object-cover rounded-2xl"
+              className=" w-full h-full object-cover rounded-2xl"
             />
           </div>
         </div>
