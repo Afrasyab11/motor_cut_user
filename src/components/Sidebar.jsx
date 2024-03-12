@@ -83,10 +83,10 @@ export default function Sidebar(props) {
         }`}
     >
       <div className="h-[60vh] flex flex-col xl:gap-8 gap-4 ">
-        <Image className="hidden xl:block" src={Logo} alt=""  height={200} width={300}></Image>
+        <Image className="hidden xl:block" src={Logo} alt=""  height={200} width={300}></Image> 
         {categories.map((category, index) => (
           category.name === "Support Tickets" ? (
-            <div key={index}  >
+            <div key={index}>
               <SupportTicketDialog
                 key={index}
                 name={category.name}
@@ -96,10 +96,10 @@ export default function Sidebar(props) {
           ) : (
             <Link key={index} href={category.link}>
               <div className={`flex align-end rounded-xl pr-2 w-full items-center cursor-pointer hover:bg-light-100 dark:hover:bg-dark-400 text-dark-500 dark:text-white transition duration-200 ease-in-out ${pathName === category?.link ? "text-primary-dark" : ""}`} onClick={() => handleLinkClick(index)}>
-                <div className="p-[5px] rounded-xl w-8 h-8 grid place-items-center text-lg-screen text-xl-screen text-2xl-screen text-1800-screen text-2000-screen text-4k-screen">
+                <div className="p-[5px] rounded-xl w-8 h-8 grid place-items-center">
                   {category.icon}
                 </div>
-                <div className="text-[14px] font-medium  pl-2 text-lg-screen text-xl-screen text-2xl-screen text-1800-screen text-2000-screen text-4k-screen">{category.name}</div>
+                <div className="text-[14px] font-medium  pl-2">{category.name}</div>
               </div>
             </Link>
           )
@@ -124,10 +124,3 @@ export default function Sidebar(props) {
     </div>
   );
 }
-
-
-
-
-
-
-

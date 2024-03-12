@@ -69,7 +69,7 @@ export function SupportTicketDialog({ name, icon }) {
           <div className="p-[5px] rounded-xl w-8 h-8 grid place-items-center">
             {icon}
           </div>
-          <div className="text-[14px]  text-lg-screen text-xl-screen text-2xl-screen text-1800-screen text-2000-screen text-4k-screen font-medium  pl-2">{name}</div>
+          <div className="text-[14px] font-medium  pl-2">{name}</div>
         </div>
       </DialogTrigger>
 
