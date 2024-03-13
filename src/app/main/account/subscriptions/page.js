@@ -73,7 +73,6 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
-  
   useEffect(() => {
     setTimeout(() => {
       if (subscription.length != 0) {
@@ -125,7 +124,7 @@ const Subscription = () => {
         },
         onError: (error) => {
           setError(error);
-          setSelectedApply(() => "");
+          // setSelectedApply(() => "");
         },
       })
     );
