@@ -127,7 +127,7 @@ export const LoginForm = () => {
             label="Forgot Password?"
             href="/auth/forgotpassword"
           />
-          <div className="flex gap-x-6" onClick={() => { dispatch(toggleRememberMe()) }}> {/* Handle click event to toggle Remember Me */}
+          <div className="flex items-center gap-x-6" onClick={() => { dispatch(toggleRememberMe()) }}> {/* Handle click event to toggle Remember Me */}
             <input type="checkbox" className="cursor-pointer" checked={rememberMe} />
             <p>Remember Me</p>
           </div>

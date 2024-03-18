@@ -61,7 +61,7 @@ export default function CreateAdvert() {
       <div className="bg-site_secondary px-2 md:px-4 lg:px-6 py-4 rounded-2xl mb-2 flex flex-col justify-between">
         <h2 className="text-lg sm:text-md mb-6 font-medium">Create Advert</h2>
         <div className="mb-6 sm:mb-6 mt-6 sm:mt-6">
-          <label htmlFor="cutType" className="text-sm sm:text-md mb-6 ">
+          <label htmlFor="cutType" className="text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] mb-6 ">
             Advert Label
           </label>
           <Input
@@ -78,12 +78,12 @@ export default function CreateAdvert() {
           )}
         </div>
         <div className="mb-6">
-          <label htmlFor="cutType" className="text-sm sm:text-md ">
+          <label htmlFor="cutType" className="text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ">
             Select Cut Type
           </label>
           <div className="grid grid-cols-2 gap-8 mt-4">
             <button
-              className={`rounded-full p-1 sm:p-3 md:p-3 text-sm sm:text-md ${
+              className={`rounded-full p-1 sm:p-3 md:p-2 lg:p-2 xl:p-1 2xl:p-2 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ${
                 payload?.CutType === "Half Cut"
                   ? "bg-primary text-whitee"
                   : "bg-whitee text-primary border border-gray-500 "
@@ -93,7 +93,7 @@ export default function CreateAdvert() {
               Half Cut
             </button>
             <button
-              className={`rounded-full p-1 sm:p-3 md:p-3 text-sm sm:text-md ${
+              className={`rounded-full p-1 sm:p-3 md:p-2 lg:p-2 xl:p-1 2xl:p-2 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ${
                 payload?.CutType === "Full Cut"
                   ? "bg-primary text-whitee"
                   : "bg-whitee text-primary border border-gray-500 "
@@ -109,7 +109,7 @@ export default function CreateAdvert() {
             <label className="block mb-2">Trim Images</label>
             <div className="grid grid-cols-2 gap-8 mt-4">
               <button
-                className={`rounded-full p-1 sm:p-3 md:p-3 text-sm sm:text-md ${
+                className={`rounded-full p-1 sm:p-3 md:p-2 lg:p-2 xl:p-1 2xl:p-2 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ${
                   payload?.TrimImages === true
                     ? "bg-primary text-whitee"
                     : "bg-whitee text-primary border border-gray-500 "
@@ -119,7 +119,7 @@ export default function CreateAdvert() {
                 On
               </button>
               <button
-                className={` rounded-full p-1 sm:p-3 md:p-3 text-sm sm:text-md ${
+                className={` rounded-full p-1 sm:p-3 md:p-2 lg:p-2 xl:p-1 2xl:p-2 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ${
                   payload?.TrimImages === false
                     ? "bg-primary text-whitee"
                     : "bg-whitee text-primary border border-gray-500 "
@@ -139,7 +139,7 @@ export default function CreateAdvert() {
             <button
               onClick={handleSubmit(handleOpenDialog)}
               // onClick={handleSubmit}
-              className=" bg-whitee border border-gray-500  rounded-full px-8 xs:py-2 sm:py-2 md:py-3 lg:py-3 text-sm sm:text-md "
+              className=" bg-whitee border border-gray-500  rounded-full px-8 xs:py-2 sm:py-2 md:py-3 lg:py-3 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] "
             >
               Upload Images
             </button>
@@ -156,16 +156,16 @@ export default function CreateAdvert() {
                   : placeholder
               }
               alt={"Background"}
-              width={1900}
               height={600}
-              className=" w-full h-full object-cover rounded-2xl"
+              width={900}
+              className="w-full h-[200px] object-cover rounded-2xl"
             />
           </div>
         </div>
         <div className=" text-center">
           <a
             onClick={handleBackgroundDialog}
-            className="text-primary text-sm sm:text-md font-medium"
+            className="text-primary text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] font-medium"
             href="#"
           >
             Change Background

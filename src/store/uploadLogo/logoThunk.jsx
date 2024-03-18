@@ -10,8 +10,8 @@ export const createLogoAction = createAsyncThunk(
         formData
       );
       if (data?.status_code === 200) {
+        toast.success(data?.detail);
         onSuccess();
-        toast.success("Logo successfully Uploaded");
       } else {
         toast.warning(data?.detail);
         // return rejectWithValue(data?.detail);

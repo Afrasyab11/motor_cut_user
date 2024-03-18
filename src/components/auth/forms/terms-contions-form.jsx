@@ -61,7 +61,7 @@ export const TermsAndConditionsForm = ({ nextStep, prevStep }) => {
       <br />
       <br />
       By accessing this website we assume you accept these terms and
-      conditions. Do not continue to use Website Name if you do not agree to
+      conditions. Do not continue to use website Name if you do not agree to
       take all of the terms and conditions stated on this page.
     </div>
       }

@@ -50,7 +50,7 @@ const VerifyOTP = ({email,nextStep}) => {
     <CardWrapper
     headerText="Forgot-Password "
     headerPadding="pb-2 mt-4"
-    headerLabel={`Check your E-mail, we have sent a code to ${email}`}
+    headerLabel={`Check your e-mail, we have sent a code to ${email}`}
     backButtonLabel="Go back to?"
     // backButtonHref="/auth/register"
     headerLogo

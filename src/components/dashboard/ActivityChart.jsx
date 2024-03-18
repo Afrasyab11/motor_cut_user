@@ -47,6 +47,7 @@ const ActivityChart = () => {
     chart: {
       // height: 350,
       type: "area",
+      height: "100%"
     },
     dataLabels: {
       enabled: false,
@@ -72,8 +73,8 @@ const ActivityChart = () => {
     },
   };
   return (
-    <div className="w-full h-auto">
-        <div id="chart" className=" min-h-[40vh]">
+    <div className="h-auto">
+        <div id="chart" className=" min-h-[30vh]">
           {ReactApexChart && (
             <ReactApexChart
               options={options}

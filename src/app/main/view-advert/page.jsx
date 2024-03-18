@@ -27,6 +27,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { createLogoAction, getLogoAction } from "@/store/uploadLogo/logoThunk";
 import placeholder from "../../../../public/placeholder.png";
 import { getCookie } from "cookies-next";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
   const { processAdvert, advertLoader } = useSelector((state) => state?.advert);
@@ -39,6 +47,7 @@ const ViewAdvert = ({ searchParams }) => {
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
+
   useEffect(() => {
     dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
   }, [searchParams?.advertId]);
@@ -46,12 +55,17 @@ const ViewAdvert = ({ searchParams }) => {
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, [user?.UserId]);
+
+  useEffect(() => {
+    if (logo && logo?.LogoPosition) {
+      setSelectedOption(logo.LogoPosition);
+    }
+  }, [logo]);
   const handleOptionChange = async (e) => {
-    setSelectedOption(e.target.value);
-    console.log("LogoPosition", e.target.value);
+    setSelectedOption(e);
     const formData = new FormData();
     formData.append("UserId", user?.UserId);
-    formData.append("LogoPosition", e.target.value);
+    formData.append("LogoPosition", e);
     formData.append("Logo", "");
     formData.append("DownloadFormat", null);
 
@@ -170,16 +184,16 @@ const ViewAdvert = ({ searchParams }) => {
                             />
                             {logo?.DisplayLogo && (
                               <Image
-                                className={` h-[50px] w-[120px] absolute  cover-fit rounded-lg
-                           ${
-                             logo?.LogoPosition === "top-right"
-                               ? "right-[10px] top-[10px]"
-                               : logo?.LogoPosition === "top-left"
-                               ? "left-[10px] top-[10px]"
-                               : logo?.LogoPosition === "bottom-left"
-                               ? "bottom-[10px] left-[10px]"
-                               : "bottom-[10px] right-[10px]"
-                           }`}
+                                className={` h-[50px] w-[120px] absolute object-contain rounded-2xl
+                         ${
+                           logo?.LogoPosition === "top-right"
+                             ? "right-[2px] top-[10px]"
+                             : logo?.LogoPosition === "top-left"
+                             ? "left-[2px] top-[10px]"
+                             : logo?.LogoPosition === "top-center"
+                             ? " left-1/2 transform -translate-x-1/2 top-2"
+                             : ""
+                         }`}
                                 // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
                                 src={
                                   logo?.Logo !== undefined && logo?.Logo
@@ -198,16 +212,16 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <button className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
+                            <AlertDialogTrigger className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
                               Edit Background Position
-                            </button>
+                            </AlertDialogTrigger>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <AlertDialogTrigger className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
-                              {/* <AlertDialogTrigger> */}
+                            <button className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                              {/* <button> */}
                               Crop / Trim
-                              {/* </AlertDialogTrigger> */}
-                            </AlertDialogTrigger>
+                              {/* </button> */}
+                            </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <button className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
@@ -215,30 +229,41 @@ const ViewAdvert = ({ searchParams }) => {
                             </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
-                            <span className="text-sm sm:text-md font-medium">
-                              Logo:
-                            </span>
-                            <select
-                              className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select"
-                              value={selectedOption}
-                              onChange={handleOptionChange}
-                            >
-                              <option name="" value="">
-                                Position
-                              </option>
-                              <option name="top-left" value="top-left">
-                                Top Left
-                              </option>
-                              <option name="top-right" value="top-right">
-                                Top Right
-                              </option>
-                              <option name="bottom-left" value="bottom-left">
-                                Bottom Left
-                              </option>
-                              <option name="bottom-right" value="bottom-right">
-                                Bottom Right
-                              </option>
-                            </select>
+                          {logo?.DisplayLogo ? (
+                              <>
+                                <span className="text-sm sm:text-md font-medium">
+                                  Logo:
+                                </span>
+                                <Select
+                                  value={selectedOption}
+                                  className="border-none "
+                                  onValueChange={(val) => {
+                                    handleOptionChange(val);
+                                  }}
+                                >
+                                  <SelectTrigger className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
+                                    <SelectValue placeholder={selectedOption} />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectItem value="top-left">
+                                        Top Left
+                                      </SelectItem>
+                                      <SelectItem value="top-center">
+                                        Top Center
+                                      </SelectItem>
+                                      <SelectItem value="top-right">
+                                        Top Right
+                                      </SelectItem>
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              </>
+                            ) : (
+                              <div className="flex justify-center items-center">
+                                <p>User disabled the logo</p>
+                              </div>
+                            )}
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">
                             <RiFlagFill className="text-site_red" size={15} />
@@ -292,7 +317,7 @@ const ViewAdvert = ({ searchParams }) => {
           </div>
         )}
       </div>
-      <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:h-[95vh]`}>
+      <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             {/* This div is for just Heading or title */}
