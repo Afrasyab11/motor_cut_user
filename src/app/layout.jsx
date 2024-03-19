@@ -17,19 +17,19 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
- 
   return (
     <Providers>
-    <html lang="en">
-      <body className={cn("", montserrat.className)}>
-   {children} 
-   
-      <ToastContainer />
-      </body>
-    </html>
+      <html lang="en">
+        <head>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+        </head>
+        <body className={cn("", montserrat.className)}>
+          {children}
+
+          <ToastContainer />
+        </body>
+      </html>
     </Providers>
   );
 }
-
-
-

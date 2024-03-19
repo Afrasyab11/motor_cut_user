@@ -57,11 +57,11 @@ export const TermsAndConditionsForm = ({ nextStep, prevStep }) => {
       headerLabel={
         <div>
       These terms and conditions outline the rules and regulations for the
-      use of MotorCut&apos;s Website, located at www.motorcut.com.
+      use of MotorCut&apos;s website, located at www.motorcut.com.
       <br />
       <br />
       By accessing this website we assume you accept these terms and
-      conditions. Do not continue to use website Name if you do not agree to
+      conditions. Do not continue to use website name if you do not agree to
       take all of the terms and conditions stated on this page.
     </div>
       }

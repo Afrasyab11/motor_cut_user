@@ -26,7 +26,7 @@ export const RegisterForm = () => {
       case 0:
         return <WelcomeSignUp nextStep={nextStep} />;
       case 1:
-        return <BookMeeting nextStep={nextStep} />;
+        return <BookMeeting nextStep={nextStep} prevStep={prevStep}/>;
 
       case 2:
         return <SignUpForm  setFormData={setFormData} nextStep={nextStep} />;

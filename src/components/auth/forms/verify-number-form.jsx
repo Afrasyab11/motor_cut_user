@@ -69,7 +69,7 @@ export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
   return (
      <CardWrapper
       headerText="Verify Code"
-      headerLabel={`Check your E-mail, we have sent a code to ${formData?.email}`}
+      headerLabel={`Check your e-mail, we have sent a code to ${formData?.email}`}
       backButtonLabel="Don't Have an account?"
       backButtonHref="/auth/register"
       btnText="Sign Up with Google"

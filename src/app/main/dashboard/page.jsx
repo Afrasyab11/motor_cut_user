@@ -9,6 +9,10 @@ import { getCookie } from "cookies-next";
 import { useEffect } from "react";
 // import { useEffect } from "react";
 import { IoIosPerson } from "react-icons/io";
+import { FaCar } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
+import { FaImage } from "react-icons/fa";
+import { FaTags } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DashBoard() {
@@ -26,22 +30,22 @@ export default function DashBoard() {
   }, [user?.UserId]);
   const stats = [
     {
-      icon: <IoIosPerson />,
+      icon: <FaTags size={25} />,
       title: states?.PackageName ,
       description: "Package",
     },
     {
-      icon: <IoIosPerson />,
+      icon: <FaImage size={25}/>,
       title: (states.ImagesProcessed || 0) + "/" + (states.TotalAllowedImages || 0),
       description: "Images Processed",
     },
     {
-      icon: <IoIosPerson />,
+      icon: <FaCalendarAlt size={25} />,
       title: states?.RenewalDate || 0,
       description: "Renewal Date",
     },
     {
-      icon: <IoIosPerson />,
+      icon: <FaCar size={25} />,
       title: states?.AdvertsCreated || 0,
       description: "Adverts Created",
     },

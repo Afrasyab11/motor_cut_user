@@ -13,22 +13,61 @@ import {
 
 import { ImSpinner8 } from "react-icons/im";
 import { MdClose } from "react-icons/md";
-export default function TermsAndConditionsModal({ open, setOpen, closeHandler,loader }) {
+import { CheckboxWithText } from "../auth/checkbox-text";
+export default function TermsAndConditionsModal({
+  open,
+  setOpen,
+  closeHandler,
+  loader,
+}) {
+  const [isTermsChecked, setTermsChecked] = useState(false);
+  const [isPrivacyChecked, setPrivacyChecked] = useState(false);
+  const handleTermsChange = (event) => {
+    setTermsChecked(event.target.checked);
+  };
+
+  const handlePrivacyChange = (event) => {
+    setPrivacyChecked(event.target.checked);
+  };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            <div className="lg:text-[15px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">
-              <p>Terms and Conditions</p>
+            <div className="lg:text-[25px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">
+              <p>Terms & Conditions</p>
               <button onClick={closeHandler}>
                 <MdClose size={20} />
               </button>
             </div>
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-center">
-            <div className="w-full text-black border-black rounded-3xl mx-auto flex justify-center items-center flex-col hover:cursor-pointer">
-              <p>.........</p>
+          <AlertDialogDescription >
+            <div className="w-full text-black border-black rounded-3xl mx-auto flex flex-col gap-y-5 hover:cursor-pointer">
+             
+              <p>
+                These terms and conditions outline the rules and regulations for
+                the use of MotorCut's website, located at www.motorcut.com.
+              </p>
+              <p>
+                By accessing this website we assume you accept these terms and
+                conditions. Do not continue to use website name if you do not
+                agree to take all of the terms and conditions stated on this
+                page.
+              </p>
+              <div className="flex flex-col gap-y-3">
+                <CheckboxWithText
+                  mainText="I agree to Terms and Conditions"
+                  name="termsAndConditions"
+                  onChange={handleTermsChange}
+                  check={isTermsChecked} // Ensure CheckboxWithText supports 'checked' prop
+                />
+                <CheckboxWithText
+                  mainText="I agree to Privacy Policy"
+                  name="privacyPolicy"
+                  onChange={handlePrivacyChange}
+                  check={isPrivacyChecked} // Ensure CheckboxWithText supports 'checked' prop
+                />
+              </div>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
