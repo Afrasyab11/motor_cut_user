@@ -21,8 +21,8 @@ export default async function RootLayout({ children }) {
     <Providers>
       <html lang="en">
         <head>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" async></script>
-          <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js" async></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
+          <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js" defer></script>
         </head>
         <body className={cn("", montserrat.className)}>
           {children}
