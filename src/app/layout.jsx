@@ -5,7 +5,6 @@ import { Montserrat } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-
 const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
@@ -26,7 +25,7 @@ export default async function RootLayout({ children }) {
         </head>
         <body className={cn("", montserrat.className)}>
           {children}
-
+        
           <ToastContainer />
         </body>
       </html>

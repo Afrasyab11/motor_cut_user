@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import Image from "next/image";
 import { Link } from "lucide-react";
+import logo from "../../assets/images/cutting.png"
 
 export const WelcomeSignUp = ({ nextStep, prevStep }) => {
   return (
     <CardWrapper headerPadding="p-0" className="p-0">
       <div className="w-full flex justify-center items-center flex-col">
-        <Image src="/logo1.png" height={150} width={150} alt="logo" />
+        <Image src={logo} height={150} width={150} alt="logo" />
         <h1 className="text-4xl text-center	font-medium pt-10 pb-3">
           Welcome to MotorCut
         </h1>

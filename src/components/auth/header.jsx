@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import logo from "../../assets/images/cutting.png"
 
 export const Header = ({
   headerText,
@@ -20,7 +21,7 @@ export const Header = ({
           >
             {headerText}
           </h1>
-          <Image src="/logo1.png" width={70} height={70} alt="logo" />
+          <Image src={logo} width={70} height={70} alt="logo" priority={false}/>
         </div>
       ) : (
         <h1

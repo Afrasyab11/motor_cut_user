@@ -46,7 +46,7 @@ export default function TermsAndConditionsModal({
              
               <p>
                 These terms and conditions outline the rules and regulations for
-                the use of MotorCut&apos;s website, located at www.motorcut.com.
+                the use of MotorCut&aposs website, located at www.motorcut.com.
               </p>
               <p>
                 By accessing this website we assume you accept these terms and
@@ -60,12 +60,6 @@ export default function TermsAndConditionsModal({
                   name="termsAndConditions"
                   onChange={handleTermsChange}
                   check={isTermsChecked} // Ensure CheckboxWithText supports 'checked' prop
-                />
-                <CheckboxWithText
-                  mainText="I agree to Privacy Policy"
-                  name="privacyPolicy"
-                  onChange={handlePrivacyChange}
-                  check={isPrivacyChecked} // Ensure CheckboxWithText supports 'checked' prop
                 />
               </div>
             </div>
