@@ -7,11 +7,11 @@ import { CreatePasswordForm } from "./create-password-form";
 import { TermsAndConditionsForm } from "./terms-contions-form";
 import { FillProfilePageForm } from "./fill-Profile-Form";
 import { BookMeeting } from "../book-meeting";
-
+import { Calendly } from "../calendly";
 export const RegisterForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState("");
-
+const [meeting, setMeeting]=useState("yes")
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -26,10 +26,15 @@ export const RegisterForm = () => {
       case 0:
         return <WelcomeSignUp nextStep={nextStep} />;
       case 1:
-        return <BookMeeting nextStep={nextStep} prevStep={prevStep}/>;
+        return <BookMeeting nextStep={nextStep} prevStep={prevStep} setMeeting={setMeeting}/>;
 
       case 2:
-        return <SignUpForm  setFormData={setFormData} nextStep={nextStep} />;
+        if (meeting === "yes") {
+          return <Calendly prevStep={prevStep} />;
+        } else {
+          return <SignUpForm setFormData={setFormData} nextStep={nextStep} />;
+        }
+        // return <SignUpForm  setFormData={setFormData} nextStep={nextStep} />;
       case 3:
         return <VerifyNumberForm formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />;
       case 4:

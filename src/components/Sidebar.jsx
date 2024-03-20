@@ -85,12 +85,12 @@ export default function Sidebar(props) {
     router.push("/auth/login");
   };
   const privacyChange = (name) => {
-    if(name==="privacy"){
+    if (name === "privacy") {
       router.push("/main/privacy-policy");
-     }else{
+    } else {
       router.push("/main/terms-conditions");
     }
-   };
+  };
   return (
     <div
       className={`xl:h-[100vh] h-[92vh] bg-site_secondary px-5 scrollbar-hide overflow-y-auto flex flex-col justify-between fixed top-[70px] right-0 bottom-0 xl:static gap-2 pt-5 pb-2 text-left border-r-slate-100 dark:bg-black dark:border-r-dark-400 transition duration-400 ease-in-out z-20 transform ${
@@ -144,14 +144,24 @@ export default function Sidebar(props) {
             Log Out
           </Button>
         </div>
-        <div className="flex flex-wrap">
-          <span className={`text-[10px] cursor-pointer  hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("privacy")}>
+        <div className="flex justify-center flex-wrap text-[10px] xl:text-[10px] 2xl:text-[19px]">
+          <p
+            className={` cursor-pointer  hover:text-primary-dark ${
+              pathName === "/main/privacy-policy" ? "text-primary-dark" : ""
+            }`}
+            onClick={() => privacyChange("privacy")}
+          >
             Privacy Policy&nbsp;
-          </span>
-          <span className="text-[10px]">Cookies&nbsp;</span>
-          <span className={`text-[10px] cursor-pointer hover:text-primary-dark ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
+          </p>
+          <p>Cookies&nbsp;</p>
+          <p
+            className={` cursor-pointer hover:text-primary-dark ${
+              pathName === "/main/terms-conditions" ? "text-primary-dark" : ""
+            }`}
+            onClick={() => privacyChange("terms")}
+          >
             Term and condition
-          </span>
+          </p>
         </div>
       </div>
     </div>

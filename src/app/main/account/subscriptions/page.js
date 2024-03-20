@@ -182,7 +182,7 @@ const Subscription = () => {
   return (
     <>
       <section>
-        <div className="lg:grid lg:grid-cols-12 px-8 py-4 ">
+        <div className="lg:grid lg:grid-cols-12 p-2 md:px-8 py-4 gap-3">
           <div className="lg:col-span-4 items-start">
             <h1 className="lg:text-[33px] sm:text-sm font-semibold tracking-wide  ">
               Subscriptions
@@ -225,7 +225,7 @@ const Subscription = () => {
           <div className="lg:cols-span-6"></div>
         </div>
       </section>
-      <main className="subscriptions grid  sm:grid-cols-1 p-8  md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-10 gap-y-6 lg:h-100 ">
+      <main className="subscriptions grid  sm:grid-cols-1 p-1 md:p-8  md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-10 gap-y-6 lg:h-100 ">
         {subscription.length > 0 ? (
           subscription.map((item, index) => (
             <>
@@ -269,7 +269,7 @@ const Subscription = () => {
                     </small>
                     <div className="relative">
                       <Input
-                        className="mx-0 basis-3/4 border-b-primary bg-white"
+                        className="mx-0 text-[10px] md:text-[12px] basis-3/4 border-b-primary bg-white"
                         placeholder="Promotional Code"
                         value={promoCode[index] || ""}
                         onChange={(e) => {
@@ -280,7 +280,7 @@ const Subscription = () => {
                         }}
                       />
                       <button
-                        className="text-sm mx-3 text-primary-dark absolute"
+                        className="text-[10px] md:text-[12px] mx-3 text-primary-dark absolute"
                         disabled={!promoCode[index]}
                         style={{
                           top: "50%",

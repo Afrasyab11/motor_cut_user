@@ -80,7 +80,7 @@ const SettingsCard = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between gap-y-2 min-h-[30vh]">
+    <div className="flex flex-col justify-between gap-y-2 min-h-[40vh]">
       <div className="">
         <div className="rounded-2xl">
           <Image
@@ -106,18 +106,16 @@ const SettingsCard = () => {
           Change Background
         </a>
       </div>
-      <div className="flex justify-between items-center gap-x-2">
-        <div>
-          <div className="flex items-center  gap-x-2">
+      <div className="flex justify-between flex-wrap  items-center gap-3">
+          <div className="flex flex-col justify-between   gap-x-2">
             <p className="text-sm sm:text-md"> Display Logo </p>{" "}
             <Switch
               checked={logo?.DisplayLogo}
               onCheckedChange={(isActive) => handleStatusChange(isActive)}
             />
           </div>
-        </div>
         <div>
-          <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap mr-4">
+          <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap">
             Set Position:
           </p>
           <Select

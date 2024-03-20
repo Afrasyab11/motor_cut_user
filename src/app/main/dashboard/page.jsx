@@ -59,8 +59,8 @@ export default function DashBoard() {
 
   return (
     <>
-      <div className="flex flex-col gap-2 md:gap-x-4 lg:gap-x-8 md:gap-y-4 lg:gap-y-4 xl:gap-y-4 2xl:gap-y-6">
-        <div className="grid grid-cols-12 gap-5 gap-x-6">
+      <div className="flex flex-col gap-5 md:gap-x-4 lg:gap-x-8 md:gap-y-4 lg:gap-y-4 xl:gap-y-4 2xl:gap-y-6">
+        <div className="grid grid-cols-12 gap-5 gap-x-5">
           {stats.map((stat, index) => (
             <div
               className="lg:col-span-3 md:col-span-6 col-span-12"
@@ -71,7 +71,7 @@ export default function DashBoard() {
           ))}
         </div>
 
-        <div className="grid grid-cols-12 gap-4 md:gap-x-4 lg:gap-x-5 md:gap-y-4 lg:gap-y-8">
+        <div className="grid grid-cols-12 gap-5 md:gap-x-4 lg:gap-x-5 md:gap-y-4 lg:gap-y-8">
           <div className="lg:col-span-4 md:col-span-6 bg-site_secondary rounded-lg p-5 col-span-12">
             <h5 className="font-medium">Create Advert</h5>
             <AdvertForm />

@@ -74,7 +74,7 @@ const ActivityChart = () => {
   };
   return (
     <div className="h-auto">
-        <div id="chart" className=" min-h-[30vh]">
+        <div id="chart" className=" min-h-[40vh]">
           {ReactApexChart && (
             <ReactApexChart
               options={options}

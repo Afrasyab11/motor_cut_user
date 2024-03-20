@@ -2,9 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import Image from "next/image";
+// import Head from 'next/head';
 import { IoArrowBackOutline } from "react-icons/io5";
-export const BookMeeting = ({ nextStep,prevStep }) => {
-  const handleClick = () => {
+export const BookMeeting = ({ nextStep,prevStep,setMeeting }) => {
+  const handleClick = (val) => {
+    console.log("sdfsdfsdf",val)
+    setMeeting(val)
     nextStep();
   };
   return (
@@ -24,13 +27,13 @@ export const BookMeeting = ({ nextStep,prevStep }) => {
         <Button
           href="/auth/register"
           className=" flex justify-center items-center text-white h-10 bg-primary w-full rounded-full mt-14 text-sm"
-          onClick={handleClick}
+          onClick={() => handleClick("yes")}
         >
           Yes, book a meeting.
         </Button>
         <Button
           className=" h-10 flex justify-center items-center border border-gray-500  w-full rounded-full mt-4 text-primary bg-white hover:bg-gray-50 text-sm"
-          onClick={handleClick}
+          onClick={() => handleClick("no")}
         >
           No, Thanks
         </Button>

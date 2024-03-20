@@ -134,9 +134,9 @@ const UploadLogo = () => {
             </CardContent>
            
           </section>
-          <div className="md:grid md:grid-cols-12 lg:grid lg:grid-cols-12 gap-3">
-          <div className="lg:col-span-6 md:col-span-12 bg-gray-100 rounded-2xl my-3 px-2 py-3">
-            <CardFooter className="flex basis-1/2 gap-x-4 gap-2 items-center pt-2">
+          <div className="md:grid md:grid-cols-12 lg:grid lg:grid-cols-12 gap-3 ">
+          <div className="lg:col-span-6 md:col-span-12 bg-gray-100 rounded-2xl  my-3 px-2 py-3">
+            <CardFooter className="flex basis-1/2 gap-4 items-end px-0 md:px-3 pt-2">
               <Button
                 type="button"
                 className="text-white bg-primary rounded-full w-3/6 "
@@ -158,7 +158,7 @@ const UploadLogo = () => {
                     setSelectedValue(val);
                   }}
                 >
-                  <SelectTrigger className="w-full md:min-w-40  border border-gray-500 rounded-full text-primary-dark">
+                  <SelectTrigger className="w-full h-10  md:min-w-40  border border-gray-500 rounded-full text-primary-dark">
                     <SelectValue placeholder={selectedValue} />
                   </SelectTrigger>
                   <SelectContent>
@@ -172,12 +172,12 @@ const UploadLogo = () => {
                 </Select>
               </div>
             </CardFooter>
-            <CardHeader>
-              <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
+            <CardHeader className="pl-0 md:px-3">
+              <h2 className="md:text-[20px]  lg:text-[30px] font-medium tracking-normal">
                 Download Format
               </h2>
             </CardHeader>
-            <CardContent className="flex basis-1/2 justify-center gap-x-4 gap-2">
+            <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 gap-4">
 
                   <Button
                     type="button"
@@ -207,7 +207,7 @@ const UploadLogo = () => {
                   </Button>
             </CardContent>
 
-            <CardContent className="flex basis-1/2 justify-center items-center gap-x-4 pt-5">
+            <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 items-center gap-4 pt-5">
               <Button
                 type="button"
                 disabled={logoLoader}
@@ -229,23 +229,13 @@ const UploadLogo = () => {
               )}
             </CardContent>
           </div>
-        <div className="lg:col-span-6 md:col-span-12  bg-gray-100 rounded-2xl py-2  my-3">
-            <CardHeader>
+        <div className="lg:col-span-6 md:col-span-12  bg-gray-100 rounded-2xl py-2 px-2  my-3">
+            <CardHeader className="pl-0 md:px-3">
               <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 License Plate Covers (coming soon)
               </h2>
             </CardHeader>
-            <CardContent>
-              <div className="flex basis-1/2 justify-center">
-                <label className="radio-label w-1/2 mx-2">
-                  <input
-                    type="radio"
-                    name="coversStatus"
-                    value="on"
-                    className="hidden"
-                    onChange={() => setCoversStatus("on")}
-                    checked={coversStatus === "on"}
-                  />
+            <CardContent className="flex basis-1/2 justify-center  gap-4 px-0 md:px-3  pt-5">
                   <Button
                     type="button"
                     className={`text-white border-primary-dark rounded-full w-full ${
@@ -255,16 +245,6 @@ const UploadLogo = () => {
                   >
                     On
                   </Button>
-                </label>
-                <label className="radio-label w-1/2 mx-2">
-                  <input
-                    type="radio"
-                    name="coversStatus"
-                    value="off"
-                    className="hidden"
-                    onChange={() => setCoversStatus("off")}
-                    checked={coversStatus === "off"}
-                  />
                   <Button
                     type="button"
                     className={`text-white rounded-full w-full ${
@@ -274,8 +254,6 @@ const UploadLogo = () => {
                   >
                     Off
                   </Button>
-                </label>
-              </div>
             </CardContent>
         </div>
         </div>
