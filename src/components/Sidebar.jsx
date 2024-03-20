@@ -144,12 +144,12 @@ export default function Sidebar(props) {
             Log Out
           </Button>
         </div>
-        <div className="flex  justify-between gap-x-1">
-          <span className={`text-[10px] cursor-pointer ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("privacy")}>
-            Privacy Policy
+        <div className="flex flex-wrap">
+          <span className={`text-[10px] cursor-pointer  hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("privacy")}>
+            Privacy Policy&nbsp;
           </span>
-          <span className="text-[10px]">Cookies</span>
-          <span className={`text-[10px] cursor-pointer ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
+          <span className="text-[10px]">Cookies&nbsp;</span>
+          <span className={`text-[10px] cursor-pointer hover:text-primary-dark ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
             Term and condition
           </span>
         </div>

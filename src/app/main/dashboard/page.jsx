@@ -60,7 +60,7 @@ export default function DashBoard() {
   return (
     <>
       <div className="flex flex-col gap-2 md:gap-x-4 lg:gap-x-8 md:gap-y-4 lg:gap-y-4 xl:gap-y-4 2xl:gap-y-6">
-        <div className="grid grid-cols-12 gap-x-6">
+        <div className="grid grid-cols-12 gap-5 gap-x-6">
           {stats.map((stat, index) => (
             <div
               className="lg:col-span-3 md:col-span-6 col-span-12"

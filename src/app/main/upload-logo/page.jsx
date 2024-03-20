@@ -94,9 +94,8 @@ const UploadLogo = () => {
   };
   return (
     <>
-       <main className="upload-logo-section">
-        <form >
-          <section className="bg-gray-100 rounded-2xl w-full  md:w-1/2 my-3 px-2 ">
+        <main className="upload-logo-section">
+          <section className="bg-gray-100 rounded-2xl w-full  md:w-2/2 my-3 px-2 ">
             <CardHeader>
               <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 Upload Logo
@@ -133,18 +132,21 @@ const UploadLogo = () => {
                 />
               </div>
             </CardContent>
-
-            <CardFooter className="grid place-items-end ">
+           
+          </section>
+          <div className="md:grid md:grid-cols-12 lg:grid lg:grid-cols-12 gap-3">
+          <div className="lg:col-span-6 md:col-span-12 bg-gray-100 rounded-2xl my-3 px-2 py-3">
+            <CardFooter className="flex basis-1/2 gap-x-4 gap-2 items-center pt-2">
               <Button
                 type="button"
-                className="text-white bg-primary rounded-full w-full sm:max-w-32 md:max-w-40 "
+                className="text-white bg-primary rounded-full w-3/6 "
                 onClick={() => fileInputRef.current.click()}
               >
                 Upload Logo
               </Button>
               {/* </label> */}
-              <div className="py-2 flex mt-3">
-                <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap mr-4">
+              <div className="w-3/6 flex flex-col ">
+                <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap">
                   Set Position:
                 </p>
                 <Select
@@ -175,20 +177,11 @@ const UploadLogo = () => {
                 Download Format
               </h2>
             </CardHeader>
-            <CardContent>
-              <div className="flex basis-1/2 justify-center">
-                <label className="radio-label w-1/2 mx-2">
-                  <input
-                    type="radio"
-                    name="downloadFormat"
-                    value="jpg"
-                    className="hidden"
-                    onChange={() => setSelectedFormat("jpg")}
-                    checked={selectedFormat === "jpg"}
-                  />
+            <CardContent className="flex basis-1/2 justify-center gap-x-4 gap-2">
+
                   <Button
                     type="button"
-                    className={`text-white ${
+                    className={`text-white w-3/6 ${
                       selectedFormat === "jpg" ? "bg-primary" : "bg-gray-300"
                     } rounded-full w-full`}
                     onClick={(e) => {
@@ -199,19 +192,9 @@ const UploadLogo = () => {
                   >
                     JPG
                   </Button>
-                </label>
-                <label className="radio-label w-1/2 mx-2">
-                  <input
-                    type="radio"
-                    name="downloadFormat"
-                    value="png"
-                    className="hidden"
-                    onChange={() => setSelectedFormat("png")}
-                    checked={selectedFormat === "png"}
-                  />
                   <Button
                     type="button"
-                    className={`text-white ${
+                    className={`text-white w-3/6 ${
                       selectedFormat === "png" ? "bg-primary" : "bg-gray-300"
                     } rounded-full w-full`}
                     onClick={(e) => {
@@ -222,8 +205,6 @@ const UploadLogo = () => {
                   >
                     PNG
                   </Button>
-                </label>
-              </div>
             </CardContent>
 
             <CardContent className="flex basis-1/2 justify-center items-center gap-x-4 pt-5">
@@ -247,11 +228,8 @@ const UploadLogo = () => {
                 </Button>
               )}
             </CardContent>
-          </section>
-        </form>
-        {/* License Plate covers */}
-        <section className="bg-gray-100 rounded-2xl sm:w-2/3 md:w-1/2 my-3">
-          <Card>
+          </div>
+        <div className="lg:col-span-6 md:col-span-12  bg-gray-100 rounded-2xl py-2  my-3">
             <CardHeader>
               <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 License Plate Covers (coming soon)
@@ -299,8 +277,8 @@ const UploadLogo = () => {
                 </label>
               </div>
             </CardContent>
-          </Card>
-        </section>
+        </div>
+        </div>
       </main>
     </>
   );
