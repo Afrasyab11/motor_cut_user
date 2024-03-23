@@ -144,22 +144,12 @@ export default function Sidebar(props) {
             Log Out
           </Button>
         </div>
-        <div className="flex justify-center flex-wrap text-[10px] xl:text-[10px] 2xl:text-[19px]">
-          <p
-            className={` cursor-pointer  hover:text-primary-dark ${
-              pathName === "/main/privacy-policy" ? "text-primary-dark" : ""
-            }`}
-            onClick={() => privacyChange("privacy")}
-          >
+        <div className="flex justify-center flex-wrap text-[10px] xl:text-[9px] 2xl:text-[13px]">
+          <p className={` cursor-pointer underline  hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("privacy")}>
             Privacy Policy&nbsp;
           </p>
-          <p>Cookies&nbsp;</p>
-          <p
-            className={` cursor-pointer hover:text-primary-dark ${
-              pathName === "/main/terms-conditions" ? "text-primary-dark" : ""
-            }`}
-            onClick={() => privacyChange("terms")}
-          >
+          <p >Cookies&nbsp;</p>
+          <p className={` cursor-pointer underline hover:text-primary-dark ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
             Term and condition
           </p>
         </div>
