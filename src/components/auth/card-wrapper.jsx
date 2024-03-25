@@ -24,14 +24,12 @@ export const CardWrapper = ({
 }) => {
   const router = useRouter();
   return (
-    
     <Card
-    className={cn(
-      "xs:w-[300px]  md:w-[400px] 2xl:min-w-[60vh]   my-4 shadow-md bg-whitee p-4",
-      className
-    )}
-  >
-      
+      className={cn(
+        "xs:w-[300px]  md:w-[400px]  2xl:min-h-[55vh] 2xl:min-w-[60vh] flex flex-col justify-between  my-4 shadow-md bg-whitee p-4",
+        className
+      )}
+    >
       {showProgressBar && (
         <FormProgressBar stepCount={progressBarCount}></FormProgressBar>
       )}
@@ -46,30 +44,26 @@ export const CardWrapper = ({
       </CardHeader>
       <CardContent>{children}</CardContent>
       {/* <BackButton label={backButtonLabel} href={backButtonHref} /> */}
-      {showSocial && (
-        <CardFooter>
-          <Social socialBtnText={btnText} />
-        </CardFooter>
-      )}
-
-      <p className=" text-sm text-center w-full py-3 text-mutedFields">
+      <CardFooter>
+        {showSocial && <Social socialBtnText={btnText} />}
+        <p className=" text-sm text-center w-full py-3 text-mutedFields">
         {currentPage === "login"
           ? "Don't have an Account? "
           : "Already have an account? "}
-        {/* <a href={currentPage === "login" ? {"/auth/register"} : "/auth/login"}>
-          {currentPage === "login" ? "Sign Up" : "Log in"}
-        </a> */}
+
         <button
           onClick={() =>
             router.push(
               currentPage === "login" ? "/auth/register" : "/auth/login"
             )
           }
-        // className="text-blue-600 hover:underline"
         >
           {currentPage === "login" ? "Sign Up" : "Log in"}
         </button>
       </p>
+      </CardFooter>
+
+      
     </Card>
   );
 };
