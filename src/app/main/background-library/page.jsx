@@ -101,10 +101,12 @@ const BackgroundLibrary = () => {
         <h1 className="text-3xl">Background Library</h1>
       </div>
       <main className="grid 2xl:grid-cols-12 xl:grid-cols-12 gap-3 lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-12 h-fit">
-        <section className="categories 2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-12 h-max-full lg:min-h-[80vh] border lg:max-h-[80vh] sm:flex-col md:flex-col flex lg:flex-col lg:items-center  mb-4 lg:mb-1  bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
-          <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mb-2">
+        <section className="categories 2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-12 h-max-full lg:min-h-[80vh] border lg:max-h-[80vh] sm:flex-col md:flex-col flex lg:flex-col  mb-4 lg:mb-1  bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
+        <div className="flex justify-center items-center">
+          <Button className="bg-gray-500 text-white w-full  rounded-full  lg:mb-2">
             Categories
           </Button>
+          </div>
           <div className="bar-scroll flex flex-row  lg:justify-start lg:flex-col overflow-x-auto">
             <p
               onClick={() => filterHandler("All")}
