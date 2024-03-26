@@ -115,7 +115,7 @@ export default function UploadImages({
           <AlertDialogDescription className="text-center">
             <div
               {...getRootProps()}
-              className="w-6/6 h-[200px] mt-2 border text-black border-black rounded-3xl mx-auto flex justify-center gap-y-10 items-center flex-col hover:cursor-pointer"
+              className="w-6/6 sm:h-[150px] md:h-[200px] lg:h-[200px] xl:h-[200px] 2xl:h-[30vh] mt-2 border text-black border-black rounded-3xl mx-auto flex justify-center gap-y-10 items-center flex-col hover:cursor-pointer"
             >
               <input {...getInputProps()} />
               <p>Drag and drop upload</p>

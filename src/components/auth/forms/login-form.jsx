@@ -91,6 +91,7 @@ export const LoginForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
+                    className=""
                       {...field}
                       placeholder="john.doe@example.com"
                       type="email"

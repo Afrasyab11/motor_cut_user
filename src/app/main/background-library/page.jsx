@@ -100,9 +100,9 @@ const BackgroundLibrary = () => {
       <div className="p-4">
         <h1 className="text-3xl">Background Library</h1>
       </div>
-      <main className="  flex flex-col  lg:flex-row h-fit">
-        <section className="categories flex flex-col  h-max-full lg:min-h-[80vh] border lg:max-h-[80vh]  align-items-center justify-content-center mb-4 lg:mb-1 lg:mr-4 bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
-          <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mr-0 lg:mb-2">
+      <main className="grid 2xl:grid-cols-12 xl:grid-cols-12 gap-3 lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-12 h-fit">
+        <section className="categories 2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-12 h-max-full lg:min-h-[80vh] border lg:max-h-[80vh] sm:flex-col md:flex-col flex lg:flex-col lg:items-center  mb-4 lg:mb-1  bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">
+          <Button className="bg-gray-500 text-white w-fit  rounded-full mr-2 lg:mb-2">
             Categories
           </Button>
           <div className="bar-scroll flex flex-row  lg:justify-start lg:flex-col overflow-x-auto">
@@ -170,23 +170,23 @@ const BackgroundLibrary = () => {
         {allBackground &&
         allBackground.length > 0 &&
         filteredBackgrounds.length > 0 ? (
-          <section className="flex flex-col gap-y-3">
+          <section className="2xl:col-span-10 xl:col-span-10 lg:col-span-10 md:col-span-6 sm:col-span-12   gap-y-3">
             <div className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit w-full ">
               {filteredBackgrounds
                 ?.slice(0, showCard)
                 ?.map((card, index) => (
                   <Card
                     key={index}
-                    className="bg-white p-1 rounded-2xl border-none h-full"
+                    className="bg-white p-1 w-full rounded-2xl 2xl:flex 2xl:flex-col 2xl:justify-between border-none h-full"
                   >
-                    <CardContent className="p-2 min-h-[220px] lg:min-h-[200px]">
+                    <CardContent className="p-2 min-h-[220px] lg:min-h-[200px] ">
                       <div className="rounded-3xl">
                         <Image
                           src={`${baseDomain}get-file?filename=${card?.Path}`}
                           alt={"BackgroundLibrary"}
                           width={1600}
                           height={900}
-                          className="w-full object-fill h-[210px] background-library-picture rounded-2xl"
+                          className="w-full object-fill h-[210px] 2xl:h-full background-library-picture rounded-2xl"
                           //  className="image-card"
                         />
                       </div>
@@ -236,20 +236,23 @@ const BackgroundLibrary = () => {
               )}
             </div>
           </section>
-        ) : backgroundLoader ? (
-          <div className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit w-full ">
+        ) :
+        backgroundLoader ? (
+          <div className="2xl:col-span-10 xl:col-span-10 lg:col-span-10 md:col-span-6 sm:col-span-12 " >
+            <div className="bar-scroll  rounded-sm cards  grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 h-fit w-full ">
             {[...Array(9)].map((_, index) => (
               <div
                 key={index}
-                className="flex flex-col mx-1 p-2 bg-whitee  rounded-xl"
+                className=" mx-1 p-2 bg-whitee  rounded-xl"
               >
                 <Skeleton className="w-[210px] sm:w-full h-[125px] lg:w-full rounded-xl pl-6 pt-6" />
-                <div className="space-x-2 flex lg:flex-row md:flex-col sm:flex-col mt-2">
+                <div className=" flex lg:flex-row md:flex-col sm:flex-col mt-2 gap-2">
                   <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px] " />
                   <Skeleton className="h-8 w-[100px] sm:w-full lg:w-[190px]" />
                 </div>
               </div>
             ))}
+            </div>
           </div>
         ) : (
           <div className="w-full flex justify-center items-center">

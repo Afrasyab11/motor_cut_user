@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -63,7 +61,7 @@ export function SupportTicketDialog({ name, icon }) {
   };
 
   return (
-    <Dialog className="rounded-3xl w-fit">
+    <Dialog className="rounded-3xl  w-[100vh]">
       <DialogTrigger asChild>
         <div className="flex align-end rounded-3xl pr-2 w-full items-center cursor-pointer hover:bg-light-100 dark:hover:bg-dark-400 text-dark-500 dark:text-white transition duration-200 ease-in-out">
           <div className="p-[5px] rounded-xl w-8 h-8 grid place-items-center">
@@ -73,7 +71,7 @@ export function SupportTicketDialog({ name, icon }) {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="rounded-3xl content-dialog sm:max-w-[425px]">
+      <DialogContent className="rounded-3xl content-dialog sm:max-w-[425px] 2xl:min-w-[80vh]">
         {ticketId ? (
           <div className="flex justify-center align-middle flex-col gap-y-5 ">
             <h2 className="text-center text-3xl font-normal tracking-wide ">

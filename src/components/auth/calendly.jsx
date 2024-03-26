@@ -46,7 +46,7 @@ export const Calendly = ({ prevStep }) => {
     <>
       <div className="w-full ">
         <IoArrowBackOutline
-          className="cursor-pointer  absolute top-[100px] md:left-[130px] lg:left-[200px] xl:left-[330px] z-10 "
+          className="cursor-pointer text-whitee  absolute top-[100px] md:left-[130px] lg:left-[200px] xl:left-[330px] z-10 "
           onClick={prevStep}
           size={30}
         />

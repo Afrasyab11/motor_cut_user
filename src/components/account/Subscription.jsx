@@ -142,7 +142,7 @@ const Subscription = () => {
             Subscription
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex ">
+        <CardContent className="flex sm:flex-col gap-3 md:flex-row  ">
           {/* package */}
           <div
             className=" bg-white mx-2 rounded-2xl basis-1/2 
@@ -153,7 +153,7 @@ const Subscription = () => {
               <FaTag color="white" />
             </div>
             <div className="basis-2/3">
-              <h4 className="font-bold sm:text-sm lg:text-md">
+              <h4 className="font-bold sm:text-[13px] lg:text-md">
                 {stats?.PackageName || 0}
               </h4>
               <p className="text-sm">package</p>
@@ -169,9 +169,9 @@ const Subscription = () => {
               <FaCalendar color="white" />
             </div>
             <div className="basis-2/3">
-              <h4 className="font-bold sm:text-sm lg:text-md">
+              <p className="font-bold sm:text-[13px] lg:text-md">
                 {stats?.RenewalDate || 0}
-              </h4>
+              </p>
               <p className="text-sm">Renewal Date</p>
             </div>
           </div>
@@ -185,7 +185,7 @@ const Subscription = () => {
             stats?.PackageName ? (
             <Button
               variant="outline"
-              className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-1/2"
+              className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-full md:w-1/2"
               onClick={handleCancelSubscription}
               //   onClick={() =>
               //     handleCancelSubscription(
@@ -199,7 +199,7 @@ const Subscription = () => {
           ) : (
             <Button
               variant="outline"
-              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-1/2"
+              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
               onClick={(e) => {
                 e.preventDefault();
                 route.push("/main/account/subscriptions");

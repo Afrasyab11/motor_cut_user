@@ -9,16 +9,18 @@ const Account = () => {
   return (
     <>
       {
-        <section className="grid md:grid-cols-2 md:grid-rows-2 gap-3">
-          <article className="profile bg-gray-100 rounded-3xl row-span-2 p-2 ">
+        <section className="grid sm:grid-cols-12 md:grid-cols-12  gap-3">
+          <div className="profile bg-gray-100 rounded-3xl sm:col-span-12 md:col-span-6 p-2 ">
             <UpdateProfile />
-          </article>
-          <article className="billing bg-gray-100 rounded-3xl  row-span-1">
-            <Billing />
-          </article>
-          <article className="subscription bg-gray-100 rounded-3xl row-span-1">
-            <Subscriptions />
-          </article>
+          </div>
+          <div className="sm:col-span-12 md:col-span-6 flex flex-col gap-3 justify-between">
+            <div className="billing bg-gray-100 rounded-3xl  row-span-1">
+              <Billing />
+            </div>
+            <div className="subscription bg-gray-100 rounded-3xl row-span-1">
+              <Subscriptions />
+            </div>
+          </div>
         </section>
       }
     </>

@@ -12,17 +12,15 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        '3xl': '1920px',
-        "2xl": "1400px",
-        'sm': '350px',
-      },
+    },
+    screens: {
+      'sm': '320px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
     },
     extend: {
-      screens:{
-        '3xl': '1920px',
-        "xs": "280px",
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

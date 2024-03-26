@@ -293,11 +293,11 @@ const UpdateProfile = () => {
               </small>
             )}
           </CardContent>
-          <CardFooter className="p-1 justify-center mt-2">
+          <CardFooter className="p-1  justify-center mt-2">
             {/* custom margins for buttons because tw's ain't enough */}
             <Button
               disabled={userLoader}
-              className="library-btn basis-1/2 text-sm text-justify  rounded-full bg-primary-light  text-white px-3 py-1 mx-4 "
+              className="library-btn   basis-1/2 sm:text-[11px] md:text-sm text-justify  rounded-full bg-primary-light  text-white px-3 md:py-1 mx-4 "
             >
               Update Profile &nbsp;
               {userLoader && <ImSpinner8 className="spinning-icon" />}
@@ -305,7 +305,7 @@ const UpdateProfile = () => {
             <Button
               type="button"
               variant="outline"
-              className="library-btn basis-1/2 text-sm  rounded-full outline outline-1 outline-black text-red-700 px-3 py-1 mx-4  "
+              className="library-btn basis-1/2 sm:text-[11px] md:text-sm   rounded-full outline outline-1 outline-black text-red-700 px-3 py-1 mx-4  "
               onClick={closeAccount}
             >
               Close Account

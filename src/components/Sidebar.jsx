@@ -20,6 +20,7 @@ export default function Sidebar(props) {
   const router = useRouter();
   const pathName = usePathname();
   const [activeLink, setActiveLink] = useState(0);
+
   const categories = [
     {
       id: 1,
@@ -110,7 +111,6 @@ export default function Sidebar(props) {
           category.name === "Support Tickets" ? (
             <div key={index}>
               <SupportTicketDialog
-                key={index}
                 name={category.name}
                 icon={category.icon}
               />
