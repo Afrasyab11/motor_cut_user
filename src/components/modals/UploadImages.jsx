@@ -161,7 +161,7 @@ export default function UploadImages({
               onClick={SubmitHanlder}
               disabled={advertLoader}
             >
-              Image Process{" "}
+              Process image
               {advertLoader && <ImSpinner8 className="spinning-icon" />}
             </button>
             {/* </AlertDialogAction> */}

@@ -71,7 +71,7 @@ export function SupportTicketDialog({ name, icon }) {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="rounded-3xl content-dialog sm:max-w-[425px] 2xl:min-w-[80vh]">
+      <DialogContent className="rounded-3xl content-dialog sm:max-w-[425px] 2xl:min-w-[40vh]">
         {ticketId ? (
           <div className="flex justify-center align-middle flex-col gap-y-5 ">
             <h2 className="text-center text-3xl font-normal tracking-wide ">
