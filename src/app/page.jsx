@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import TermsAndConditionsModal from "@/components/modals/TermsAndConditionsModal";
-import logo from "./../assets/images/logo.png"
+import logo from "./../assets/images/logo.png";
+import ThreeAnimation from "@/components/threeJsAnimation/ThreeAnimation";
 import { set } from "zod";
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -18,7 +19,10 @@ export default function Home() {
   };
   return (
     <div className="bg-white flex">
-      <div className="bg-primary h-screen  sm:w-6/12"></div>
+      <div className=" h-screen  sm:w-6/12">
+        <ThreeAnimation ></ThreeAnimation>
+      </div>
+
       {/* // w-6/12  */}
       <div className="bg-heroSection h-screen w-full sm:w-6/12 flex flex-col justify-center items-center">
         <Image

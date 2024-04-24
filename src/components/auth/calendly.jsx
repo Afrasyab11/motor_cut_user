@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
-
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+const isCalendlyScheduledEvent = (e) => {
+  return e.data.event &&
+         e.data.event.indexOf('calendly') === 0 &&
+         e.data.event === 'calendly.event_scheduled'
+}
 export const Calendly = ({ prevStep }) => {
+  const router =useRouter();
   const [loading, setLoading] = useState(true);
-
+  const [showFinishButton, setShowFinishButton] = useState(false);
+  
   useEffect(() => {
-    // Only append the script if it's not already present
     if (
       !document.querySelector(
         'script[src="https://assets.calendly.com/assets/external/widget.js"]'
@@ -23,7 +30,7 @@ export const Calendly = ({ prevStep }) => {
             prefill: {},
             utm: {},
           });
-          window.Calendly.initialized = true; // Set a flag to indicate initialization
+          window.Calendly.initialized = true; 
         }
       };
       document.body.appendChild(script);
@@ -42,14 +49,24 @@ export const Calendly = ({ prevStep }) => {
     };
   }, []);
 
+  useEffect(() => {
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (isCalendlyScheduledEvent(e)) {
+          setShowFinishButton(true);
+        }
+      }
+    )
+  }, [])  
+
+  const handleFinish =()=>{
+    router.push("/auth/login")
+  }
+
   return (
     <>
       <div className="w-full ">
-        <IoArrowBackOutline
-          className="cursor-pointer text-whitee  absolute top-[100px] md:left-[130px] lg:left-[200px] xl:left-[330px] z-10 "
-          onClick={prevStep}
-          size={30}
-        />
         {loading && (
           <div className="h-screen flex items-center justify-center text-whitee">
             Loading...
@@ -58,7 +75,19 @@ export const Calendly = ({ prevStep }) => {
         <div
           id="calendly-embed"
           style={{ width: "100vw", height: "100vh" }}
-        ></div>
+          className="overflow-hidden"
+        >
+        </div>
+        {showFinishButton && (
+          <div className="flex justify-center pb-5">
+          <Button
+            className="bg-black text-white py-2 px-4 rounded mt-4"
+            onClick={handleFinish}
+          >
+            Finish
+          </Button>
+          </div>
+        )}
       </div>
     </>
   );

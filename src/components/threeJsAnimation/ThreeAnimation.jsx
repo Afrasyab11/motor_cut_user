@@ -9,8 +9,8 @@ const ThreeAnimation = ({ children }) => {
     if (animationContainerRef.current && window.VANTA) {
       vantaInstance = window.VANTA.WAVES({
         el: animationContainerRef.current,
-        mouseControls: true,
-        touchControls: true,
+        mouseControls: false,
+        touchControls: false,
         gyroControls: false,
         waveSpeed: 0.3,
         color: 0x3c0096,
