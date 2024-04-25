@@ -3,7 +3,7 @@ import React from "react"
 export default function PrivacyPolicy() {
   return (
     <div className="flex min-h-[100vh] w-full flex-col gap-4">
-      <div className=" h-fit rounded-t-xl w-full text-[25px] font-bold text-white text-center  pt-6">
+      <div className=" h-fit rounded-t-xl w-full text-[25px] font-bold text-white text-center">
        
         <h1 className=" w-full  bg-[#752ee4] h-[100px] flex justify-center items-center rounded-t-xl">  Privacy Policy</h1> 
         <p className="font-normal text-lg bg-[#752ee4] h-[50px]">Last updated: March 06, 2024</p>
