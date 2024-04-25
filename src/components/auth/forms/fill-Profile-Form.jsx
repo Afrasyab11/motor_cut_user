@@ -20,16 +20,34 @@ import "react-international-phone/style.css";
 import { CountryDropdown } from "react-country-region-selector";
 import { FormSuccess } from "../form-success";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { registerUser } from "@/store/user/userThunk";
 import { loginUser } from "@/store/user/userThunk";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export const FillProfilePageForm = ({formData,setFormData, nextStep, prevStep }) => {
+const countries = [
+  { name: "United States", code: "US" },
+  { name: "United Kingdom", code: "GB" },
+];
 
+export const FillProfilePageForm = ({
+  formData,
+  setFormData,
+  nextStep,
+  prevStep,
+}) => {
   const { isLoading } = useSelector((state) => state?.user);
 
-  const dispatch=useDispatch()
-  const router = useRouter()
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -46,45 +64,41 @@ export const FillProfilePageForm = ({formData,setFormData, nextStep, prevStep })
     },
   });
 
-
   const onSubmit = (values) => {
-    
     setError("");
-    setSuccess(""); 
-let payload={...formData,...values}
+    setSuccess("");
+    let payload = { ...formData, ...values };
 
-console.log("User Payload",payload)
+    console.log("User Payload", payload);
 
-let loginPayload = {
-       
-  Email: payload.email,
-  Password: payload.password,
-  isAdmin: false
+    let loginPayload = {
+      Email: payload.email,
+      Password: payload.password,
+      isAdmin: false,
+    };
 
-}
-
-
-    dispatch(registerUser(
-      { payload,
-        onSuccess:()=>{
-        },
-        onError:(msg)=>{  
+    dispatch(
+      registerUser({
+        payload,
+        onSuccess: () => {},
+        onError: (msg) => {
           setError(msg);
-        }
-      }))
+        },
+      })
+    );
 
-      
     //   console.log("Login Payload",loginPayload)
-      dispatch(loginUser(
-        {
-          loginPayload,
-          onSuccess: () => {
-            router.push('/main/dashboard')
-          },
-          onError: (msg) => {
-            setError(msg);
-          }
-        }))
+    dispatch(
+      loginUser({
+        loginPayload,
+        onSuccess: () => {
+          router.push("/main/dashboard");
+        },
+        onError: (msg) => {
+          setError(msg);
+        },
+      })
+    );
 
     // startTransition(() => {
     //   FillProfilePageAction(values).then((data) => {
@@ -115,7 +129,6 @@ let loginPayload = {
       showProgressBar
       progressBarCount="5"
     >
- 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="">
           <div className="space-y-4">
@@ -131,7 +144,7 @@ let loginPayload = {
                       {...field}
                       placeholder="Enter your full name"
                       disabled={isPending}
-                      required
+                      
                     />
                   </FormControl>
                 </FormItem>
@@ -149,7 +162,7 @@ let loginPayload = {
                       {...field}
                       placeholder="Enter your company name"
                       disabled={isPending}
-                      required
+                      
                     />
                   </FormControl>
                 </FormItem>
@@ -167,7 +180,7 @@ let loginPayload = {
                       {...field}
                       placeholder="Enter your address"
                       disabled={isPending}
-                      required
+                      
                     />
                   </FormControl>
                 </FormItem>
@@ -185,7 +198,7 @@ let loginPayload = {
                       {...field}
                       placeholder="Enter your Postal/Zip code"
                       disabled={isPending}
-                      required
+                      
                     />
                   </FormControl>
                 </FormItem>
@@ -198,7 +211,7 @@ let loginPayload = {
                 <FormItem>
                   <FormLabel className="text-xs">Country</FormLabel>
                   <FormControl>
-                    <CountryDropdown
+                     {/* <CountryDropdown
                     {...field}
                       value={country}
                       onChange={(val) => {
@@ -206,11 +219,64 @@ let loginPayload = {
                         form.setValue("country", val);
                       }}
                       classes="countrySelect"
-                    />
+                    />  */}
+                    <Select
+                      {...field}
+                      className="border-none w-full"
+                      value={country}
+                      onValueChange={(val) => {
+                        setCountry(val);
+                        form.setValue("country", val);
+                      }}
+                    >
+                      <SelectTrigger className="w-full h-10 mt-4 border-b border-primary-dark bg-site_secondary">
+                        <SelectValue placeholder="Country" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Country</SelectLabel>
+                          {countries.map((country) => (
+                            <SelectItem key={country.code} value={country.name}>
+                              {`${country.name} (${country.code})`}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                 </FormItem>
               )}
             />
+            {/* <Controller
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className="border-none w-full"
+                  {...field}
+                  value={country}
+                  onValueChange={(val) => {
+                    setCountry(val);
+                    form.setValue("country", val);
+                  }}
+                >
+                  <SelectTrigger className="w-full h-10 mt-4 border-b border-primary-dark bg-site_secondary">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Country</SelectLabel>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.name}>
+                          {`${country.name} (${country.code})`}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            /> */}
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
@@ -229,7 +295,7 @@ let loginPayload = {
               className="rounded-full w-40 text-white"
               disabled={isPending}
             >
-              {isLoading ?"Creating....":"Create"}
+              {isLoading ? "Creating...." : "Create"}
             </Button>
           </div>
         </form>

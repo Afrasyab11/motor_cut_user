@@ -25,6 +25,13 @@ import { useRouter } from "next/navigation";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import CloseAccountModal from "../modals/CloseAccountModal";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+
+const countries = [
+  { name: "United States", code: "US" },
+  { name: "United Kingdom", code: "GB" },
+];
+
 const UpdateProfile = () => {
   const dispatch = useDispatch();
   const { getProfile, userLoader } = useSelector((state) => state?.user);
@@ -215,7 +222,7 @@ const UpdateProfile = () => {
                 {errors.billingEmail.message}
               </small>
             )}
-            <Controller
+            {/* <Controller
               name="country"
               control={control}
               render={({ field }) => (
@@ -230,6 +237,35 @@ const UpdateProfile = () => {
                   value={payload?.country}
                   classes="countrySelectTwo"
                 />
+              )}
+            /> */}
+            <Controller
+              name="country"
+              control={control}
+              // defaultValue={payload?.country}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className="border-none w-full"
+                  onValueChange={(val) => {
+                    field.onChange(val);
+                    setPayload({ ...payload, country: val });
+                  }}
+                >
+                  <SelectTrigger className="w-full h-10 mt-4 border-b border-primary-dark bg-site_secondary">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Country</SelectLabel>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.name}>
+                          {`${country.name} (${country.code})`}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               )}
             />
             {errors.country && (
