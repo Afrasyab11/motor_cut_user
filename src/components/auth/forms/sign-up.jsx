@@ -117,13 +117,13 @@ export const SignUpForm = ({ nextStep, setFormData }) => {
                     <PhoneInput
                       {...field}
                       disabled={isLoading}
-                      defaultCountry="us"
+                      defaultCountry="gb"
                       value={phone}
                       onChange={(phone) => {
                         setPhone(phone);
                         form.setValue("mobileNumber", phone);
                       }}
-                      forceDialCode
+                      
                       inputStyle={inputStyles}
                       className="react-international-phone-input"
                       countrySelectorStyleProps={{

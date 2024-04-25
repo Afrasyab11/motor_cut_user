@@ -3,9 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 export const loginUser = createAsyncThunk(
   "user/login",
-  async ({ payload, onSuccess, onError }, thunkAPI) => {
+  async ({ loginPayload, onSuccess, onError }, thunkAPI) => {
     try {
-      const { data } = await axiosInstance.post("/User/Login", payload);
+      const { data } = await axiosInstance.post("/User/Login", loginPayload);
       if (data.status_code == 200) {
         onSuccess();
         return data;

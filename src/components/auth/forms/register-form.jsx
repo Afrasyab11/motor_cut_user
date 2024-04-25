@@ -29,7 +29,7 @@ const [meeting, setMeeting]=useState("yes")
         return <BookMeeting nextStep={nextStep} prevStep={prevStep} setMeeting={setMeeting}/>;
 
       case 2:
-        if (meeting === "yes") {
+        if (meeting === "yes") { 
           return <Calendly prevStep={prevStep} />;
         } else {
           return <SignUpForm setFormData={setFormData} nextStep={nextStep} />;
@@ -50,5 +50,5 @@ const [meeting, setMeeting]=useState("yes")
     }
   };
 
-  return <div>{renderStep()}</div>;
+  return <>{renderStep()}</>;
 };

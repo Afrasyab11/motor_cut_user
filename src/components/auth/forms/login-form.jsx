@@ -33,7 +33,7 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
-  let loader = isLoading || isPending
+  let loader = isLoading || isPending 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -47,14 +47,14 @@ export const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) => {
-        let payload = {
+        let loginPayload = {
           Email: values.email,
           Password: values.password,
           isAdmin: false
         }
         dispatch(loginUser(
           {
-            payload,
+            loginPayload,
             onSuccess: () => {
               router.push('/main/dashboard')
             },

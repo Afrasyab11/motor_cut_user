@@ -156,7 +156,7 @@ const Subscription = () => {
               <h4 className="font-bold sm:text-[13px] lg:text-md">
                 {stats?.PackageName || 0}
               </h4>
-              <p className="text-sm">package</p>
+              <p className="text-sm">Package</p>
             </div>
           </div>
           {/* renewable date */}

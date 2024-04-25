@@ -44,7 +44,7 @@ export default function TermsAndConditionsModal({
           <AlertDialogDescription >
             <div className="w-full text-black border-black rounded-3xl mx-auto flex flex-col gap-y-5 hover:cursor-pointer">
              
-              <p>
+              {/* <p>
                 These terms and conditions outline the rules and regulations for
                 the use of MotorCut&aposs website, located at www.motorcut.com.
               </p>
@@ -53,7 +53,16 @@ export default function TermsAndConditionsModal({
                 conditions. Do not continue to use website name if you do not
                 agree to take all of the terms and conditions stated on this
                 page.
-              </p>
+              </p> */}
+              
+Certainly! Here`s a revised version with an expanded vocabulary:
+
+<p>
+    The following terms and conditions delineate the rules and regulations governing the utilization of MotorCut`s website, accessible at www.motorcut.com.
+</p>
+<p>
+    Your access to this website implies your acceptance of these terms and conditions. Please refrain from further usage of this website if you do not concur with all the terms and conditions outlined on this page.
+</p>
               <div className="flex flex-col gap-y-3">
                 <CheckboxWithText
                   mainText="I agree to Terms and Conditions"

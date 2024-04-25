@@ -36,11 +36,12 @@ import { FormSuccess } from "@/components/auth/form-success";
 const Subscriptions = [
   {
     features: [
-      "Online WhatsApp",
+      "160 Monthly Image Credits",
+      "Custom Background",
+      "Dedicated Account Support",
       "Mobile App Access",
-      "Logo Branding",
-      "Custom Formats",
-      "1GB Storage",
+      "Custom Branding",
+      "2GB Image Storage",
     ],
   },
 ];
@@ -234,14 +235,14 @@ const Subscription = () => {
                   <CardHeader className="p-2 mt-3">
                     <CardTitle className="text-2xl text-center font-medium tracking-normal ">
                       {item.Name}
-                    </CardTitle>
+                    </CardTitle> 
                     <CardDescription className="px-2 pt-3">
-                      <p className="lg:text-[18px] sm:text-[12px] text-primary-dark font-medium">
+                      {/* <p className="lg:text-[18px] sm:text-[12px] text-primary-dark font-medium">
                         {" "}
                         {item.NumberOfImages} image credits per p/m
-                      </p>
-                      <p className="lg:text-[16px] sm:text-[12px] text-black mt-2">
-                        Suitable for approx {item.cars} p/m
+                      </p> */}
+                      <p className="lg:text-[16px] font-medium sm:text-[12px] text-center text-black mt-2">
+                      Suitable for up to  {item.NumberOfImages} car adverts p/m
                       </p>
                     </CardDescription>
                   </CardHeader>
@@ -265,7 +266,7 @@ const Subscription = () => {
                   <CardFooter className="flex flex-col gap-y-2 ">
                     <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
-                      {item.Price + " PER MONTH " + "(+ VAT)"}
+                      {item.Price + " PER MONTH " + `${currency === "USD" ? "(+ Tax Rates)" : " (+ VAT)"}`}
                     </small>
                     <div className="relative">
                       <Input

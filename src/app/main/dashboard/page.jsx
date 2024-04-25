@@ -73,7 +73,7 @@ export default function DashBoard() {
 
         <div className="grid grid-cols-12 gap-5 md:gap-x-4 lg:gap-x-5 md:gap-y-4 lg:gap-y-8">
           <div className="lg:col-span-4 md:col-span-6 bg-site_secondary rounded-lg p-5 col-span-12">
-            <h5 className="font-medium">Create Advert</h5>
+            <h5 className="font-medium">Create Advert</h5> 
             <AdvertForm />
           </div>
           {components.map(({ title, Component }, index) => (

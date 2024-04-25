@@ -22,6 +22,7 @@ import { FormSuccess } from "../form-success";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/navigation'
 import { registerUser } from "@/store/user/userThunk";
+import { loginUser } from "@/store/user/userThunk";
 
 export const FillProfilePageForm = ({formData,setFormData, nextStep, prevStep }) => {
 
@@ -45,25 +46,46 @@ export const FillProfilePageForm = ({formData,setFormData, nextStep, prevStep })
     },
   });
 
+
   const onSubmit = (values) => {
     
     setError("");
     setSuccess(""); 
 let payload={...formData,...values}
 
+console.log("User Payload",payload)
+
+let loginPayload = {
+       
+  Email: payload.email,
+  Password: payload.password,
+  isAdmin: false
+
+}
 
 
     dispatch(registerUser(
       { payload,
         onSuccess:()=>{
-          router.push('/auth/login')
-          // setSuccess(data ? data.success : "");
         },
         onError:(msg)=>{  
           setError(msg);
         }
       }))
-   
+
+      
+    //   console.log("Login Payload",loginPayload)
+      dispatch(loginUser(
+        {
+          loginPayload,
+          onSuccess: () => {
+            router.push('/main/dashboard')
+          },
+          onError: (msg) => {
+            setError(msg);
+          }
+        }))
+
     // startTransition(() => {
     //   FillProfilePageAction(values).then((data) => {
     //     setFormData(prev => ({ ...prev, ...values }))

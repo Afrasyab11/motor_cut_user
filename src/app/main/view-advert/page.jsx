@@ -219,7 +219,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <button className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                               {/* <button> */}
-                              Crop / Trim
+                              Crop
                               {/* </button> */}
                             </button>
                           </div>

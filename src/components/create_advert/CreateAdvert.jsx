@@ -59,7 +59,7 @@ export default function CreateAdvert() {
     <>
       {/* <AlertDialog> */}
       <div className="bg-site_secondary px-2 md:px-4 lg:px-6 py-4 rounded-2xl mb-2 flex flex-col justify-between">
-        <h2 className="text-lg sm:text-md mb-6 font-medium">Create Advert</h2>
+        <h2 className="md:text-[20px] lg:text-[30px] sm:text-md mb-6 font-medium">Create Advert</h2>
         <div className="mb-6 sm:mb-6 mt-6 sm:mt-6">
           <label htmlFor="cutType" className="text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] mb-6 ">
             Advert Label

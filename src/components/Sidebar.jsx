@@ -25,7 +25,7 @@ export default function Sidebar(props) {
     {
       id: 1,
       icon: <RxDashboard size={20} />,
-      name: "DashBoard",
+      name: "Dashboard",
       link: "/main/dashboard",
     },
     {
@@ -148,9 +148,9 @@ export default function Sidebar(props) {
           <p className={` cursor-pointer underline  hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("privacy")}>
             Privacy Policy&nbsp;
           </p>
-          <p >Cookies&nbsp;</p>
-          <p className={` cursor-pointer underline hover:text-primary-dark ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
-            Term and condition
+          &amp;
+          <p className={` cursor-pointer underline hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
+           &nbsp; Term and condition
           </p>
         </div>
       </div>

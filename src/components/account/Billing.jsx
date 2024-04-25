@@ -61,7 +61,7 @@ const Billing = () => {
           Billing
         </h2>
       </div>
-      <div className=" bar-scroll h-[200px] overflow-auto   px-3 md:px-5">
+      <div className=" bar-scroll h-[300px] overflow-auto   px-3 md:px-5">
         <table
           cellPadding="0"
           cellpadding="0"

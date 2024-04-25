@@ -95,14 +95,14 @@ const UploadLogo = () => {
   return (
     <>
         <main className="upload-logo-section">
-          <section className="bg-gray-100 rounded-2xl w-full  md:w-2/2 my-3 px-2 ">
+          <section className="bg-gray-100 rounded-2xl w-full    md:w-2/2 my-3 px-2 ">
             <CardHeader>
               <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 Upload Logo
               </h2>
             </CardHeader>
             <CardContent>
-              <div className="bg-white rounded-2xl mt-2 p-2">
+              <div className="bg-white rounded-2xl mt-2 p-2 h-full w-full ">
                 {/* {logo?.Logo !== undefined && logo?.Logo ? ( */}
                 <Image
                   src={
@@ -116,7 +116,7 @@ const UploadLogo = () => {
                   width={900}
                   height={600}
                   id="logo"
-                  className="w-full h-full object-contain rounded"
+                  className=" aspect-video max-h-[300px] w-full rounded"
                   objectFit="contain"
 
                 />

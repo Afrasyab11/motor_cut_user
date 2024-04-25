@@ -1,12 +1,10 @@
-import React from "react";
-const TermsAndConditions = () => {
-  return (
-    <>
-      <div className="flex items-center justify-center h-56">
-        <p>Terms and Conditons</p>
-      </div>
-    </>
-  );
-};
+import TermsAndConditions from '@/components/privacy/TermsAndConditions'
+import React from 'react'
 
-export default TermsAndConditions;
+export default function page() {
+  return (
+    <div>
+     <TermsAndConditions />
+    </div>
+  )
+}

@@ -1,12 +1,10 @@
-import React from "react";
-const PrivacyPolicy = () => {
-  return (
-    <>
-      <div className="flex items-center justify-center h-56">
-        <p>Privacy Policy</p>
-      </div>
-    </>
-  );
-};
+import PrivacyPolicy from '@/components/privacy/PrivacyPolicy'
+import React from 'react'
 
-export default PrivacyPolicy;
+export default function page() {
+  return (
+    <div>
+      <PrivacyPolicy/>
+    </div>
+  )
+}
