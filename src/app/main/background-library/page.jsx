@@ -257,7 +257,7 @@ const BackgroundLibrary = () => {
             </div>
           </div>
         ) : (
-          <div className="w-full flex justify-center items-center">
+          <div className=" grid col-span-10 place-content-center place-item-center  " >
             <span className="font-medium">No Data Found</span>
           </div>
         )}

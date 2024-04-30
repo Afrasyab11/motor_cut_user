@@ -77,28 +77,44 @@ export const FillProfilePageForm = ({
       isAdmin: false,
     };
 
-    dispatch(
-      registerUser({
-        payload,
-        onSuccess: () => {},
-        onError: (msg) => {
+
+
+
+    dispatch(registerUser(
+      { payload,
+        onSuccess:()=>{
+        
+          dispatch(loginUser(
+            {
+              loginPayload,
+              onSuccess: () => {
+                router.push('/main/dashboard')
+              },
+              onError: (msg) => {
+                setError(msg);
+              }
+            }))
+
+        },
+        onError:(msg)=>{  
           setError(msg);
         },
       })
     );
 
     //   console.log("Login Payload",loginPayload)
-    dispatch(
-      loginUser({
-        loginPayload,
-        onSuccess: () => {
-          router.push("/main/dashboard");
-        },
-        onError: (msg) => {
-          setError(msg);
-        },
-      })
-    );
+    // dispatch(
+    //   loginUser({
+    //     loginPayload,
+    //     onSuccess: () => {
+    //       router.push("/main/dashboard");
+    //     },
+    //     onError: (msg) => {
+    //       setError(msg);
+    //     },
+    //   })
+    // );
+
 
     // startTransition(() => {
     //   FillProfilePageAction(values).then((data) => {

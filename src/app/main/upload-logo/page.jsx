@@ -22,7 +22,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
-import { createLogoAction, getLogoAction,removeUserLogoAction } from "@/store/uploadLogo/logoThunk";
+import {
+  createLogoAction,
+  getLogoAction,
+  removeUserLogoAction,
+} from "@/store/uploadLogo/logoThunk";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadLogoSchema } from "@/schemas/uploadLogoSchema";
@@ -30,10 +34,10 @@ import placeholder from "../../../../public/placeholder.png";
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
-
+import { generateBase64Image } from "@/utils/commonFunctions";
 const UploadLogo = () => {
   const dispatch = useDispatch();
-  const { logo, logoLoader, getLogoLoader,removeLogoLoader } = useSelector(
+  const { logo, logoLoader, getLogoLoader, removeLogoLoader } = useSelector(
     (state) => state.logo
   );
   let userString = getCookie("user");
@@ -43,6 +47,7 @@ const UploadLogo = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("jpg");
   const [coversStatus, setCoversStatus] = useState("off");
+ 
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, []);
@@ -94,47 +99,44 @@ const UploadLogo = () => {
   };
   return (
     <>
-        <main className="upload-logo-section">
-          <section className="bg-gray-100 rounded-2xl w-full    md:w-2/2 my-3 px-2 ">
-            <CardHeader>
-              <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
-                Upload Logo
-              </h2>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-white rounded-2xl mt-2 p-2 h-full w-full ">
-                {/* {logo?.Logo !== undefined && logo?.Logo ? ( */}
-                <Image
-                  src={
-                    selectedFile
-                      ? URL.createObjectURL(selectedFile)
-                      : logo?.Logo !== null && logo?.Logo
-                      ? `${baseDomain}get-file?filename=${logo?.Logo}`
-                      : placeholder
-                  }
-                  alt="logo"
-                  width={900}
-                  height={600}
-                  id="logo"
-                  className=" aspect-video max-h-[300px] w-full rounded"
-                  objectFit="contain"
+      <main className="upload-logo-section">
+        <section className="bg-gray-100 rounded-2xl w-full    md:w-2/2 my-3 px-2 ">
+          <CardHeader>
+            <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
+              Upload Logo
+            </h2>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-white rounded-2xl mt-2 p-2 h-full w-full ">
+              {/* {logo?.Logo !== undefined && logo?.Logo ? ( */}
+              <Image
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : logo?.Logo !== null && logo?.Logo
+                    ? `${baseDomain}get-file?filename=${logo?.Logo}`
+                    : placeholder
+                }
+                alt="logo"
+                width={900}
+                height={600}
+                id="logo"
+                className=" aspect-video max-h-[300px] object-contain w-full rounded"
+              />
 
-                />
-
-                <input
-                  type="file"
-                  id="logo"
-                  name="logo"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={(e) => handleFileChange(e)}
-                />
-              </div>
-            </CardContent>
-           
-          </section>
-          <div className="md:grid md:grid-cols-12 lg:grid lg:grid-cols-12 gap-3 ">
+              <input
+                type="file"
+                id="logo"
+                name="logo"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={(e) => handleFileChange(e)}
+              />
+            </div>
+          </CardContent>
+        </section>
+        <div className="md:grid md:grid-cols-12 lg:grid lg:grid-cols-12 gap-3 ">
           <div className="lg:col-span-6 md:col-span-12 bg-gray-100 rounded-2xl  my-3 px-2 py-3">
             <CardFooter className="flex basis-1/2 gap-4 items-end px-0 md:px-3 pt-2">
               <Button
@@ -178,33 +180,32 @@ const UploadLogo = () => {
               </h2>
             </CardHeader>
             <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 gap-4">
-
-                  <Button
-                    type="button"
-                    className={`text-white w-3/6 ${
-                      selectedFormat === "jpg" ? "bg-primary" : "bg-gray-300"
-                    } rounded-full w-full`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent default action
-                      e.stopPropagation(); // Stop the event from propagating to parent elements
-                      setSelectedFormat("jpg");
-                    }}
-                  >
-                    JPG
-                  </Button>
-                  <Button
-                    type="button"
-                    className={`text-white w-3/6 ${
-                      selectedFormat === "png" ? "bg-primary" : "bg-gray-300"
-                    } rounded-full w-full`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent default action
-                      e.stopPropagation(); // Stop the event from propagating to parent elements
-                      setSelectedFormat("png");
-                    }}
-                  >
-                    PNG
-                  </Button>
+              <Button
+                type="button"
+                className={`text-white w-3/6 ${
+                  selectedFormat === "jpg" ? "bg-primary" : "bg-gray-300"
+                } rounded-full w-full`}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default action
+                  e.stopPropagation(); // Stop the event from propagating to parent elements
+                  setSelectedFormat("jpg");
+                }}
+              >
+                JPG
+              </Button>
+              <Button
+                type="button"
+                className={`text-white w-3/6 ${
+                  selectedFormat === "png" ? "bg-primary" : "bg-gray-300"
+                } rounded-full w-full`}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default action
+                  e.stopPropagation(); // Stop the event from propagating to parent elements
+                  setSelectedFormat("png");
+                }}
+              >
+                PNG
+              </Button>
             </CardContent>
 
             <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 items-center gap-4 pt-5">
@@ -229,33 +230,35 @@ const UploadLogo = () => {
               )}
             </CardContent>
           </div>
-        <div className="lg:col-span-6 md:col-span-12  bg-gray-100 rounded-2xl py-2 px-2  my-3">
+          <div className="lg:col-span-6 md:col-span-12  bg-gray-100 rounded-2xl py-2 px-2  my-3">
             <CardHeader className="pl-0 md:px-3">
               <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
                 License Plate Covers (coming soon)
               </h2>
             </CardHeader>
             <CardContent className="flex basis-1/2 justify-center  gap-4 px-0 md:px-3  pt-5">
-                  <Button
-                    type="button"
-                    className={`text-white border-primary-dark rounded-full w-full ${
-                      coversStatus === "on" ? "bg-primary " : "bg-gray-300"
-                    }`}
-                    onClick={() => setCoversStatus("on")}
-                  >
-                    On
-                  </Button>
-                  <Button
-                    type="button"
-                    className={`text-white rounded-full w-full ${
-                      coversStatus === "off" ? "bg-primary" : "bg-gray-300"
-                    }`}
-                    onClick={() => setCoversStatus("off")}
-                  >
-                    Off
-                  </Button>
+              <Button
+                type="button"
+                disabled={true}
+                className={`text-white border-primary-dark rounded-full w-full ${
+                  coversStatus === "on" ? "bg-primary " : "bg-gray-300"
+                }`}
+                onClick={() => setCoversStatus("on")}
+              >
+                On
+              </Button>
+              <Button
+                type="button"
+                disabled={true}
+                className={`text-white rounded-full w-full ${
+                  coversStatus === "off" ? "bg-primary" : "bg-gray-300"
+                }`}
+                onClick={() => setCoversStatus("off")}
+              >
+                Off
+              </Button>
             </CardContent>
-        </div>
+          </div>
         </div>
       </main>
     </>

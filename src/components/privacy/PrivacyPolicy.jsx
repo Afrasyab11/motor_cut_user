@@ -3,15 +3,11 @@ import React from "react"
 export default function PrivacyPolicy() {
   return (
     <div className="flex min-h-[100vh] w-full flex-col gap-4">
-      <div className=" h-fit rounded-t-xl w-full text-[25px] font-bold text-white text-center  pt-6">
+      <div className=" h-fit  w-full text-[25px] font-semibold text-white text-center ">
        
-        <h1 className=" w-full  bg-[#752ee4] h-[100px] flex justify-center items-center rounded-t-xl">  Privacy Policy</h1> 
-        <p className="font-normal text-lg bg-[#752ee4] h-[50px]">Last updated: March 06, 2024</p>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-<path class="elementor-shape-fill" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7
-	c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4
-	c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z" fill="#752ee4"></path>
-</svg>
+        <h1 className=" w-full  bg-[#752ee4] h-[170px] pb-8 flex justify-center items-end    text-[30px] md:text-[45px]">  Privacy Policy</h1> 
+        <p className="font-normal text-[12px] md:text-lg bg-[#752ee4] h-[60px]">Last updated: March 06, 2024</p>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 120" fill="none"><path d="M713.279 119.988C608.778 119.417 446.674 97.2744 446.674 97.2744C446.674 97.2744 307.194 84.1715 217.585 84.4361C132.462 84.6875 0 97.2744 0 97.2744V0H1280V111.1C1149.15 95.6943 1012.06 99.4141 959.875 103.2C959.875 103.2 809.808 120.516 713.279 119.988Z" fill="url(#paint0_linear_291_1397)"></path><defs><linearGradient id="paint0_linear_291_1397" x1="0" y1="60" x2="1280" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#752EE4"></stop><stop offset="1" stop-color="#752EE4"></stop></linearGradient></defs></svg>
       </div>
 
       <div>
@@ -29,10 +25,10 @@ export default function PrivacyPolicy() {
         </p>
 
         <section>
-          <h1 className=" text-[32px] font-bold text-[#752ee4]">
+          <h1 className=" md: md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Interpretation and Definitions
           </h1>
-          <h2 className="font-semibold text-3xl my-3">Interpretation</h2>
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">Interpretation</h2>
           <p className="my-4 text-gray-600">
             The words of which the initial letter is capitalised have meanings
             defined under the following conditions. The following definitions
@@ -40,21 +36,21 @@ export default function PrivacyPolicy() {
             singular or in plural.
           </p>
 
-          <h2 className="font-semibold text-3xl my-3"> Definitions</h2>
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3"> Definitions</h2>
           <p className="my-4 text-gray-600">
             For the purposes of this Privacy Policy:
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Account</span> means a unique
+            <span className="font-bold md:text-xl text-[14px]">Account</span> means a unique
             account created for You to access our Service or parts of our
             Service.
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Affiliate</span> means an entity
+            <span className="font-bold md:text-xl text-[14px]">Affiliate</span> means an entity
             that controls, is controlled by or is under common control with a
             party, where “control” means ownership of 50% or more of the shares,
             equity interest or other securities entitled to vote for election of
@@ -63,14 +59,14 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Company</span> (referred to as
+            <span className="font-bold md:text-xl text-[14px]">Company</span> (referred to as
             either “the Company”, “We”, “Us” or “Our” in this Agreement) refers
             to Motorcut.
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Cookies</span> are small files
+            <span className="font-bold md:text-xl text-[14px]">Cookies</span> are small files
             that are placed on Your computer, mobile device or any other device
             by a website, containing the details of Your browsing history on
             that website among its many uses.
@@ -78,33 +74,33 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Country</span> refers to:
+            <span className="font-bold md:text-xl text-[14px]">Country</span> refers to:
             Alabama, United States
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Device</span> means any device
+            <span className="font-bold md:text-xl text-[14px]">Device</span> means any device
             that can access the Service such as a computer, a cellphone or a
             digital tablet.
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Personal Data</span> is any
+            <span className="font-bold md:text-xl text-[14px]">Personal Data</span> is any
             information that relates to an identified or identifiable
             individual.
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Service</span> refers to the
+            <span className="font-bold md:text-xl text-[14px]">Service</span> refers to the
             Website.
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Service Provider</span> means
+            <span className="font-bold md:text-xl text-[14px]">Service Provider</span> means
             any natural or legal person who processes the data on behalf of the
             Company. It refers to third-party companies or individuals employed
             by the Company to facilitate the Service, to provide the Service on
@@ -114,7 +110,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Usage Data</span> refers to data
+            <span className="font-bold md:text-xl text-[14px]">Usage Data</span> refers to data
             collected automatically, either generated by the use of the Service
             or from the Service infrastructure itself (for example, the duration
             of a page visit).
@@ -122,32 +118,32 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">Website</span> refers to
+            <span className="font-bold md:text-xl text-[14px]">Website</span> refers to
             Motorcut, accessible from{" "}
             <a className="text-red-500" href="https://motorcut.com/"></a>{" "}
           </p>
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">You</span>mean the individual
+            <span className="font-bold md:text-xl text-[14px]">You</span>mean the individual
             accessing or using the Service, or the company, or other legal
             entity on behalf of which such individual is accessing or using the
             Service, as applicable.
           </p>
 
-          {/* <p> <span className="font-bold text-xl">Cookies</span> means a unique account created for You to access our Service or parts of our Service.</p> */}
+          {/* <p> <span className="font-bold md:text-xl text-[14px]">Cookies</span> means a unique account created for You to access our Service or parts of our Service.</p> */}
         </section>
 
         <section>
-          <h1 className=" text-[32px] font-bold text-[#752ee4]">
+          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Collecting and Using Your Personal Data
           </h1>
 
-          <h2 className="font-semibold text-3xl my-3">
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">
             Types of Data Collected
           </h2>
 
-          <h3 className="my-4 font-semibold text-2xl italic">Personal Data</h3>
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">Personal Data</h3>
 
           <p className="my-4">
             While using Our Service, We may ask You to provide Us with certain
@@ -159,7 +155,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">Usage Data</p>
 
-          <h3 className="my-4 font-semibold text-2xl italic">Usage Data</h3>
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">Usage Data</h3>
 
           <p className="my-4">
             Usage Data may include information such as Your Device’s Internet
@@ -188,7 +184,7 @@ export default function PrivacyPolicy() {
             Usage Data is collected automatically when using the Service.s
           </p>
 
-          <h3 className="my-4 font-semibold text-2xl italic">
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">
             {" "}
             Tracking Technologies and Cookies{" "}
           </h3>
@@ -204,7 +200,7 @@ export default function PrivacyPolicy() {
           <ul className="px-4 md:px-6 lg:px-12">
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">
+              <span className="font-bold md:text-xl text-[14px]">
                 Cookies or Browser Cookies
               </span>{" "}
               A cookie is a small file placed on Your Device. You can instruct
@@ -217,7 +213,7 @@ export default function PrivacyPolicy() {
 
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">Web Beacons</span> Certain
+              <span className="font-bold md:text-xl text-[14px]">Web Beacons</span> Certain
               sections of our Service and our emails may contain small
               electronic files known as web beacons (also referred to as clear
               gifs, pixel tags, and single-pixel gifs) that permit the Company,
@@ -239,7 +235,7 @@ export default function PrivacyPolicy() {
             We use both Session and Persistent Cookies for the purposes set out
             below:{" "}
           </p>
-          <h4 className="font-bold text-xl my-4">Web Beacons</h4>
+          <h4 className="font-bold md:text-xl text-[14px] my-4">Web Beacons</h4>
           <p className="my-4">Type: Session Cookies</p>
 
           <p className="my-4">Administered by: Us</p>
@@ -253,7 +249,7 @@ export default function PrivacyPolicy() {
             provide You with those services.
           </p>
 
-          <h4 className="font-bold text-xl my-4">
+          <h4 className="font-bold md:text-xl text-[14px] my-4">
             Cookies Policy / Notice Acceptance Cookies
           </h4>
           <p className="my-4">Type: Persistent Cookies</p>
@@ -265,7 +261,7 @@ export default function PrivacyPolicy() {
             cookies on the Website.
           </p>
 
-          <h4 className="font-bold text-xl my-4">Functionality Cookies</h4>
+          <h4 className="font-bold md:text-xl text-[14px] my-4">Functionality Cookies</h4>
           <p className="my-4">Type: Persistent Cookies</p>
 
           <p className="my-4">Administered by: Us</p>
@@ -286,7 +282,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section>
-          <h1 className=" text-[32px] font-bold text-[#752ee4]">
+          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Use of Your Personal Data
           </h1>
 
@@ -295,7 +291,7 @@ export default function PrivacyPolicy() {
           </p>
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">
+            <span className="font-bold md:text-xl text-[14px]">
               To provide and maintain our Service,
             </span>{" "}
             including to monitor the usage of our Service.
@@ -303,7 +299,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">To manage Your Account:</span> m
+            <span className="font-bold md:text-xl text-[14px]">To manage Your Account:</span> m
             to manage Your registration as a user of the Service. The Personal
             Data You provide can give You access to different functionalities of
             the Service that are available to You as a registered user.
@@ -311,7 +307,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">
+            <span className="font-bold md:text-xl text-[14px]">
               For the performance of a contract:
             </span>{" "}
             the development, compliance and undertaking of the purchase contract
@@ -321,7 +317,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">To contact You:</span> To
+            <span className="font-bold md:text-xl text-[14px]">To contact You:</span> To
             contact You by email, telephone calls, SMS, or other equivalent
             forms of electronic communication, such as a mobile application’s
             push notifications regarding updates or informative communications
@@ -332,7 +328,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">To provide You</span> mwith
+            <span className="font-bold md:text-xl text-[14px]">To provide You</span> mwith
             news, special offers and general information about other goods,
             services and events which we offer that are similar to those that
             you have already purchased or enquired about unless You have opted
@@ -341,7 +337,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">
+            <span className="font-bold md:text-xl text-[14px]">
               To manage Your requests:{" "}
             </span>{" "}
             To attend and manage Your requests to Us.
@@ -349,7 +345,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">
+            <span className="font-bold md:text-xl text-[14px]">
               For business transfers:
             </span>{" "}
             We may use Your information to evaluate or conduct a merger,
@@ -362,7 +358,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">
             {" "}
-            <span className="font-bold text-xl">For other purposes:</span> We
+            <span className="font-bold md:text-xl text-[14px]">For other purposes:</span> We
             may use Your information for other purposes, such as data analysis,
             identifying usage trends, determining the effectiveness of our
             promotional campaigns and to evaluate and improve our Service,
@@ -377,7 +373,7 @@ export default function PrivacyPolicy() {
           <ul className="px-4 md:px-6 lg:px-12">
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">
+              <span className="font-bold md:text-xl text-[14px]">
                 With Service Providers:
               </span>{" "}
               We may share Your personal information with Service Providers to
@@ -386,7 +382,7 @@ export default function PrivacyPolicy() {
 
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">
+              <span className="font-bold md:text-xl text-[14px]">
                 For business transfers:{" "}
               </span>{" "}
               We may share or transfer Your personal information in connection
@@ -397,7 +393,7 @@ export default function PrivacyPolicy() {
 
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">With Affiliates: </span> We
+              <span className="font-bold md:text-xl text-[14px]">With Affiliates: </span> We
               may share Your information with Our affiliates, in which case we
               will require those affiliates to honor this Privacy Policy.
               Affiliates include Our parent company and any other subsidiaries,
@@ -407,7 +403,7 @@ export default function PrivacyPolicy() {
 
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">
+              <span className="font-bold md:text-xl text-[14px]">
                 With business partners:{" "}
               </span>{" "}
               We may share Your information with Our business partners to offer
@@ -416,7 +412,7 @@ export default function PrivacyPolicy() {
 
             <li className="list-disc my-2">
               {" "}
-              <span className="font-bold text-xl">With other users: </span> when
+              <span className="font-bold md:text-xl text-[14px]">With other users: </span> when
               You share personal information or otherwise interact in the public
               areas with other users, such information may be viewed by all
               users and may be publicly distributed outsid
@@ -430,7 +426,7 @@ export default function PrivacyPolicy() {
             </li>
           </ul>
 
-          <h2 className="font-semibold text-3xl my-3">
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">
             Retention of Your Personal Data
           </h2>
 
@@ -453,7 +449,7 @@ export default function PrivacyPolicy() {
             obligated to retain this data for longer time periods.
           </p>
 
-          <h2 className="font-semibold text-3xl my-3">
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">
             Delete Your Personal Data
           </h2>
 
@@ -476,15 +472,15 @@ export default function PrivacyPolicy() {
           </p>
           <p className="my-4">
             Please note, however, that We may need to retain certain information
-            when we have a legal obligation or lawful basis to do so.{" "}
+            when we have a legal obligation or lawful basis to do so.
           </p>
         </section>
 
         <section>
-          <h1 className=" text-[32px] font-bold text-[#752ee4]">
+          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Disclosure of Your Personal Data
           </h1>
-          <h2 className="font-semibold text-3xl my-3">Business Transactions</h2>
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">Business Transactions</h2>
 
           <p className="my-4">
             If the Company is involved in a merger, acquisition or asset sale,
@@ -493,7 +489,7 @@ export default function PrivacyPolicy() {
             Privacy Policy.
           </p>
 
-          <h2 className="font-semibold text-3xl my-3">Law enforcement</h2>
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">Law enforcement</h2>
 
           <p className="my-4">
             Under certain circumstances, the Company may be required to disclose
@@ -502,7 +498,7 @@ export default function PrivacyPolicy() {
             agency).
           </p>
 
-          <h2 className="font-semibold text-3xl my-3">
+          <h2 className="font-semibold md:text-3xl text-[20px] my-3">
             Other legal requirements
           </h2>
 
@@ -528,12 +524,12 @@ export default function PrivacyPolicy() {
           <li className="list-disc my-2">Protect against legal liability</li>
         </section>
 
-        <h2 className="font-semibold text-3xl my-3">Security of Your Personal Data</h2>
+        <h2 className="font-semibold md:text-3xl text-[20px] my-3">Security of Your Personal Data</h2>
         <p className="my-4">
         The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.s
         </p>
 
-        <h1 className=" text-[32px] font-bold text-[#752ee4]">
+        <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
         Children’s Privacy
           </h1>
           <p className="my-4">
@@ -544,7 +540,7 @@ export default function PrivacyPolicy() {
             </p>
 
 
-            <h1 className=" text-[32px] font-bold text-[#752ee4]">
+            <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Links to Other Websites
           </h1>
           <p className="my-4">
@@ -554,7 +550,7 @@ export default function PrivacyPolicy() {
             We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
             </p>
 
-            <h1 className=" text-[32px] font-bold text-[#752ee4]">
+            <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
             Changes to this Privacy Policy
           </h1>
           <p className="my-4">
@@ -568,7 +564,7 @@ export default function PrivacyPolicy() {
             You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
             </p>
 
-            <h1 className=" text-[32px] font-bold text-[#752ee4]">
+            <h1 className=" md:text-[32px] text-[26px] font-bold text-[#752ee4]">
             Contact Us
 
           </h1>

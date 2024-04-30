@@ -93,7 +93,7 @@ export default function AdvertForm() {
         {payload.CutType == "Half Cut" && (
           <div className="">
             <label className="text-sm sm:text-md  lg:text-[13px] xl:text-[14px] 2xl:text-[18px] mb-2">
-              Trim Images
+              Crop Images
             </label>
             <div className="grid grid-cols-2 gap-8 mt-2">
               <button

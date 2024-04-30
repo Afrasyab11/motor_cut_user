@@ -44,13 +44,13 @@ export const Social = ({ socialBtnText }) => {
       .signInWithPopup(provider)
       .then((result) => {
         const {email,displayName} = result?.user;
-        let payload={
+        let loginPayload={
           Email: email,
           Name:displayName,
           isAdmin:false
         }
         dispatch(loginUser(
-          { payload,
+          { loginPayload,
             onSuccess:()=>{
               router.push('/main/dashboard')
             },

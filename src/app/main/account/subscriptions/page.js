@@ -274,9 +274,7 @@ const Subscription = () => {
                   <CardFooter className="flex flex-col gap-y-2 ">
                     <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
-                      {item.Price +
-                        " PER MONTH " +
-                        `${currency === "USD" ? "(+ Tax Rates)" : " (+ VAT)"}`}
+                      {item.Price + `${currency === "USD" ? "+ Tax Rates/" : " + VAT/"}`} <span className=" text-[12px]">month</span>
                     </small>
                     <div className="relative">
                       <Input

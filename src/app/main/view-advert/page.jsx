@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
   const { processAdvert, advertLoader } = useSelector((state) => state?.advert);
@@ -43,7 +44,12 @@ const ViewAdvert = ({ searchParams }) => {
   let user = userString ? JSON.parse(userString) : null;
   const [advert, setAdvert] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-
+  const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
+  const [open, setOpen] = useState(false); // State to hold the selected image
+  const toggle = (imageUrl)=>{
+    setOpen(!open)
+    setSelectedImage(imageUrl)
+  }
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
@@ -212,9 +218,9 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <AlertDialogTrigger className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
+                            <button onClick={() => toggle(img.Original)}  className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
                               Edit Background Position
-                            </AlertDialogTrigger>
+                            </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <button className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
@@ -317,29 +323,60 @@ const ViewAdvert = ({ searchParams }) => {
           </div>
         )}
       </div>
-      <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
+      {
+        open&& <ShiftBackground open={open} setOpen={toggle} selectedImage={selectedImage} />
+      }
+      
+      {/* <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {/* This div is for just Heading or title */}
-            <div className="text-[40px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">
-              <p>Shift Background</p>
-              <button>
-                <AlertDialogCancel className="border-0">
-                  <MdClose size={35} />
-                </AlertDialogCancel>
-              </button>
-            </div>
-          </AlertDialogTitle>
-          <AlertDialogDescription></AlertDialogDescription>
+						<div className='lg:text-[40px] md:text-[30px] sm:text-[20px] text-center font-normal flex justify-between items-center pb-[20px] pt-[15px]'>
+							<p>Shift Background</p>
+              <AlertDialogCancel className="border-0">
+								<MdClose size={35} className="px-0" />
+						 </AlertDialogCancel>
+						</div>
+					</AlertDialogTitle>
+          <div className='flex align-items-center gap-3'>
+						<div>
+							<div
+              className='relative'
+							>
+								<Image
+									className='rounded-lg'
+                  src={`${baseDomain}get-file?filename=${selectedImage}`}
+                  width={1600}
+                              height={1600}
+									alt={`Background`}
+								/>
+                <div className="absolute left-0 w-full h-1 bg-red-500 transform -translate-y-1/2" style={{ top: `calc(100% - ${value}%)` }}></div>
+							</div>
+						</div>
+						<div>
+							<Slider
+								min={MIN}
+								max={MAX}
+								value={value}
+								onChange={handleSliderChange}
+								vertical
+								className='custom-slider'
+								railStyle={{ backgroundColor: 'black' }} // Set track fill color to black
+								trackStyle={{ backgroundColor: 'black' }} // Set track fill color to black
+								handleStyle={{ borderColor: 'red' }} // Set point border color to red
+								dotStyle={{ borderColor: 'red' }} // Set point fill color to red
+								activeDotStyle={{ borderColor: 'red' }} // Set active point fill color to red
+							/>
+						</div>
+					</div>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <div className="flex justify-between items-center mx-auto">
-            <AlertDialogAction className="bg-primary mt-[120px] py-2 rounded-full px-14 text-white">
+            <AlertDialogAction className="bg-primary py-2 rounded-full px-9 text-white">
               Save and Reprocess Image
             </AlertDialogAction>
           </div>
         </AlertDialogFooter>
-      </AlertDialogContent>
+      </AlertDialogContent> */}
     </AlertDialog>
   );
 };

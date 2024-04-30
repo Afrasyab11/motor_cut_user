@@ -9,10 +9,10 @@ import logo from "./../assets/images/logo.png";
 import ThreeAnimation from "@/components/threeJsAnimation/ThreeAnimation";
 import { set } from "zod";
 export default function Home() {
+  const route = useRouter()
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const termsAndConditonHandler = () => {
-    setOpen(true);
+    route.push("/terms-conditions")
   };
   const closeHandler = () => {
     setOpen(false);
@@ -51,21 +51,23 @@ export default function Home() {
           <p className="flex text-xs  text-center mt-6 font-medium text-mutedFields ">
             By signing up, I agree to the
           </p>
+          
           <p
             onClick={termsAndConditonHandler}
             className="text-xs cursor-pointer text-center mt-6 font-medium text-mutedFields "
           >
             &nbsp; terms and conditions
           </p>
+         
         </div>
       </div>
-      {open && (
+      {/* {open && (
         <TermsAndConditionsModal
           open={open}
           setOpen={setOpen}
           closeHandler={closeHandler}
         />
-      )}
+      )} */}
     </div>
   );
 }

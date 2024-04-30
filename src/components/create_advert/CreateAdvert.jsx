@@ -106,7 +106,7 @@ export default function CreateAdvert() {
         </div>
         {payload.CutType == "Half Cut" && (
           <div className="mb-6">
-            <label className="block mb-2">Trim Images</label>
+            <label className="block mb-2">Crop Images</label>
             <div className="grid grid-cols-2 gap-8 mt-4">
               <button
                 className={`rounded-full p-1 sm:p-3 md:p-2 lg:p-2 xl:p-1 2xl:p-2 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] ${
