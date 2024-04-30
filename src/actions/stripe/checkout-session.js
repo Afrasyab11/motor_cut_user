@@ -287,8 +287,8 @@ function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, 
   let payload = {
     mode: "subscription",
     customer: stripeCustomerId,
-    success_url: `${"http://localhost:3000"}/main/account`,
-    cancel_url: `${"http://localhost:3000"}/main/account`,
+    success_url: `${"https://motorcutuser.vercel.app"}/main/account`,
+    cancel_url: `${"https://motorcutuser.vercel.app"}/main/account`,
     line_items: [{ price: priceId, quantity: 1,tax_rates: taxRates}],
     subscription_data: {
       metadata: {
