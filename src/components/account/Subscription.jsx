@@ -35,7 +35,6 @@ const Subscription = () => {
   const [stats, setStats] = useState("");
   const [loader,setLoader]=useState(false)
 
-  console.log("stats: ", stats);
   const [loadingStates, setLoadingStates] = useState({
     invoices: true,
   });
@@ -47,7 +46,7 @@ const Subscription = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user.UserId) {
-        dispatch(getUserProfileData(user.UserId));
+        // dispatch(getUserProfileData(user.UserId));
         dispatch(dashboardStatsAction(user.UserId));
       }
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
@@ -81,12 +80,12 @@ const Subscription = () => {
     fetchInvoices();
   }, [user?.StripeCustomerId]);
 
-  useEffect(() => {
-    if (getProfile[0]) {
-      if (getProfile[0]?.stripeCustomerId) {
-      }
-    }
-  }, [user?.UserId, getProfile]);
+  // useEffect(() => {
+  //   if (getProfile[0]) {
+  //     if (getProfile[0]?.stripeCustomerId) {
+  //     }
+  //   }
+  // }, [user?.UserId, getProfile]);
 
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
@@ -120,7 +119,6 @@ const Subscription = () => {
         user.UserId,
         getProfile[0].stripeSubscriptionId
       );
-      console.log("res", res);
       if (res.success) {
         toast.success("Subscription cancelled successfully");
         dispatch(dashboardStatsAction(user.UserId));

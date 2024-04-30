@@ -56,7 +56,6 @@ const Subscription = () => {
   );
   const [currency, setCurrency] = useState("GBP");
   const [couponCodeID, setCouponCodeID] = useState("");
-  console.log("couponCodeID: ", couponCodeID);
 
   let userString = getCookie("user");
   let userInfo = userString ? JSON.parse(userString) : null;
@@ -70,7 +69,6 @@ const Subscription = () => {
   const authToken = userInfo?.AccessToken;
   const userName = userInfo?.UserName;
   const [loader, setLoader] = useState(true);
-  console.log("userIfO", userInfo);
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);

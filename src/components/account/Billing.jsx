@@ -24,10 +24,8 @@ const Billing = () => {
 
   let user = JSON.parse(getCookie("user") || "{}");
 
-  console.log("user===>",user)
 
   const fetchInvoices = async () => {
-    console.log("Customer Id",user?.StripeCustomerId)
     if (user?.StripeCustomerId) {
       try {
         const customerInvoices = await getCustomerInvoices(

@@ -87,6 +87,7 @@ const UpdateProfile = () => {
     }
   }, [getProfile, setValue]);
 
+console.log("payload==?",payload)
   const SubmitHanler = () => {
     dispatch(
       updateUserProfile({
