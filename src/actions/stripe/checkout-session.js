@@ -225,10 +225,18 @@ async function CreateStripeCheckoutSession(data) {
     packageName,
     packagePrice,
     couponCodeID,
+    tax,
   } = data;
 
   try {
     let stripeCustomerId = await ensureStripeCustomer({ userId, userEmail, authToken });
+
+    const taxRate = await stripe.taxRates.create({
+      display_name: 'Tax',
+      percentage: tax, 
+      inclusive: false,
+    });
+    console.log("taxRates",taxRate)
 
     const payload = buildCheckoutSessionPayload({
       stripeCustomerId,
@@ -237,7 +245,8 @@ async function CreateStripeCheckoutSession(data) {
       userId,
       userName,
       packageName,
-      packagePrice
+      packagePrice,
+      taxRates: [taxRate.id],
     });
 
     const checkoutSession = await stripe.checkout.sessions.create(payload);
@@ -274,13 +283,13 @@ async function ensureStripeCustomer({ userId, userEmail, authToken }) {
   }
 }
 
-function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, userId, userName, packageName, packagePrice }) {
+function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, userId, userName, packageName, packagePrice,taxRates }) {
   let payload = {
     mode: "subscription",
     customer: stripeCustomerId,
-    success_url: `${"https://motorcutuser.vercel.app"}/main/account`,
-    cancel_url: `${"https://motorcutuser.vercel.app"}/main/account`,
-    line_items: [{ price: priceId, quantity: 1 }],
+    success_url: `${"http://localhost:3000"}/main/account`,
+    cancel_url: `${"http://localhost:3000"}/main/account`,
+    line_items: [{ price: priceId, quantity: 1,tax_rates: taxRates}],
     subscription_data: {
       metadata: {
         UserId: userId,

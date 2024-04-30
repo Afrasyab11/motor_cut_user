@@ -133,6 +133,7 @@ const Subscription = () => {
 
   const HandleCreateCheckout = async (
     e,
+    item,
     priceId,
     packageName,
     packagePrice,
@@ -140,8 +141,14 @@ const Subscription = () => {
   ) => {
     e.preventDefault();
     // console.log("promoCode",promoCode)
+    let  tax;
+    if (item?.Currency === "GBP") {
+      tax = 20;
+    } else {
+      tax = 0;
+    }
     const currentPromoCode = promoCode[index] || "";
-    console.log("currentPromoCode",currentPromoCode)
+    console.log("currentPromoCode", currentPromoCode);
 
     try {
       const response = await CreateStripeCheckoutSession({
@@ -153,6 +160,7 @@ const Subscription = () => {
         packageName,
         packagePrice,
         couponCodeID,
+        tax,
       });
       // console.log("response__",response)
 
@@ -235,14 +243,14 @@ const Subscription = () => {
                   <CardHeader className="p-2 mt-3">
                     <CardTitle className="text-2xl text-center font-medium tracking-normal ">
                       {item.Name}
-                    </CardTitle> 
+                    </CardTitle>
                     <CardDescription className="px-2 pt-3">
                       {/* <p className="lg:text-[18px] sm:text-[12px] text-primary-dark font-medium">
                         {" "}
                         {item.NumberOfImages} image credits per p/m
                       </p> */}
                       <p className="lg:text-[16px] font-medium sm:text-[12px] text-center text-black mt-2">
-                      Suitable for up to  {item.NumberOfImages} car adverts p/m
+                        Suitable for up to {item.NumberOfImages} car adverts p/m
                       </p>
                     </CardDescription>
                   </CardHeader>
@@ -266,7 +274,9 @@ const Subscription = () => {
                   <CardFooter className="flex flex-col gap-y-2 ">
                     <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
-                      {item.Price + " PER MONTH " + `${currency === "USD" ? "(+ Tax Rates)" : " (+ VAT)"}`}
+                      {item.Price +
+                        " PER MONTH " +
+                        `${currency === "USD" ? "(+ Tax Rates)" : " (+ VAT)"}`}
                     </small>
                     <div className="relative">
                       <Input
@@ -277,7 +287,7 @@ const Subscription = () => {
                           setPromoCode((previous) => ({
                             ...previous,
                             [index]: e.target.value,
-                          }))
+                          }));
                         }}
                       />
                       <button
@@ -307,6 +317,7 @@ const Subscription = () => {
                       onClick={(e) =>
                         HandleCreateCheckout(
                           e,
+                          item,
                           item?.StripePriceId,
                           item?.Name,
                           item?.Price,

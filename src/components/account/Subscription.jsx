@@ -122,7 +122,7 @@ const Subscription = () => {
       );
       console.log("res", res);
       if (res.success) {
-        toast.success("Subscription cancelled successfully1");
+        toast.success("Subscription cancelled successfully");
         dispatch(dashboardStatsAction(user.UserId));
         setDialogOpen(false)
         setLoader(false)
