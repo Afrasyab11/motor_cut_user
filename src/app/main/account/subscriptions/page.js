@@ -74,7 +74,7 @@ const Subscription = () => {
   }, [currency]);
   useEffect(() => {
     setTimeout(() => {
-      if (subscription.length != 0) {
+      if (subscription?.length != 0) {
         setLoader(false);
       } else {
         setLoader(false);
@@ -233,8 +233,8 @@ const Subscription = () => {
         </div>
       </section>
       <main className="subscriptions grid  sm:grid-cols-1 p-1 md:p-8  md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-10 gap-y-6 lg:h-100 ">
-        {subscription.length > 0 ? (
-          subscription.map((item, index) => (
+        {subscription?.length > 0 ? (
+          subscription?.map((item, index) => (
             <>
               <Card key={index} className=" bg-gray-100">
                 <div className="container m-auto">

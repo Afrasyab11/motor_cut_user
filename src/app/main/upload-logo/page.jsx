@@ -34,7 +34,6 @@ import placeholder from "../../../../public/placeholder.png";
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
-import { generateBase64Image } from "@/utils/commonFunctions";
 const UploadLogo = () => {
   const dispatch = useDispatch();
   const { logo, logoLoader, getLogoLoader, removeLogoLoader } = useSelector(

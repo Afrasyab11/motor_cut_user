@@ -6,6 +6,7 @@ import { axiosInstance } from "@/utils/axios";
 import {
   downloadAdvertImagesAction,
   downloadAllAdvertImagesAction,
+  getAdvertAction,
 } from "@/store/createAdvert/createAdvertThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
@@ -14,6 +15,7 @@ import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import InprogressImage from "./../../assets/images/InProgress.png";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
   const dispatch = useDispatch();
@@ -32,6 +34,18 @@ export default function AdvertCard({ data, showCard }) {
       }
     }, 1000);
   }, [data]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const inProgressDetails = data.filter(item => item?.Status === 'InProgress');
+      if (inProgressDetails.length > 0) {
+        dispatch(getAdvertAction( user?.UserId));
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [data]);
+
 
   const downloadImagesHandler = (e, item) => {
     if (!(item?.Status == "Completed")) {
@@ -96,8 +110,12 @@ export default function AdvertCard({ data, showCard }) {
             <div className="col-span-5 mb-2">
               <div className="rounded-2xl flex justify-center items-center w-full h-full  ">
                 <Image
-                  src={`${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`}
-                  alt={"BackgroundLibrary"}
+                  src={
+                    item?.Status == "InProgress"
+                      ? InprogressImage
+                      : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`
+                  }
+                  alt={"Advert"}
                   width={1900}
                   height={600}
                   // className="w-full h-full object-cover rounded-2xl"

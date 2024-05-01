@@ -9,7 +9,7 @@ export default function RecentAdvert({ showCard }) {
   let { advert } = useSelector((state) => state?.advert);
   const dispatch = useDispatch();
   let userString = getCookie("user");
-
+// console.log("advert",advert)
 let user = userString ? JSON.parse(userString) : null;
   useEffect(() => {
     dispatch(getAdvertAction( user?.UserId));
