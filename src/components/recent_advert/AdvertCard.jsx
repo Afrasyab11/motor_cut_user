@@ -119,7 +119,7 @@ export default function AdvertCard({ data, showCard }) {
                   width={1900}
                   height={600}
                   // className="w-full h-full object-cover rounded-2xl"
-                  className=" object-fill rounded-2xl picture "
+                  className="object-fill w-full picture rounded-2xl"
                 />
               </div>
             </div>

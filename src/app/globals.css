@@ -173,3 +173,57 @@ input[type="checkbox"]:checked {
   height: 100% !important;
 }
 
+.picture {
+  object-fit: fill;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+@media (min-width: 640px) {
+  /* Medium screens */
+  .picture {
+    height: full;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Large screens */
+  .picture {
+    height: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Extra large screens */
+  .picture {
+    height: 140px;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* 2XL screens */
+  .picture {
+    height: 140px;
+  }
+}
+
+@media (min-width: 1800px) {
+  /* Screens wider than 1800px */
+  .picture {
+    height: 170px;
+  }
+}
+
+@media (min-width: 2000px) {
+  /* Screens wider than 2000px */
+  .picture {
+    height: 200px;
+  }
+}
+
+@media (min-width: 3840px) {
+  /* 4K screens */
+  .picture {
+    height: 270px;
+  }
+}

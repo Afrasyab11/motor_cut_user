@@ -38,7 +38,7 @@ import {
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
-  const { processAdvert, advertLoader } = useSelector((state) => state?.advert);
+  const { processAdvert, getLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
@@ -295,7 +295,7 @@ const ViewAdvert = ({ searchParams }) => {
                 ))
               )}
           </>
-        ) : advertLoader ? (
+        ) : getLoader ? (
           <div className="bg-whitee px-4 py-3 rounded-2xl my-3">
             <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-6 ">
               <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">

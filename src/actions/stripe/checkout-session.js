@@ -282,7 +282,8 @@ async function ensureStripeCustomer({ userId, userEmail, authToken }) {
     return stripeCustomer.id;
   }
 }
-
+const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
 function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, userId, userName, packageName, packagePrice,taxRates }) {
   let payload = {
     mode: "subscription",
@@ -296,6 +297,7 @@ function buildCheckoutSessionPayload({ stripeCustomerId, priceId, couponCodeID, 
         UserName: userName,
         PackageName: packageName,
         PackagePrice: packagePrice,
+        Date: formattedDate,
       },
     },
   };
