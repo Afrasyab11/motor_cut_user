@@ -81,7 +81,7 @@ export const Calendly = ({ prevStep }) => {
         {showFinishButton && (
           <div className="flex justify-center pb-5">
           <Button
-            className="bg-black text-white py-2 px-4 rounded mt-4"
+            className="bg-[#814adf] text-white py-2 px-4 rounded sm:w-full md:mt-4 min-w-32 max-w-40"
             onClick={handleFinish}
           >
             Finish

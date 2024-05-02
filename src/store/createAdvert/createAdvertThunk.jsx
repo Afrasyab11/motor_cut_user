@@ -140,3 +140,20 @@ export const getActivityChartAction = createAsyncThunk(
     }
   }
 );
+export const getFileAction = createAsyncThunk(
+  "advert//Get-File-URL",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        `/Get-File-URL`,payload
+      );
+      if (data?.status_code === 200) {
+        return data?.detail;
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);

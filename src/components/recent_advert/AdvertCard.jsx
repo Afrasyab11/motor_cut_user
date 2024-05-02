@@ -7,6 +7,7 @@ import {
   downloadAdvertImagesAction,
   downloadAllAdvertImagesAction,
   getAdvertAction,
+  getFileAction
 } from "@/store/createAdvert/createAdvertThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { SkeletonCard } from "../skeleton/SkeletonCard";

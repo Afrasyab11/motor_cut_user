@@ -141,7 +141,7 @@ const Subscription = () => {
     // console.log("promoCode",promoCode)
     let  tax;
     if (item?.Currency === "GBP") {
-      tax = 20;
+      tax = 0;
     } else {
       tax = 0;
     }

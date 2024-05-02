@@ -4,6 +4,7 @@ import {
   getAdvertAction,
   getAdvertProcesByIdAction,
   getActivityChartAction,
+  getFileAction,
 } from "./createAdvertThunk";
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   error: null,
   advert: [],
   processAdvert: [],
-  activity:[]
+  activity:[],
+  getPath:[],
 };
 
 export const advertSlice = createSlice({
@@ -65,6 +67,17 @@ export const advertSlice = createSlice({
       })
       .addCase(getActivityChartAction.rejected, (state, action) => {
         state.chartLoader = false;
+        state.error = action.payload;
+      })
+      .addCase(getFileAction.pending, (state) => {
+        state.getLoader = true;
+      })
+      .addCase(getFileAction.fulfilled, (state, action) => {
+        state.getLoader = false;
+        state.getPath = action.payload;
+      })
+      .addCase(getFileAction.rejected, (state, action) => {
+        state.getLoader = false;
         state.error = action.payload;
       })
      
