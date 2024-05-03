@@ -16,7 +16,7 @@ export const userProfileSchema = z.object({
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Invalid email format" }),
-    mobileNumber: z.string().min(4, { message: "Mobile number is required" }),
+  mobileNumber: z.string().min(4, { message: "Mobile number is required" }),
   // Address: z.string().min(1, { message: "Address is required" }),
   postalCode: z.string().min(1, { message: "Zip Code is required" }),
   country: z.string().min(1, { message: "Country is required" }),
@@ -24,6 +24,6 @@ export const userProfileSchema = z.object({
     .string()
     .min(1, { message: "Billing Email is required" })
     .email({ message: "Invalid Billing email format" }),
-  billingLine1: z.string().min(1, { message: "Billing Line1 is required" }),
-  billingLine2: z.string().min(1, { message: "Billing Line2 is required" }),
+  billingLine1: z.string().nullable(),
+  billingLine2: z.string().nullable(),
 });

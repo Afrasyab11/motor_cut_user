@@ -7,7 +7,7 @@ import {
   downloadAdvertImagesAction,
   downloadAllAdvertImagesAction,
   getAdvertAction,
-  getFileAction
+  getFileAction,
 } from "@/store/createAdvert/createAdvertThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import InprogressImage from "./../../assets/images/InProgress.png";
+import notProcess from "./../../assets/images/notProcess.webp";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
   const dispatch = useDispatch();
@@ -38,15 +39,16 @@ export default function AdvertCard({ data, showCard }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const inProgressDetails = data.filter(item => item?.Status === 'InProgress');
+      const inProgressDetails = data.filter(
+        (item) => item?.Status === "InProgress"
+      );
       if (inProgressDetails.length > 0) {
-        dispatch(getAdvertAction( user?.UserId));
+        dispatch(getAdvertAction(user?.UserId));
       }
     }, 10000);
 
     return () => clearInterval(interval);
   }, [data]);
-
 
   const downloadImagesHandler = (e, item) => {
     if (!(item?.Status == "Completed")) {
@@ -114,6 +116,8 @@ export default function AdvertCard({ data, showCard }) {
                   src={
                     item?.Status == "InProgress"
                       ? InprogressImage
+                      : item?.Images?.Images.length === 0
+                      ? notProcess
                       : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`
                   }
                   alt={"Advert"}
@@ -203,7 +207,9 @@ export default function AdvertCard({ data, showCard }) {
                       query: { advertId: item.UniqueAdvertisementId },
                     }}
                   >
-                    <button className="text-primary border w-full rounded-full  py-1  lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
+                    <button
+                    disabled={item?.Images?.Images?.length === 0}
+                     className="text-primary border w-full rounded-full  py-1  lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
                       View Images
                     </button>
                   </Link>

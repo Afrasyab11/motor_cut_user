@@ -40,4 +40,21 @@ export const getCouponID = createAsyncThunk(
     }
   }
 );
+export const cancelSubscriptionAction = createAsyncThunk(
+  "subscrition/cancelSubscription",
+  async ({payload,onSuccess}, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        `Subscriptions/Cancel-Subscription`,payload);
+      if (data?.status_code === 200) {
+        onSuccess();
+        return data?.detail;
+      } else {
+        console.error(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);
 

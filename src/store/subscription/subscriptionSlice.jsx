@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCouponID, getSubscriptionAction } from "./subscriptionThunk";
+import { getCouponID, getSubscriptionAction,cancelSubscriptionAction } from "./subscriptionThunk";
 
 const initialState = {
   subscriptionLoader: false,
   error: null,
   subscription: [],
-  couponLoader:false
+  couponLoader:false,
+  cancelDetails:[],
 };
 
 export const subscriptionSlice = createSlice({
@@ -34,6 +35,16 @@ export const subscriptionSlice = createSlice({
         state.couponLoader = false;
       })
       .addCase(getCouponID.rejected, (state, action) => {
+        state.couponLoader = false;
+      })
+      .addCase(cancelSubscriptionAction.pending, (state) => {
+        state.couponLoader = true;
+      })
+      .addCase(cancelSubscriptionAction.fulfilled, (state, action) => {
+        state.couponLoader = false;
+        state.cancelDetails=action.payload;
+      })
+      .addCase(cancelSubscriptionAction.rejected, (state, action) => {
         state.couponLoader = false;
       });
   },

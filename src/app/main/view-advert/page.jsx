@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
+import { Button } from "@/components/ui/button";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
   const { processAdvert, getLoader } = useSelector((state) => state?.advert);
@@ -223,16 +224,16 @@ const ViewAdvert = ({ searchParams }) => {
                             </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <button className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                            <Button disabled className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                               {/* <button> */}
                               Crop
                               {/* </button> */}
-                            </button>
+                            </Button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <button className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                            <Button disabled className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                               Reprocess
-                            </button>
+                            </Button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                           {logo?.DisplayLogo ? (

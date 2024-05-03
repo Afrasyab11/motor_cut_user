@@ -26,15 +26,16 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-international-phone/style.css";
 import CancelSubscriptionModal from "../modals/CancelSubscriptionModal";
-
+import { cancelSubscriptionAction } from "@/store/subscription/subscriptionThunk";
 const Subscription = () => {
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
-  const { states } = useSelector((state) => state.dashboard);
+  const { states } = useSelector((state) => state?.dashboard);
+  const { cancelDetails } = useSelector((state) => state?.subscription);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [stats, setStats] = useState("");
-  const [loader,setLoader]=useState(false)
-
+  const [loader, setLoader] = useState(false);
+  console.log("cancelSubscription", cancelDetails);
   const [loadingStates, setLoadingStates] = useState({
     invoices: true,
   });
@@ -46,7 +47,6 @@ const Subscription = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user.UserId) {
-        // dispatch(getUserProfileData(user.UserId));
         dispatch(dashboardStatsAction(user.UserId));
       }
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
@@ -80,12 +80,12 @@ const Subscription = () => {
     fetchInvoices();
   }, [user?.StripeCustomerId]);
 
-  // useEffect(() => {
-  //   if (getProfile[0]) {
-  //     if (getProfile[0]?.stripeCustomerId) {
-  //     }
-  //   }
-  // }, [user?.UserId, getProfile]);
+  useEffect(() => {
+    if (getProfile[0]) {
+      if (getProfile[0]?.stripeCustomerId) {
+      }
+    }
+  }, [user?.UserId, getProfile]);
 
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
@@ -111,26 +111,31 @@ const Subscription = () => {
     setDialogOpen(true);
   };
 
-    const confirmCancelSubscription = async () => {
-        setLoader(true)
-      if (!getProfile[0]?.stripeSubscriptionId) return;
+  const confirmCancelSubscription = async () => {
+    setLoader(true);
+    if (!getProfile[0]?.stripeSubscriptionId) return;
 
-      const res = await CancelSubscription(
-        user.UserId,
-        getProfile[0].stripeSubscriptionId
-      );
-      if (res.success) {
-        toast.success("Subscription cancelled successfully");
+    const res = await CancelSubscription(
+      user.UserId,
+      getProfile[0].stripeSubscriptionId
+    );
+    if (res.success) {
+      toast.success("Subscription cancelled successfully");
+      let payload = {
+        UserId: user?.UserId,
+      };
+      dispatch(cancelSubscriptionAction({payload,onSuccess:()=>{
         dispatch(dashboardStatsAction(user.UserId));
-        setDialogOpen(false)
-        setLoader(false)
+      }}));
+      setDialogOpen(false);
+      setLoader(false);
 
-        dispatch(getUserProfileData(user.UserId)); // Refresh user data
-      } else {
-        setLoader(false)
-        toast.error(res.message || "Failed to cancel subscription");
-      }
-    };
+      dispatch(getUserProfileData(user.UserId)); // Refresh user data
+    } else {
+      setLoader(false);
+      toast.error(res.message || "Failed to cancel subscription");
+    }
+  };
 
   return (
     <>
@@ -185,12 +190,6 @@ const Subscription = () => {
               variant="outline"
               className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-full md:w-1/2"
               onClick={handleCancelSubscription}
-              //   onClick={() =>
-              //     handleCancelSubscription(
-              //       user?.UserId,
-              //       getProfile[0]?.stripeSubscriptionId
-              //     )
-              //   }
             >
               Cancel Subscriptions
             </Button>
