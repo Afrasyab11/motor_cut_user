@@ -93,8 +93,7 @@ const ViewAdvert = ({ searchParams }) => {
       (response) => {
         const data = response?.payload;
         downloadFile(
-          `${baseDomain}get-file?filename=${data}
-      `,
+          `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
           "Advert"
         );
       }
@@ -145,13 +144,16 @@ const ViewAdvert = ({ searchParams }) => {
                   Download All
                 </button>
               </div>
-              <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-end items-center">
+              <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-center items-center ">
+                <div className="flex items-center flex-wrap gap-2">
                 <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[19px] font-medium">
                   Advert ID:{" "}
                 </span>
-                <span className="text-primary text-sm sm:text-md font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                   {" " + searchParams?.advertId}
                 </span>
+                </div>
+               
               </div>
             </div>
             {advert &&

@@ -58,10 +58,10 @@ export default function AdvertCard({ data, showCard }) {
     }
     dispatch(downloadAdvertImagesAction(item?.UniqueAdvertisementId)).then(
       (response) => {
+        console.log("response87979",response)
         const data = response?.payload;
         downloadFile(
-          `${baseDomain}get-file?filename=${data}
-      `,
+          `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
           "Advert"
         );
       }
@@ -71,15 +71,11 @@ export default function AdvertCard({ data, showCard }) {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
-      // Create a temporary link element
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = fileName;
-      // Append the link to the body
       document.body.appendChild(link);
-      // Trigger the download
       link.click();
-      // Remove the link from the DOM
       document.body.removeChild(link);
     } catch (error) {
       console.error("Error downloading file:", error);

@@ -18,7 +18,7 @@ import { CardWrapper } from "../card-wrapper";
 import { FormError } from "../form-error";
 
 import { sendSignUpOTP } from "@/store/user/userThunk";
-import { PhoneInput } from "react-international-phone";
+import { PhoneInput,defaultCountries,parseCountry } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { FormSuccess } from "../form-success";
@@ -74,7 +74,10 @@ export const SignUpForm = ({ nextStep, setFormData }) => {
     borderBottom: "1px solid #814adf",
     width: "100%",
   };
-
+  const countries = defaultCountries.filter((country) => {
+    const { iso2 } = parseCountry(country);
+    return ['us', 'gb'].includes(iso2);
+  });
   return (
     <CardWrapper
       headerText="Sign Up"
@@ -123,7 +126,7 @@ export const SignUpForm = ({ nextStep, setFormData }) => {
                         setPhone(phone);
                         form.setValue("mobileNumber", phone);
                       }}
-                      
+                      countries={countries}
                       inputStyle={inputStyles}
                       className="react-international-phone-input"
                       countrySelectorStyleProps={{
@@ -133,6 +136,7 @@ export const SignUpForm = ({ nextStep, setFormData }) => {
                         },
                       }}
                     />
+                  
                   </FormControl>
                 </FormItem>
               )}

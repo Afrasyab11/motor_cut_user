@@ -22,7 +22,7 @@ import { CountryDropdown } from "react-country-region-selector";
 import { userProfileSchema } from "@/schemas/userUpdateProfileSchema";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { PhoneInput } from "react-international-phone";
+import { PhoneInput,defaultCountries,parseCountry } from "react-international-phone";
 import "react-international-phone/style.css";
 import CloseAccountModal from "../modals/CloseAccountModal";
 import {
@@ -111,14 +111,7 @@ const UpdateProfile = () => {
         },
       })
     );
-    // dispatch(
-    //   updateUserProfile({
-    //     payload,
-    //     onSuccess: () => {
-    //       dispatch(getUserProfileData(user?.UserId));
-    //     },
-    //   })
-    // );
+
   };
   const inputStyles = {
     border: "none",
@@ -132,6 +125,10 @@ const UpdateProfile = () => {
   const ConfirmCloseHandler = () => {
     setDialogOpen(false);
   };
+  const countries = defaultCountries.filter((country) => {
+    const { iso2 } = parseCountry(country);
+    return ['us', 'gb'].includes(iso2);
+  });
   return (
     <>
       {/* <form onSubmit={handleSubmit(SubmitHanler)}> */}
@@ -143,7 +140,7 @@ const UpdateProfile = () => {
         </CardHeader>
         <CardContent className="flex flex-col  p-1 md:p-3">
           <Input
-            {...register("fullName")}
+            // {...register("fullName")}
             type="text"
             id="name"
             name="fullName"
@@ -154,12 +151,12 @@ const UpdateProfile = () => {
             placeholder="Full Name"
             className="border-b border-b-primary bg-white"
           />
-          {errors.fullName && (
+          {/* {errors.fullName && (
             <small className="text-red-500">{errors.fullName.message}</small>
-          )}
+          )} */}
 
           <Input
-            {...register("companyName")}
+            // {...register("companyName")}
             type="text"
             id="company-name"
             name="companyName"
@@ -170,16 +167,16 @@ const UpdateProfile = () => {
             placeholder="Company Name"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {errors.companyName && (
+          {/* {errors.companyName && (
             <small className="text-red-500">{errors.companyName.message}</small>
-          )}
+          )} */}
           <Controller
             name="mobileNumber"
             control={control}
             defaultValue={payload.mobileNumber}
             render={({ field }) => (
               <PhoneInput
-                {...register("mobileNumber")}
+                // {...register("mobileNumber")}
                 {...field}
                 defaultCountry="us"
                 value={payload?.mobileNumber}
@@ -187,6 +184,7 @@ const UpdateProfile = () => {
                   field.onChange(val);
                   setPayload({ ...payload, mobileNumber: val });
                 }}
+                countries={countries}
                 forceDialCode
                 inputStyle={inputStyles}
                 className="react-international-phone-input2 mt-4 bg-whitee"
@@ -200,11 +198,11 @@ const UpdateProfile = () => {
             )}
           />
 
-          {errors.mobileNumber && (
+          {/* {errors.mobileNumber && (
             <small className="text-red-500">
               {errors.mobileNumber.message}
             </small>
-          )}
+          )} */}
           <Input
             // {...register("email")}
             disabled
@@ -220,7 +218,7 @@ const UpdateProfile = () => {
           />
 
           <Input
-            {...register("billingEmail")}
+            // {...register("billingEmail")}
             type="text"
             id="billing-email"
             value={payload?.billingEmail}
@@ -234,11 +232,11 @@ const UpdateProfile = () => {
             placeholder="Billing Email Address"
             className="border-b border-b-primary bg-white mt-4 "
           />
-          {errors.billingEmail && (
+          {/* {errors.billingEmail && (
             <small className="text-red-500">
               {errors.billingEmail.message}
             </small>
-          )}
+          )} */}
 
           <Controller
             name="country"
@@ -269,11 +267,11 @@ const UpdateProfile = () => {
               </Select>
             )}
           />
-          {errors.country && (
+          {/* {errors.country && (
             <small className="text-red-500">{"Country is required"}</small>
-          )}
+          )} */}
           <Input
-            {...register("billingLine1")}
+            // {...register("billingLine1")}
             type="text"
             value={payload?.billingLine1}
             onChange={(e) => {
@@ -287,13 +285,13 @@ const UpdateProfile = () => {
             placeholder="Billing Line 1"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {errors.billingLine1 && (
+          {/* {errors.billingLine1 && (
               <small className="text-red-500">
                 {"Billing Line 1 is required"}
               </small>
-            )}
+            )} */}
           <Input
-            {...register("billingLine2")}
+            // {...register("billingLine2")}
             type="text"
             id="billing-line-2"
             name="billingLine2"
@@ -307,11 +305,11 @@ const UpdateProfile = () => {
             placeholder="Billing Line 2"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {errors.billingLine2 && (
+          {/* {errors.billingLine2 && (
               <small className="text-red-500">
                 {"Billing Line 2 is required"}
               </small>
-            )}
+            )} */}
           <Input
             {...register("postalCode")}
             type="text"
@@ -324,16 +322,16 @@ const UpdateProfile = () => {
             placeholder="Postal Code"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {errors.postalCode && (
+          {/* {errors.postalCode && (
             <small className="text-red-500">{errors.postalCode.message}</small>
-          )}
+          )} */}
         </CardContent>
         <CardFooter className="p-1  justify-center mt-2">
           {/* custom margins for buttons because tw's ain't enough */}
           <Button
             type="button"
             disabled={userLoader}
-            onClick={handleSubmit(SubmitHanler)}
+            onClick={SubmitHanler}
             className="library-btn   basis-1/2 sm:text-[11px] md:text-sm text-justify  rounded-full bg-primary-light  text-white px-3 md:py-1 mx-4 "
           >
             Update Profile &nbsp;
