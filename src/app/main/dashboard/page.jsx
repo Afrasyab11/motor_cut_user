@@ -1,5 +1,5 @@
 "use client";
- import ApexChart from "@/components/dashboard/ActivityChart";
+import ApexChart from "@/components/dashboard/ActivityChart";
 import AdvertForm from "@/components/dashboard/AdvertForm";
 import SettingsCard from "@/components/dashboard/SettingsCard";
 import StatsCard from "@/components/dashboard/StatsCard";
@@ -31,12 +31,15 @@ export default function DashBoard() {
   const stats = [
     {
       icon: <FaTags size={25} />,
-      title: states?.PackageName ,
+      title: states?.PackageName,
       description: "Package",
     },
     {
-      icon: <FaImage size={25}/>,
-      title: (states.ImagesProcessed || 0) + "/" + (states.TotalAllowedImages || 0),
+      icon: <FaImage size={25} />,
+      title:
+        states?.RenewalDate === "Cancelled"
+          ? states?.TotalImagesProcessed
+          : (states.ImagesProcessed ?? 0) + "/" + (states.TotalAllowedImages ?? 0),
       description: "Images Processed",
     },
     {
@@ -46,7 +49,10 @@ export default function DashBoard() {
     },
     {
       icon: <FaCar size={25} />,
-      title: states?.AdvertsCreated || 0,
+      title:
+        states?.RenewalDate === "Cancelled"
+          ? states?.TotalAdvertsCreated
+          : (states?.AdvertsCreated || 0),
       description: "Adverts Created",
     },
   ];
@@ -73,7 +79,7 @@ export default function DashBoard() {
 
         <div className="grid grid-cols-12 gap-5 md:gap-x-4 lg:gap-x-5 md:gap-y-4 lg:gap-y-8">
           <div className="lg:col-span-4 md:col-span-6 bg-site_secondary rounded-lg p-5 col-span-12">
-            <h5 className="font-medium">Create Advert</h5> 
+            <h5 className="font-medium">Create Advert</h5>
             <AdvertForm />
           </div>
           {components.map(({ title, Component }, index) => (
@@ -86,9 +92,7 @@ export default function DashBoard() {
               key={`dashboard-comp-${index}`}
             >
               <h5 className="font-medium">{title}</h5>
-              <div className="bg-white rounded-lg mt-3 p-5 ">
-                {Component}
-              </div>
+              <div className="bg-white rounded-lg mt-3 p-5 ">{Component}</div>
             </div>
           ))}
         </div>

@@ -38,6 +38,7 @@ import {
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 import { Button } from "@/components/ui/button";
 const ViewAdvert = ({ searchParams }) => {
+  console.log("searchParams",searchParams)
   const dispatch = useDispatch();
   const { processAdvert, getLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
@@ -103,18 +104,14 @@ const ViewAdvert = ({ searchParams }) => {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
-
       // Create a temporary link element
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = fileName;
-
       // Append the link to the body
       document.body.appendChild(link);
-
       // Trigger the download
       link.click();
-
       // Remove the link from the DOM
       document.body.removeChild(link);
     } catch (error) {}
@@ -172,7 +169,7 @@ const ViewAdvert = ({ searchParams }) => {
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
                             <Image
-                              className="w-full cover-fit rounded-xl"
+                              className="w-full object-contain rounded-xl"
                               src={`${baseDomain}get-file?filename=${img.Original}`}
                               alt={"OrignalImage"}
                               width={1600}
@@ -182,7 +179,7 @@ const ViewAdvert = ({ searchParams }) => {
                           </div>
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6  relative mb-1">
                             <Image
-                              className="w-full cover-fit rounded-xl"
+                              className="w-full object-contain rounded-xl"
                               height={1600}
                               width={1600}
                               src={`${baseDomain}get-file?filename=${img.Processed}`}

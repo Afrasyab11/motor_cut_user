@@ -16,8 +16,9 @@ import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import InprogressImage from "./../../assets/images/InProgress.png";
-import notProcess from "./../../assets/images/notProcess.webp";
+import InprogressImage from "./../../assets/images/spinner.gif";
+import notProcess from "./../../assets/images/notProcess.gif";
+import { Button } from "../ui/button";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
   const dispatch = useDispatch();
@@ -201,26 +202,34 @@ export default function AdvertCard({ data, showCard }) {
             <div className="lg:col-span-7 md:col-span-12 sm:col-span-12 ">
               <div className="lg:grid lg:grid-cols-12 md:grid md:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1">
                 <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 mb-1 sm:m-0 md:m-0">
-                  <Link
+                  {/* <Link
                     href={{
                       pathname: "/main/view-advert",
                       query: { advertId: item.UniqueAdvertisementId },
                     }}
-                  >
-                    <button
+                  > */}
+                  <Button
+                    onClick={() => {
+                      handleButtonClick(item);
+                    }}
                     disabled={item?.Images?.Images?.length === 0}
-                     className="text-primary border w-full rounded-full  py-1  lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
-                      View Images
-                    </button>
-                  </Link>
+                    className="text-primary bg-white hover:bg-white h-7 border w-full rounded-full  py-1  lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
+                  >
+                    View Images
+                  </Button>
+                  {/* </Link> */}
                 </div>
                 <div className="lg:col-span-6 md:col-span-12  sm:col-span-12">
-                  <button
+                  <Button
+                    disabled={
+                      item?.Images?.Images?.length === 0 ||
+                      item?.Status === "InProgress"
+                    }
                     onClick={(e) => downloadImagesHandler(e, item)}
-                    className="text-whitee bg-primary  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
+                    className="text-whitee bg-primary h-7  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                   >
                     Download
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
