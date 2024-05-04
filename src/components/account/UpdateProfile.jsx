@@ -35,7 +35,7 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const countries = [
+const countriesList = [
   { name: "United States", code: "US" },
   { name: "United Kingdom", code: "GB" },
 ];
@@ -75,7 +75,6 @@ const UpdateProfile = () => {
   const {
     register,
     control,
-    handleSubmit,
     setValue,
     formState: { errors },
   } = useForm({
@@ -131,7 +130,6 @@ const UpdateProfile = () => {
   });
   return (
     <>
-      {/* <form onSubmit={handleSubmit(SubmitHanler)}> */}
       <Card className="shadow-none">
         <CardHeader>
           <CardTitle className="text-2xl font-medium tracking-normal ">
@@ -151,10 +149,6 @@ const UpdateProfile = () => {
             placeholder="Full Name"
             className="border-b border-b-primary bg-white"
           />
-          {/* {errors.fullName && (
-            <small className="text-red-500">{errors.fullName.message}</small>
-          )} */}
-
           <Input
             // {...register("companyName")}
             type="text"
@@ -167,9 +161,7 @@ const UpdateProfile = () => {
             placeholder="Company Name"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {/* {errors.companyName && (
-            <small className="text-red-500">{errors.companyName.message}</small>
-          )} */}
+        
           <Controller
             name="mobileNumber"
             control={control}
@@ -198,11 +190,6 @@ const UpdateProfile = () => {
             )}
           />
 
-          {/* {errors.mobileNumber && (
-            <small className="text-red-500">
-              {errors.mobileNumber.message}
-            </small>
-          )} */}
           <Input
             // {...register("email")}
             disabled
@@ -232,12 +219,6 @@ const UpdateProfile = () => {
             placeholder="Billing Email Address"
             className="border-b border-b-primary bg-white mt-4 "
           />
-          {/* {errors.billingEmail && (
-            <small className="text-red-500">
-              {errors.billingEmail.message}
-            </small>
-          )} */}
-
           <Controller
             name="country"
             control={control}
@@ -257,7 +238,7 @@ const UpdateProfile = () => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Country</SelectLabel>
-                    {countries.map((country) => (
+                    {countriesList.map((country) => (
                       <SelectItem key={country.code} value={country.name}>
                         {`${country.name} (${country.code})`}
                       </SelectItem>
@@ -267,9 +248,7 @@ const UpdateProfile = () => {
               </Select>
             )}
           />
-          {/* {errors.country && (
-            <small className="text-red-500">{"Country is required"}</small>
-          )} */}
+
           <Input
             // {...register("billingLine1")}
             type="text"
@@ -285,11 +264,7 @@ const UpdateProfile = () => {
             placeholder="Billing Line 1"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {/* {errors.billingLine1 && (
-              <small className="text-red-500">
-                {"Billing Line 1 is required"}
-              </small>
-            )} */}
+
           <Input
             // {...register("billingLine2")}
             type="text"
@@ -305,11 +280,7 @@ const UpdateProfile = () => {
             placeholder="Billing Line 2"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {/* {errors.billingLine2 && (
-              <small className="text-red-500">
-                {"Billing Line 2 is required"}
-              </small>
-            )} */}
+
           <Input
             {...register("postalCode")}
             type="text"
@@ -322,9 +293,7 @@ const UpdateProfile = () => {
             placeholder="Postal Code"
             className="border-b border-b-primary bg-white mt-4"
           />
-          {/* {errors.postalCode && (
-            <small className="text-red-500">{errors.postalCode.message}</small>
-          )} */}
+
         </CardContent>
         <CardFooter className="p-1  justify-center mt-2">
           {/* custom margins for buttons because tw's ain't enough */}
@@ -347,7 +316,6 @@ const UpdateProfile = () => {
           </Button>
         </CardFooter>
       </Card>
-      {/* </form> */}
 
       {isDialogOpen && (
         <CloseAccountModal
