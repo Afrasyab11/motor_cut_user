@@ -203,7 +203,7 @@ const BackgroundLibrary = () => {
                         rel="noopener noreferrer"
                         variant="outline"
                       >
-                        <Button className="library-btn bg-white basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2">See Example</Button>
+                        <Button className="library-btn bg-white hover:bg-white basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2">See Example</Button>
                       </a>
                       <Button
                         // disabled={backgroundLoader}
