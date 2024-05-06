@@ -28,7 +28,9 @@ const BackgroundLibrary = () => {
   const { allBackground, backgroundLoader, background } = useSelector(
     (state) => state.background
   );
-  const [loading, setLoading] = useState(Array(allBackground?.length).fill(false)); 
+  const [loading, setLoading] = useState(
+    Array(allBackground?.length).fill(false)
+  );
   console.log(
     "dash path ",
     background?.BackgroundImage + "libray path " + allBackground?.Path
@@ -189,6 +191,8 @@ const BackgroundLibrary = () => {
                           height={900}
                           className="w-full object-fill h-[210px] 2xl:h-full background-library-picture rounded-2xl"
                           //  className="image-card"
+                          onContextMenu={(e) => e.preventDefault()} // Prevent right-click menu
+                          draggable="false"
                         />
                       </div>
                     </CardContent>
@@ -198,9 +202,8 @@ const BackgroundLibrary = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         variant="outline"
-                        className="library-btn basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2  "
                       >
-                        See Example
+                        <Button className="library-btn bg-white basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2">See Example</Button>
                       </a>
                       <Button
                         // disabled={backgroundLoader}
@@ -209,8 +212,9 @@ const BackgroundLibrary = () => {
                         }}
                         className="library-btn basis-1/2  text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-justify rounded-full bg-primary-light  text-white px-3 "
                         disabled={
-                          card?.Id === background?.BackgroundImageId &&
-                          background?.BackgroundImageId !== null || loading[index]
+                          (card?.Id === background?.BackgroundImageId &&
+                            background?.BackgroundImageId !== null) ||
+                          loading[index]
                         }
                       >
                         {card?.Id === background?.BackgroundImageId &&
