@@ -27,7 +27,7 @@ export default function AdvertCard({ data, showCard }) {
   let user = userString ? JSON.parse(userString) : null;
   const { advertLoader } = useSelector((state) => state?.advert);
   const [loader, setLoader] = useState(true);
-
+  const [loading, setLoading] = useState(Array(data.length).fill(false));
   useEffect(() => {
     setTimeout(() => {
       if (data.length != 0) {
@@ -51,22 +51,32 @@ export default function AdvertCard({ data, showCard }) {
     return () => clearInterval(interval);
   }, [data]);
 
-  const downloadImagesHandler = (e, item) => {
-    if (!(item?.Status == "Completed")) {
-      toast.warning("Not Completed Yet..!");
-      return;
+  const downloadImagesHandler = async (e, item,index) => {
+    setLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+    try {
+      const response = await dispatch(
+        downloadAdvertImagesAction(item?.UniqueAdvertisementId)
+      );
+      const data = response?.payload;
+      await downloadFile(
+        `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
+        `${item?.Label + " Advert"}`
+      );
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    } finally {
+      setLoading((prev) => {
+        const newState = [...prev];
+        newState[index] = false;
+        return newState;
+      });
     }
-    dispatch(downloadAdvertImagesAction(item?.UniqueAdvertisementId)).then(
-      (response) => {
-        console.log("response87979",response)
-        const data = response?.payload;
-        downloadFile(
-          `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
-          "Advert"
-        );
-      }
-    );
   };
+
   async function downloadFile(url, fileName) {
     try {
       const response = await fetch(url);
@@ -219,12 +229,12 @@ export default function AdvertCard({ data, showCard }) {
                   <Button
                     disabled={
                       item?.Images?.Images?.length === 0 ||
-                      item?.Status === "InProgress"
+                      item?.Status === "InProgress" || loading[index]
                     }
-                    onClick={(e) => downloadImagesHandler(e, item)}
+                    onClick={(e) => downloadImagesHandler(e, item,index)}
                     className="text-whitee bg-primary h-7  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                   >
-                    Download
+                    {loading[index] ? "Downloading..." : "Download"}
                   </Button>
                 </div>
               </div>

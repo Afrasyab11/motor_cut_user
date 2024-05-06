@@ -38,7 +38,7 @@ import {
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 import { Button } from "@/components/ui/button";
 const ViewAdvert = ({ searchParams }) => {
-  console.log("searchParams",searchParams)
+  console.log("searchParams", searchParams);
   const dispatch = useDispatch();
   const { processAdvert, getLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
@@ -48,10 +48,11 @@ const ViewAdvert = ({ searchParams }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
-  const toggle = (imageUrl)=>{
-    setOpen(!open)
-    setSelectedImage(imageUrl)
-  }
+  const [loading, setLoading] = useState(false);
+  const toggle = (imageUrl) => {
+    setOpen(!open);
+    setSelectedImage(imageUrl);
+  };
   useEffect(() => {
     setAdvert([processAdvert]);
   }, [processAdvert]);
@@ -88,17 +89,24 @@ const ViewAdvert = ({ searchParams }) => {
     );
   };
 
-  const downloadHandler = () => {
-    dispatch(downloadAdvertImagesAction(searchParams?.advertId)).then(
-      (response) => {
-        const data = response?.payload;
-        downloadFile(
-          `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
-          "Advert"
-        );
-      }
-    );
+  const downloadHandler = async (e, item) => {
+    setLoading(true);
+    try {
+      const response = await dispatch(
+        downloadAdvertImagesAction(searchParams?.advertId)
+      );
+      const data = response?.payload;
+      await downloadFile(
+        `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
+        `Advert`
+      );
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
   async function downloadFile(url, fileName) {
     try {
       const response = await fetch(url);
@@ -138,22 +146,23 @@ const ViewAdvert = ({ searchParams }) => {
               </div>
               <div className="2xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-4 flex items-center ">
                 <button
+                disabled={loading}
                   onClick={downloadHandler}
                   className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]  mb-1"
                 >
-                  Download All
+                   {loading ? "Downloading..." : "Download All"}
+
                 </button>
               </div>
               <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-center items-center ">
                 <div className="flex items-center flex-wrap gap-2">
-                <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[19px] font-medium">
-                  Advert ID:{" "}
-                </span>
-                <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
-                  {" " + searchParams?.advertId}
-                </span>
+                  <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[19px] font-medium">
+                    Advert ID:{" "}
+                  </span>
+                  <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                    {" " + searchParams?.advertId}
+                  </span>
                 </div>
-               
               </div>
             </div>
             {advert &&
@@ -218,24 +227,33 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <button onClick={() => toggle(img.Original)}  className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]">
+                            <button
+                              onClick={() => toggle(img.Original)}
+                              className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
+                            >
                               Edit Background Position
                             </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <Button disabled className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                            <Button
+                              disabled
+                              className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]"
+                            >
                               {/* <button> */}
                               Crop
                               {/* </button> */}
                             </Button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <Button disabled className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                            <Button
+                              disabled
+                              className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]"
+                            >
                               Reprocess
                             </Button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
-                          {logo?.DisplayLogo ? (
+                            {logo?.DisplayLogo ? (
                               <>
                                 <span className="text-sm sm:text-md font-medium">
                                   Logo:
@@ -323,10 +341,14 @@ const ViewAdvert = ({ searchParams }) => {
           </div>
         )}
       </div>
-      {
-        open&& <ShiftBackground open={open} setOpen={toggle} selectedImage={selectedImage} />
-      }
-      
+      {open && (
+        <ShiftBackground
+          open={open}
+          setOpen={toggle}
+          selectedImage={selectedImage}
+        />
+      )}
+
       {/* <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
         <AlertDialogHeader>
           <AlertDialogTitle>
