@@ -18,6 +18,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import InprogressImage from "./../../assets/images/spinner.gif";
 import notProcess from "./../../assets/images/notProcess.gif";
+import Failed from "./../../assets/images/Failed.gif";
+// import notProcess from "./../../assets/images/spiinner.gif";
 import { Button } from "../ui/button";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
@@ -51,7 +53,7 @@ export default function AdvertCard({ data, showCard }) {
     return () => clearInterval(interval);
   }, [data]);
 
-  const downloadImagesHandler = async (e, item,index) => {
+  const downloadImagesHandler = async (e, item, index) => {
     setLoading((prev) => {
       const newState = [...prev];
       newState[index] = true;
@@ -63,7 +65,7 @@ export default function AdvertCard({ data, showCard }) {
       );
       const data = response?.payload;
       await downloadFile(
-        `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
+        `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
         `${item?.Label + " Advert"}`
       );
     } catch (error) {
@@ -125,6 +127,8 @@ export default function AdvertCard({ data, showCard }) {
                       ? InprogressImage
                       : item?.Images?.Images.length === 0
                       ? notProcess
+                      : item?.Status === "Failed"
+                      ? Failed
                       : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`
                   }
                   alt={"Advert"}
@@ -185,7 +189,11 @@ export default function AdvertCard({ data, showCard }) {
                 </div>
                 <div>
                   <span className="text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
-                    {item.Images?.Images?.length}
+                    {item?.Status === "InProgress"
+                      ? `${item?.Status}`
+                      : item?.Status === "Failed"
+                      ? 0
+                      : item.Images?.Images?.length}
                   </span>
                 </div>
               </div>
@@ -197,10 +205,16 @@ export default function AdvertCard({ data, showCard }) {
                   className={` col-span-4 rounded-full w-full text-center text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px] py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 m-0 ${
                     item?.Status == "Completed"
                       ? "bg-site_green text-whitee"
-                      : "bg-site_orange text-primary[dark]"
+                      : item?.Status === "InProgress"
+                      ? "bg-site_orange text-primary[dark]"
+                      : "text-red-500 bg-white border border-red-500"
                   }`}
                 >
-                  {item?.Status == "Completed" ? "Complete" : "In Progress"}
+                  {item?.Status == "Completed"
+                    ? "Complete"
+                    : item?.Status === "InProgress"
+                    ? "In Progress"
+                    : "Failed"}
                 </p>
               </div>
             </div>
@@ -218,7 +232,11 @@ export default function AdvertCard({ data, showCard }) {
                     onClick={() => {
                       handleButtonClick(item);
                     }}
-                    disabled={item?.Images?.Images?.length === 0}
+                    disabled={
+                      item?.Images?.Images?.length === 0 ||
+                      item?.Status === "InProgress" || 
+                      item?.Status === "Failed"
+                    }
                     className="text-primary bg-white hover:bg-white h-7 border w-full rounded-full  py-1  lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                   >
                     View Images
@@ -229,9 +247,11 @@ export default function AdvertCard({ data, showCard }) {
                   <Button
                     disabled={
                       item?.Images?.Images?.length === 0 ||
-                      item?.Status === "InProgress" || loading[index]
+                      item?.Status === "InProgress" ||
+                      loading[index] ||
+                      item?.Status === "Failed"
                     }
-                    onClick={(e) => downloadImagesHandler(e, item,index)}
+                    onClick={(e) => downloadImagesHandler(e, item, index)}
                     className="text-whitee bg-primary h-7  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                   >
                     {loading[index] ? "Downloading..." : "Download"}

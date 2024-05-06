@@ -6,7 +6,14 @@ import placeholder from "../../../public/placeholder.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getchanngeBackgroundImageAction } from "@/store/background/backgroundThunk";
 import ChangeBackgroudImage from "../modals/changeBackgroundModal";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import {
   UpdateLogoPositionAction,
   createLogoAction,
@@ -58,8 +65,7 @@ const SettingsCard = () => {
     );
   };
 
-  const handlePositionChange  = (val) => {
-
+  const handlePositionChange = (val) => {
     const formData = new FormData();
     formData.append("UserId", user.UserId);
     formData.append("LogoPosition", val);
@@ -68,7 +74,7 @@ const SettingsCard = () => {
     if (selectedFile) {
       formData.append("Logo", selectedFile);
     }
-  
+
     dispatch(
       createLogoAction({
         formData,
@@ -80,7 +86,11 @@ const SettingsCard = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between gap-y-2 min-h-[40vh]">
+    <div
+      className="flex flex-col justify-between gap-y-2 min-h-[40vh]"
+      onContextMenu={(e) => e.preventDefault()}
+      draggable="false"
+    >
       <div className="">
         <div className="rounded-2xl">
           <Image
@@ -107,13 +117,13 @@ const SettingsCard = () => {
         </a>
       </div>
       <div className="flex justify-between flex-wrap  items-center gap-3">
-          <div className="flex flex-col justify-between   gap-x-2">
-            <p className="text-sm sm:text-md"> Display Logo </p>{" "}
-            <Switch
-              checked={logo?.DisplayLogo}
-              onCheckedChange={(isActive) => handleStatusChange(isActive)}
-            />
-          </div>
+        <div className="flex flex-col justify-between   gap-x-2">
+          <p className="text-sm sm:text-md"> Display Logo </p>{" "}
+          <Switch
+            checked={logo?.DisplayLogo}
+            onCheckedChange={(isActive) => handleStatusChange(isActive)}
+          />
+        </div>
         <div>
           <p className="text-sm font-medium text-primary-dark  my-auto min-w-[100px] text-wrap">
             Set Position:
@@ -129,7 +139,7 @@ const SettingsCard = () => {
             }}
           >
             <SelectTrigger className="w-full  border border-gray-500 rounded-full text-primary-dark">
-              <SelectValue placeholder={selectedValue}/>
+              <SelectValue placeholder={selectedValue} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

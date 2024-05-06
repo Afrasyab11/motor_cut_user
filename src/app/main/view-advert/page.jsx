@@ -97,7 +97,7 @@ const ViewAdvert = ({ searchParams }) => {
       );
       const data = response?.payload;
       await downloadFile(
-        `${baseDomain}/Get-Advertisement-Zip-File?FilePath=${data}`,
+        `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
         `Advert`
       );
     } catch (error) {

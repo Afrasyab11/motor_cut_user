@@ -23,6 +23,8 @@ import {
 } from "@/store/background/backgroundThunk";
 import { ImSpinner8 } from "react-icons/im";
 import { getCookie } from "cookies-next";
+import ViewImage from "@/components/modals/ViewImagesModal";
+
 const BackgroundLibrary = () => {
   const dispatch = useDispatch();
   const { allBackground, backgroundLoader, background } = useSelector(
@@ -31,16 +33,21 @@ const BackgroundLibrary = () => {
   const [loading, setLoading] = useState(
     Array(allBackground?.length).fill(false)
   );
-  console.log(
-    "dash path ",
-    background?.BackgroundImage + "libray path " + allBackground?.Path
-  );
+
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showData, setShowData] = useState(9);
   const [showCard, setShowCard] = useState(9);
   const [file, setFile] = useState("");
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState();
+
+  const modalHandler = (item) => {
+    console.log("item", item);
+    setOpen(!open);
+    setImage(item);
+  };
 
   useEffect(() => {
     dispatch(getAllBackgroundImagesAction());
@@ -62,10 +69,7 @@ const BackgroundLibrary = () => {
       tag.toLowerCase().includes(selectedCategory.toLowerCase())
     );
   });
-  console.log(
-    "dash path ",
-    background?.BackgroundImage + "libray path " + allBackground
-  );
+
   const handleLoadMore = (e) => {
     e.preventDefault();
     setShowCard(showData + 9);
@@ -107,7 +111,11 @@ const BackgroundLibrary = () => {
 
   return (
     <main className="">
-      <main className=" bg-gray-100 rounded-2xl p-2 md:p-4 h-auto">
+      <main
+        onContextMenu={(e) => e.preventDefault()}
+        draggable="false"
+        className=" bg-gray-100 rounded-2xl p-2 md:p-4 h-auto"
+      >
         <div className="p-4">
           <h1 className="text-3xl">Background Library</h1>
         </div>
@@ -191,20 +199,26 @@ const BackgroundLibrary = () => {
                           height={900}
                           className="w-full object-fill h-[210px] 2xl:h-full background-library-picture rounded-2xl"
                           //  className="image-card"
-                          onContextMenu={(e) => e.preventDefault()} // Prevent right-click menu
+                          onContextMenu={(e) => e.preventDefault()}
                           draggable="false"
+                          // style={{ pointerEvents: 'none' }}
                         />
                       </div>
                     </CardContent>
                     <CardFooter className="p-1 flex justify-center gap-x-2">
-                      <a
+                      {/* <a
                         href={`${baseDomain}get-file?filename=${card?.Path}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         variant="outline"
+                      > */}
+                      <Button
+                        onClick={() => modalHandler(card)}
+                        className="library-btn bg-white hover:bg-white basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2"
                       >
-                        <Button className="library-btn bg-white hover:bg-white basis-1/2 text-sm lg:text-[13px] xl:text-[15px] 2xl:text-[20px] text-center rounded-full border-2 border-primary-dark text-primary-dark px-3 py-2">See Example</Button>
-                      </a>
+                        See Example
+                      </Button>
+                      {/* </a> */}
                       <Button
                         // disabled={backgroundLoader}
                         onClick={(e) => {
@@ -264,6 +278,7 @@ const BackgroundLibrary = () => {
           )}
         </main>
       </main>
+      {open && <ViewImage open={open} setOpen={modalHandler} item={image} />}
     </main>
   );
 };
