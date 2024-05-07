@@ -54,15 +54,16 @@ export const Calendly = ({ prevStep }) => {
       'message',
       (e) => {
         if (isCalendlyScheduledEvent(e)) {
-          setShowFinishButton(true);
+          // setShowFinishButton(true);
+          router.push("/auth/login")
         }
       }
     )
   }, [])  
 
-  const handleFinish =()=>{
-    router.push("/auth/login")
-  }
+  // const handleFinish =()=>{
+  //   router.push("/auth/login")
+  // }
 
   return (
     <>
@@ -78,7 +79,7 @@ export const Calendly = ({ prevStep }) => {
           className="overflow-hidden"
         >
         </div>
-        {showFinishButton && (
+        {/* {showFinishButton && (
           <div className="flex justify-center pb-5">
           <Button
             className="bg-[#814adf] text-white py-2 px-4 rounded sm:w-full md:mt-4 min-w-32 max-w-40"
@@ -87,7 +88,7 @@ export const Calendly = ({ prevStep }) => {
             Finish
           </Button>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
