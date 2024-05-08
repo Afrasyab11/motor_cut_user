@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const payloadSchema = z.object({
   Label: z.string().min(1, { message: "Advert Label is required" })
-  .regex(/^[^0-9]*$/, { message: "Label should be contain on letters" })
 });
 
 

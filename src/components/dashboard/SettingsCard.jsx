@@ -5,7 +5,6 @@ import { Switch } from "@/components/ui/switch";
 import placeholder from "../../../public/placeholder.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getchanngeBackgroundImageAction } from "@/store/background/backgroundThunk";
-import ChangeBackgroudImage from "../modals/changeBackgroundModal";
 import {
   Select,
   SelectContent,
@@ -21,7 +20,9 @@ import {
 } from "@/store/uploadLogo/logoThunk";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 const SettingsCard = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { background, backgroundLoader } = useSelector(
     (state) => state.background
@@ -33,9 +34,7 @@ const SettingsCard = () => {
   let user = userString ? JSON.parse(userString) : null;
   const [selectedValue, setSelectedValue] = useState();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isBacgroundDialog, setBackgroundDialog] = useState(false);
-  const handleBackgroundDialog = () => setBackgroundDialog(true);
-  const handleCloseBackground = () => setBackgroundDialog(false);
+
   useEffect(() => {
     if (user?.UserId) {
       dispatch(getchanngeBackgroundImageAction(user?.UserId));
@@ -58,7 +57,6 @@ const SettingsCard = () => {
         UserId: user?.UserId,
         Position: status,
         onSuccess: () => {
-          // dispatch(UpdateLogoPositionAction(user?.UserId));
           dispatch(getLogoAction(user?.UserId));
         },
       })
@@ -110,7 +108,7 @@ const SettingsCard = () => {
       </div>
       <div className="flex flex-col  gap-y-2">
         <a
-          onClick={handleBackgroundDialog}
+          onClick={()=>{router.push("/main/background-library")}}
           className="text-primary  text-sm sm:text-md font-medium cursor-pointer "
         >
           Change Background
@@ -130,12 +128,9 @@ const SettingsCard = () => {
           </p>
           <Select
             value={selectedValue}
-            // {...field}
             className="border-none h-4 "
             onValueChange={(val) => {
-              // field.onChange(val);
               handlePositionChange(val);
-              // setSelectedValue(val);
             }}
           >
             <SelectTrigger className="w-full  border border-gray-500 rounded-full text-primary-dark">
@@ -143,7 +138,6 @@ const SettingsCard = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {/* <SelectLabel>Positions</SelectLabel> */}
                 <SelectItem value="top-left">Top Left</SelectItem>
                 <SelectItem value="top-center">Top Center</SelectItem>
                 <SelectItem value="top-right">Top Right</SelectItem>
@@ -152,13 +146,7 @@ const SettingsCard = () => {
           </Select>
         </div>
       </div>
-      {isBacgroundDialog && (
-        <ChangeBackgroudImage
-          open={isBacgroundDialog}
-          setOpen={handleCloseBackground}
-          backgroundLoader={backgroundLoader}
-        />
-      )}
+     
     </div>
   );
 };

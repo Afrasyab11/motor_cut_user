@@ -129,12 +129,11 @@ export default function AdvertCard({ data, showCard }) {
                       ? notProcess
                       : item?.Status === "Failed"
                       ? Failed
-                      : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Original}`
+                      : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Processed}`
                   }
                   alt={"Advert"}
                   width={1900}
                   height={600}
-                  // className="w-full h-full object-cover rounded-2xl"
                   className="object-fill w-full picture rounded-2xl"
                 />
               </div>
@@ -184,13 +183,13 @@ export default function AdvertCard({ data, showCard }) {
                 </div>
                 <div>
                   <p className="text-sm sm:text-md truncate lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
-                    No of Images:
+                    Number of Images:
                   </p>
                 </div>
                 <div>
                   <span className="text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]">
                     {item?.Status === "InProgress"
-                      ? `${item?.Status}`
+                      ? `...`
                       : item?.Status === "Failed"
                       ? 0
                       : item.Images?.Images?.length}
@@ -252,7 +251,7 @@ export default function AdvertCard({ data, showCard }) {
                       item?.Status === "Failed"
                     }
                     onClick={(e) => downloadImagesHandler(e, item, index)}
-                    className="text-whitee bg-primary h-7  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
+                    className="text-whitee bg-[#7739e0] h-7  w-full rounded-full  py-1 lg:py-1 xl:py-1 2xl:py-2 3xl:py-2 text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                   >
                     {loading[index] ? "Downloading..." : "Download"}
                   </Button>

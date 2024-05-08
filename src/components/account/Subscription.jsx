@@ -194,6 +194,17 @@ const Subscription = () => {
               Cancel Subscriptions
             </Button>
           ) : (
+            <>
+            {/* <Button
+              variant="outline"
+              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   route.push("/main/account/subscriptions");
+              // }}
+            >
+              Reactivate 
+            </Button> */}
             <Button
               variant="outline"
               className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
@@ -204,6 +215,7 @@ const Subscription = () => {
             >
               See Subscriptions
             </Button>
+            </>
           )}
         </CardFooter>
       </Card>

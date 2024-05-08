@@ -190,14 +190,14 @@ const BackgroundLibrary = () => {
                     key={index}
                     className="bg-white p-1 w-full rounded-2xl 2xl:flex 2xl:flex-col 2xl:justify-between border-none h-full"
                   >
-                    <CardContent className="p-2 min-h-[220px] lg:min-h-[200px] ">
+                    <CardContent className="p-2 h-auto ">
                       <div className="rounded-3xl">
                         <Image
                           src={`${baseDomain}get-file?filename=${card?.Path}`}
                           alt={"BackgroundLibrary"}
                           width={1600}
                           height={900}
-                          className="w-full object-fill h-[210px] 2xl:h-full background-library-picture rounded-2xl"
+                          className="w-full object-fill h-full rounded-2xl"
                           //  className="image-card"
                           onContextMenu={(e) => e.preventDefault()}
                           draggable="false"

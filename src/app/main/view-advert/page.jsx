@@ -38,7 +38,6 @@ import {
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 import { Button } from "@/components/ui/button";
 const ViewAdvert = ({ searchParams }) => {
-  console.log("searchParams", searchParams);
   const dispatch = useDispatch();
   const { processAdvert, getLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
@@ -146,12 +145,11 @@ const ViewAdvert = ({ searchParams }) => {
               </div>
               <div className="2xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-4 flex items-center ">
                 <button
-                disabled={loading}
+                  disabled={loading}
                   onClick={downloadHandler}
                   className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]  mb-1"
                 >
-                   {loading ? "Downloading..." : "Download All"}
-
+                  {loading ? "Downloading..." : "Download All"}
                 </button>
               </div>
               <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-center items-center ">
@@ -179,24 +177,38 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
-                            <Image
-                              className="w-full object-contain rounded-xl"
-                              src={`${baseDomain}get-file?filename=${img.Original}`}
-                              alt={"OrignalImage"}
-                              width={1600}
-                              height={1600}
-                              // className="w-full h-full object-cover rounded-2xl"
-                            />
+                            <a
+                              href={`${baseDomain}get-file?filename=${img?.Original}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              variant="outline"
+                            >
+                              <Image
+                                className="w-full object-contain rounded-xl"
+                                src={`${baseDomain}get-file?filename=${img?.Original}`}
+                                alt={"OrignalImage"}
+                                width={1600}
+                                height={1600}
+                                // className="w-full h-full object-cover rounded-2xl"
+                              />
+                            </a>
                           </div>
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-6  relative mb-1">
+                          <a
+                              href={`${baseDomain}get-file?filename=${img?.Processed}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              variant="outline"
+                            >
                             <Image
                               className="w-full object-contain rounded-xl"
                               height={1600}
                               width={1600}
-                              src={`${baseDomain}get-file?filename=${img.Processed}`}
+                              src={`${baseDomain}get-file?filename=${img?.Processed}`}
                               // src={testimage2}
                               alt=""
                             />
+                            </a>
                             {logo?.DisplayLogo && (
                               <Image
                                 className={` h-[50px] w-[120px] absolute object-contain rounded-2xl
