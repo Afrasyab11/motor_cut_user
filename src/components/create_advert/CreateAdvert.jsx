@@ -12,17 +12,19 @@ import { getchanngeBackgroundImageAction } from "@/store/background/backgroundTh
 import { useDispatch, useSelector } from "react-redux";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+
 export default function CreateAdvert() {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { background, backgroundLoader } = useSelector(
     (state) => state.background
   );
-  const [isBacgroundDialog, setBackgroundDialog] = useState(false);
   const handleOpenDialog = () => setDialogOpen(true);
   const handleCloseDialog = () => setDialogOpen(false);
-  const handleBackgroundDialog = () => setBackgroundDialog(true);
-  const handleCloseBackground = () => setBackgroundDialog(false);
+
   let userString = getCookie("user");
 
   let user = userString ? JSON.parse(userString) : null;
@@ -175,7 +177,9 @@ export default function CreateAdvert() {
         </div>
         <div className=" text-center">
           <a
-            onClick={handleBackgroundDialog}
+            onClick={() => {
+              router.push("/main/background-library");
+            }}
             className="text-primary text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] font-medium"
             href="#"
           >
@@ -192,13 +196,7 @@ export default function CreateAdvert() {
           reset={reset}
         />
       )}
-      {isBacgroundDialog && (
-        <ChangeBackgroudImage
-          open={isBacgroundDialog}
-          setOpen={handleCloseBackground}
-          backgroundLoader={backgroundLoader}
-        />
-      )}
+
       {/* </AlertDialog> */}
     </>
   );
