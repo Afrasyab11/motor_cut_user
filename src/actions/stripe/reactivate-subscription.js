@@ -1,6 +1,6 @@
 // utils/stripe.js
-
-import stripe from 'stripe';
+"use server";
+import Stripe from "stripe";
 
 // Initialize Stripe with your secret API key
 const stripe = new Stripe(
