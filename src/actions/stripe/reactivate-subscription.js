@@ -1,29 +1,57 @@
-// utils/stripe.js
 "use server";
 import Stripe from "stripe";
 
 // Initialize Stripe with your secret API key
 const stripe = new Stripe(
-    "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"
-    // process.env.STRIPE_SECRET_KEY
-    , {
+  "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n",
+  {
     apiVersion: "2023-10-16",
-  });
-  
-export async function reactivateSubscription(subscriptionId) {
+  }
+);
+
+const reactivateSubscription = async ( subscriptionId, priceId) => {
   try {
-    // Retrieve the canceled subscription
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-    // Update subscription status to 'active'
-    await stripe.subscriptions.update(subscriptionId, {
-      cancel_at_period_end: false, // Reactivate the subscription immediately
-    });
+    // const newSubscription = await stripe.subscriptions.create({
+    //   customer: customerId,
+    //   items: [{ price: priceId }],
+    //   // payment_behavior: 'default_incomplete',
+    //   // expand: ["latest_invoice.payment_intent"],
+    // });
 
-    // Optionally handle payment details if necessary
-    return { success: true, message: 'Subscription reactivated successfully.' };
+    // return { success: true, newSubscription };
+    
+    const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
+      items: [
+        {
+          id: subscription.items.data[0].id,
+          price: priceId,
+        },
+      ],
+    });
+    return { success: true, message: "Subscription Reactivation successfully", updatedSubscription };
   } catch (error) {
-    console.error('Error reactivating subscription:', error);
-    return { success: false, error: 'Failed to reactivate subscription.' };
+    console.log("Reactivation Error", error);
+    return { success: false, error: error.message };
   }
-}
+};
+
+export { reactivateSubscription };
+
+// const reactivateSubscription = async (customerId, priceId) => {
+//   try {
+   
+//     const newSubscription = await stripe.subscriptions.create({
+//       customer: customerId,
+//       items: [{ price: priceId }],
+//     });
+
+//     return { success: true, newSubscription };
+//   } catch (error) {
+//     console.log("Reactivation Error", error);
+//     return { success: false, error: error.message };
+//   }
+// };
+// export { reactivateSubscription };
+

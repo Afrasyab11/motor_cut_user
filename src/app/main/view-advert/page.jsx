@@ -193,33 +193,39 @@ const ViewAdvert = ({ searchParams }) => {
                               />
                             </a>
                           </div>
-                          <div className="lg:col-span-6 md:col-span-6 sm:col-span-6  relative mb-1">
-                          <a
+                          <div
+                            className={`lg:col-span-6 md:col-span-6 sm:col-span-6   relative mb-1 ${
+                              img?.Flagged === true
+                                ? "border-2 border-red-500 rounded-xl"
+                                : ""
+                            }`}
+                          >
+                            <a
                               href={`${baseDomain}get-file?filename=${img?.Processed}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               variant="outline"
                             >
-                            <Image
-                              className="w-full object-contain rounded-xl"
-                              height={1600}
-                              width={1600}
-                              src={`${baseDomain}get-file?filename=${img?.Processed}`}
-                              // src={testimage2}
-                              alt=""
-                            />
+                              <Image
+                                className="w-full object-contain rounded-xl "
+                                height={1600}
+                                width={1600}
+                                src={`${baseDomain}get-file?filename=${img?.Processed}`}
+                                // src={testimage2}
+                                alt=""
+                              />
                             </a>
-                            {logo?.DisplayLogo && (
+                            {img?.LogoPosition && (
                               <Image
                                 className={` h-[50px] w-[120px] absolute object-contain rounded-2xl
                          ${
-                           logo?.LogoPosition === "top-right"
+                           img?.LogoPosition === "top-right"
                              ? "right-[2px] top-[10px]"
-                             : logo?.LogoPosition === "top-left"
+                             : img?.LogoPosition === "top-left"
                              ? "left-[2px] top-[10px]"
-                             : logo?.LogoPosition === "top-center"
+                             : img?.LogoPosition === "top-center"
                              ? " left-1/2 transform -translate-x-1/2 top-2"
-                             : ""
+                             : "hidden"
                          }`}
                                 // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
                                 src={
@@ -291,6 +297,9 @@ const ViewAdvert = ({ searchParams }) => {
                                       <SelectItem value="top-right">
                                         Top Right
                                       </SelectItem>
+                                      <SelectItem value="hidden">
+                                        Hide
+                                      </SelectItem>
                                     </SelectGroup>
                                   </SelectContent>
                                 </Select>
@@ -361,56 +370,7 @@ const ViewAdvert = ({ searchParams }) => {
         />
       )}
 
-      {/* <AlertDialogContent className={`overflow-y-auto h-[80vh] lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-						<div className='lg:text-[40px] md:text-[30px] sm:text-[20px] text-center font-normal flex justify-between items-center pb-[20px] pt-[15px]'>
-							<p>Shift Background</p>
-              <AlertDialogCancel className="border-0">
-								<MdClose size={35} className="px-0" />
-						 </AlertDialogCancel>
-						</div>
-					</AlertDialogTitle>
-          <div className='flex align-items-center gap-3'>
-						<div>
-							<div
-              className='relative'
-							>
-								<Image
-									className='rounded-lg'
-                  src={`${baseDomain}get-file?filename=${selectedImage}`}
-                  width={1600}
-                              height={1600}
-									alt={`Background`}
-								/>
-                <div className="absolute left-0 w-full h-1 bg-red-500 transform -translate-y-1/2" style={{ top: `calc(100% - ${value}%)` }}></div>
-							</div>
-						</div>
-						<div>
-							<Slider
-								min={MIN}
-								max={MAX}
-								value={value}
-								onChange={handleSliderChange}
-								vertical
-								className='custom-slider'
-								railStyle={{ backgroundColor: 'black' }} // Set track fill color to black
-								trackStyle={{ backgroundColor: 'black' }} // Set track fill color to black
-								handleStyle={{ borderColor: 'red' }} // Set point border color to red
-								dotStyle={{ borderColor: 'red' }} // Set point fill color to red
-								activeDotStyle={{ borderColor: 'red' }} // Set active point fill color to red
-							/>
-						</div>
-					</div>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <div className="flex justify-between items-center mx-auto">
-            <AlertDialogAction className="bg-primary py-2 rounded-full px-9 text-white">
-              Save and Reprocess Image
-            </AlertDialogAction>
-          </div>
-        </AlertDialogFooter>
-      </AlertDialogContent> */}
+      
     </AlertDialog>
   );
 };

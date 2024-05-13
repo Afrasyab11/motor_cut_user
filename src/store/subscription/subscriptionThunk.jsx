@@ -47,7 +47,7 @@ export const cancelSubscriptionAction = createAsyncThunk(
       const { data } = await axiosInstance.post(
         `Subscriptions/Cancel-Subscription`,payload);
       if (data?.status_code === 200) {
-        onSuccess();
+        onSuccess(data?.detail);
         return data?.detail;
       } else {
         console.error(data?.detail);

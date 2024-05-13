@@ -9,9 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-//react icons
-// import "../../globals.css";
-// import "./account.css";
 import { updateUserProfile, getUserProfileData } from "@/store/user/userThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -52,16 +49,15 @@ const UpdateProfile = () => {
     postalCode: "",
     country: "",
     billingEmail: "",
-    billingLine1: "",
-    billingLine2: "",
-    email: "",
+    address:"",
     isAdmin: false,
     userId: user?.UserId,
   });
-
+  
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
+
   useEffect(() => {
     dispatch(getUserProfileData(user?.UserId));
   }, [user?.UserId]);
@@ -101,7 +97,6 @@ const UpdateProfile = () => {
         ([key, value]) => value !== "" && value !== null
       )
     );
-    console.log("filteredPayload", filteredPayload);
     dispatch(
       updateUserProfile({
         payload: filteredPayload,
@@ -112,6 +107,7 @@ const UpdateProfile = () => {
     );
 
   };
+
   const inputStyles = {
     border: "none",
     borderBottom: "1px solid #814adf",
@@ -121,13 +117,16 @@ const UpdateProfile = () => {
   const closeAccount = () => {
     setDialogOpen(true);
   };
+
   const ConfirmCloseHandler = () => {
     setDialogOpen(false);
   };
+
   const countries = defaultCountries.filter((country) => {
     const { iso2 } = parseCountry(country);
     return ['us', 'gb'].includes(iso2);
   });
+  
   return (
     <>
       <Card className="shadow-none">
@@ -190,8 +189,7 @@ const UpdateProfile = () => {
             )}
           />
 
-          <Input
-            // {...register("email")}
+          {/* <Input
             disabled
             type="email"
             id="email"
@@ -202,10 +200,9 @@ const UpdateProfile = () => {
             }}
             placeholder="Email Address"
             className="border-b border-b-primary bg-white mt-4"
-          />
+          /> */}
 
           <Input
-            // {...register("billingEmail")}
             type="text"
             id="billing-email"
             value={payload?.billingEmail}
@@ -222,7 +219,6 @@ const UpdateProfile = () => {
           <Controller
             name="country"
             control={control}
-            // defaultValue={payload?.country}
             render={({ field }) => (
               <Select
                 {...field}
@@ -250,23 +246,21 @@ const UpdateProfile = () => {
           />
 
           <Input
-            // {...register("billingLine1")}
             type="text"
-            value={payload?.billingLine1}
+            value={payload?.address}
             onChange={(e) => {
               setPayload({
                 ...payload,
-                billingLine1: e.target.value,
+                address: e.target.value,
               });
             }}
-            id="billing-line-1"
-            name="billingLine1"
-            placeholder="Billing Line 1"
+            id="address"
+            name="address"
+            placeholder="address"
             className="border-b border-b-primary bg-white mt-4"
           />
 
-          <Input
-            // {...register("billingLine2")}
+          {/* <Input
             type="text"
             id="billing-line-2"
             name="billingLine2"
@@ -279,7 +273,7 @@ const UpdateProfile = () => {
             }}
             placeholder="Billing Line 2"
             className="border-b border-b-primary bg-white mt-4"
-          />
+          /> */}
 
           <Input
             {...register("postalCode")}
@@ -296,7 +290,6 @@ const UpdateProfile = () => {
 
         </CardContent>
         <CardFooter className="p-1  justify-center mt-2">
-          {/* custom margins for buttons because tw's ain't enough */}
           <Button
             type="button"
             disabled={userLoader}

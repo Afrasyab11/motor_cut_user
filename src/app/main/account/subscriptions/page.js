@@ -18,7 +18,8 @@ import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
-
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import {
   CreateStripeCheckoutSession,
   checkPromoCode,
@@ -32,6 +33,8 @@ import { IoCheckbox } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormError } from "@/components/auth/form-error";
 import { FormSuccess } from "@/components/auth/form-success";
+import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
+import { UpgradeSubscription } from "@/actions/stripe/upgrade-subscription";
 // import "./subscriptions.module.css";
 const Subscriptions = [
   {
@@ -47,13 +50,16 @@ const Subscriptions = [
 ];
 const Subscription = () => {
   const dispatch = useDispatch();
+  const router=useRouter()
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { user } = useSelector((state) => state?.user);
   const { couponLoader } = useSelector((state) => state?.subscription);
+  const { states } = useSelector((state) => state?.dashboard);
   const { subscription, subscriptionLoader } = useSelector(
     (state) => state?.subscription
   );
+  let User = JSON.parse(getCookie("user") || "{}");
   const [currency, setCurrency] = useState("GBP");
   const [couponCodeID, setCouponCodeID] = useState("");
 
@@ -69,9 +75,15 @@ const Subscription = () => {
   const authToken = userInfo?.AccessToken;
   const userName = userInfo?.UserName;
   const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    dispatch(dashboardStatsAction(userId));
+  }, [userId]);
+
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
+
   useEffect(() => {
     setTimeout(() => {
       if (subscription?.length != 0) {
@@ -81,6 +93,7 @@ const Subscription = () => {
       }
     }, 1000);
   }, [subscription]);
+
   const UKChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("GBP");
@@ -139,14 +152,13 @@ const Subscription = () => {
   ) => {
     e.preventDefault();
     // console.log("promoCode",promoCode)
-    let  tax;
+    let tax;
     if (item?.Currency === "GBP") {
       tax = 20;
     } else {
       tax = 0;
     }
     const currentPromoCode = promoCode[index] || "";
-    console.log("currentPromoCode", currentPromoCode);
 
     try {
       const response = await CreateStripeCheckoutSession({
@@ -184,6 +196,19 @@ const Subscription = () => {
       console.log("inside catch=", error);
     } finally {
       console.log("inside fainally");
+    }
+  };
+
+  const upgradeSubscription = async (e, newPriceId) => {
+    const resp = await UpgradeSubscription(
+      states?.StripeSubscriptionId,
+      newPriceId
+    );
+    if (resp.success ===true) {
+      router.push("/main/account")
+      toast.success(resp.message);
+    } else {
+      toast.error(resp.message || "Failed to upgrade");
     }
   };
   return (
@@ -272,7 +297,11 @@ const Subscription = () => {
                   <CardFooter className="flex flex-col gap-y-2 ">
                     <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
-                      {item.Price + `${currency === "USD" ? "+ Tax Rates/" : " + VAT/"}`} <span className=" text-[12px]">month</span>
+                      {item.Price +
+                        `${
+                          currency === "USD" ? "+ Tax Rates/" : " + VAT/"
+                        }`}{" "}
+                      <span className=" text-[12px]">month</span>
                     </small>
                     <div className="relative">
                       <Input
@@ -307,22 +336,32 @@ const Subscription = () => {
                     {success && selectedApply == index && (
                       <FormSuccess message={success} />
                     )}
-
-                    <Button
-                      className="bg-primary text-white rounded-full mx-2 w-full"
-                      onClick={(e) =>
-                        HandleCreateCheckout(
-                          e,
-                          item,
-                          item?.StripePriceId,
-                          item?.Name,
-                          item?.Price,
-                          index
-                        )
-                      }
-                    >
-                      Purchase
-                    </Button>
+                    {/* {states?.StripeCustomerId === null ? ( */}
+                      <Button
+                        className="bg-primary text-white rounded-full mx-2 w-full"
+                        onClick={(e) =>
+                          HandleCreateCheckout(
+                            e,
+                            item,
+                            item?.StripePriceId,
+                            item?.Name,
+                            item?.Price,
+                            index
+                          )
+                        }
+                      >
+                        Purchase
+                      </Button>
+                      {/* ) : (
+                        <Button
+                          className="bg-primary text-white rounded-full mx-2 w-full"
+                          onClick={(e) =>
+                            upgradeSubscription(e, item?.StripePriceId)
+                          }
+                        >
+                          Upgrade Subscription
+                        </Button>
+                      )} */}
                   </CardFooter>
                 </div>
               </Card>

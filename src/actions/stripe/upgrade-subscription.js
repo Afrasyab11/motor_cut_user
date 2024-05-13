@@ -2,20 +2,20 @@
 import Stripe from "stripe";
 
 const stripe = new Stripe(
-  "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",
-  // process.env.STRIPE_SECRET_KEY
+  "sk_test_51OUlCAE66tYGrLUMiMosb7Ql8zts22WUzTGMNV9wFgpliFMHffn7uu54u3nYhq8ByMeJ3SCKNJStqydFoEpchRyl00pPA4TG1n",
   {
     apiVersion: "2023-10-16",
   }
 );
 
-const upgradeSubscription = async (customerId, newPriceId) => {
+const UpgradeSubscription = async (subscriptionId, newPriceId) => {
   try {
-    // Retrieve the subscription associated with the customer
-    const subscription = await stripe.subscriptions.retrieve(customerId);
+    // Retrieve the subscription
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    console.log("Subscription Items ID:", subscription.items.data[0].id);
 
     // Update the subscription with the new plan
-    await stripe.subscriptions.update(subscription.id, {
+    const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
       items: [
         {
           id: subscription.items.data[0].id, // Assuming only one subscription item
@@ -23,12 +23,11 @@ const upgradeSubscription = async (customerId, newPriceId) => {
         },
       ],
     });
-
-    return { success: true, message: "Subscription updated successfully" };
+    return { success: true, message: "Subscription updated successfully", updatedSubscription };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error updating subscription");
+    console.error("Error updating subscription:", error);
+    return { success: false, error: error.message };  // Ensure you return a value here
   }
 };
 
-export { upgradeSubscription };
+export { UpgradeSubscription };

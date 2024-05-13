@@ -27,15 +27,16 @@ import { useRouter } from "next/navigation";
 import "react-international-phone/style.css";
 import CancelSubscriptionModal from "../modals/CancelSubscriptionModal";
 import { cancelSubscriptionAction } from "@/store/subscription/subscriptionThunk";
+import { reactivateSubscription } from "@/actions/stripe/reactivate-subscription";
+import moment from "moment";
 const Subscription = () => {
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
-  const { cancelDetails } = useSelector((state) => state?.subscription);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [stats, setStats] = useState("");
   const [loader, setLoader] = useState(false);
-  console.log("cancelSubscription", cancelDetails);
+  const [reactivateBtn, setReactivateBtn] = useState(false);
   const [loadingStates, setLoadingStates] = useState({
     invoices: true,
   });
@@ -120,22 +121,55 @@ const Subscription = () => {
       getProfile[0].stripeSubscriptionId
     );
     if (res.success) {
-      toast.success("Subscription cancelled successfully");
+      // toast.success("Subscription cancelled successfully");
       let payload = {
         UserId: user?.UserId,
       };
-      dispatch(cancelSubscriptionAction({payload,onSuccess:()=>{
-        dispatch(dashboardStatsAction(user.UserId));
-      }}));
-      setDialogOpen(false);
-      setLoader(false);
-
-      dispatch(getUserProfileData(user.UserId)); // Refresh user data
+      dispatch(
+        cancelSubscriptionAction({
+          payload,
+          onSuccess: (resp) => {
+            console.log("Response444", resp);
+            toast.success(resp?.Message);
+            setReactivateBtn(resp?.ReActivate);
+            setDialogOpen(false);
+            setLoader(false);
+            dispatch(dashboardStatsAction(user.UserId));
+            dispatch(getUserProfileData(user.UserId)); // Refresh user data
+          },
+        })
+      );
     } else {
       setLoader(false);
       toast.error(res.message || "Failed to cancel subscription");
     }
   };
+
+  const reactivate = async () => {
+    // console.log("subscriptionId",states?.StripeSubscriptionId)
+    try {
+      const res = await reactivateSubscription(
+        states?.StripeSubscriptionId,
+        // states?.StripeCustomerId,
+        states?.StripePriceId,
+      );
+  
+      if (res.success) {
+        toast.success("Subscription re-activated successfully");
+        dispatch(dashboardStatsAction(user.UserId));
+        dispatch(getUserProfileData(user.UserId)); // Refresh user data
+      } else {
+        toast.error(res.message || "Failed to reactivate");
+      }
+    } catch (error) {
+      console.error('Error reactivating subscription:', error);
+      toast.error("Error reactivating subscription");
+    }
+  };
+
+
+  const today = moment(new Date()).format("DD-MM-YYYY"); 
+const showReactivateButton = today > states?.RenewalDate;
 
   return (
     <>
@@ -181,30 +215,56 @@ const Subscription = () => {
         </CardContent>
 
         <CardFooter className="flex-col ">
+        {showReactivateButton && (
+                <Button
+                  variant="outline"
+                  className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+                  onClick={reactivate}
+                >
+                  Reactivate
+                </Button>
+              )}
           {loadingStates.invoices ? (
             <ImSpinner8 className="spinning-icon" />
           ) : stats?.PackageName != "Free Tier" &&
-            stats?.RenewalDate != "Cancelled" &&
+            stats?.SubscriptionStatus !== "Cancelled" &&
+            stats?.SubscriptionStatus !== "Payment Required" &&
             stats?.PackageName ? (
-            <Button
-              variant="outline"
-              className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-full md:w-1/2"
-              onClick={handleCancelSubscription}
-            >
-              Cancel Subscriptions
-            </Button>
-          ) : (
             <>
-            {/* <Button
-              variant="outline"
-              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   route.push("/main/account/subscriptions");
-              // }}
-            >
-              Reactivate 
-            </Button> */}
+              <Button
+                variant="outline"
+                className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-full md:w-1/2"
+                onClick={handleCancelSubscription}
+              >
+                Cancel Subscriptions
+              </Button>
+              <Button
+                variant="outline"
+                className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  route.push("/main/account/subscriptions");
+                }}
+              >
+                Change Subscription
+              </Button>
+            </>
+          ) : stats?.SubscriptionStatus === "Cancelled" ? (
+            <>
+              
+
+              <Button
+                variant="outline"
+                className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  route.push("/main/account/subscriptions");
+                }}
+              >
+                Change Subscription
+              </Button>
+            </>
+          ) : (
             <Button
               variant="outline"
               className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
@@ -215,7 +275,6 @@ const Subscription = () => {
             >
               See Subscriptions
             </Button>
-            </>
           )}
         </CardFooter>
       </Card>
