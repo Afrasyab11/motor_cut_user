@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-const isCalendlyScheduledEvent = (e) => {
-  return e.data.event &&
-         e.data.event.indexOf('calendly') === 0 &&
-         e.data.event === 'calendly.event_scheduled'
-}
+
 export const Calendly = ({ prevStep }) => {
   const router =useRouter();
   const [loading, setLoading] = useState(true);
@@ -49,17 +45,7 @@ export const Calendly = ({ prevStep }) => {
     };
   }, []);
 
-  useEffect(() => {
-    window.addEventListener(
-      'message',
-      (e) => {
-        if (isCalendlyScheduledEvent(e)) {
-          // setShowFinishButton(true);
-          router.push("/auth/login")
-        }
-      }
-    )
-  }, [])  
+ 
 
   // const handleFinish =()=>{
   //   router.push("/auth/login")

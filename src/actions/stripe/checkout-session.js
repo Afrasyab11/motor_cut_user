@@ -65,8 +65,7 @@ const updateStripeCustomerId = async (
 };
 
 const stripe = new Stripe(
-  "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"
-  // process.env.STRIPE_SECRET_KEY
+  process.env.STRIPE_SECRET_KEY
 );
 
 async function CreateStripeCheckoutSession(data) {
@@ -82,7 +81,6 @@ async function CreateStripeCheckoutSession(data) {
     tax,
   } = data;
 
-  console.log("data in Checkout", data);
   try {
     let stripeCustomerId = await ensureStripeCustomer({
       userId,
@@ -109,7 +107,6 @@ async function CreateStripeCheckoutSession(data) {
     });
  
     const checkoutSession = await stripe.checkout.sessions.create(payload);
-    console.log("checkoutSession", checkoutSession);
 
     if (!checkoutSession.url) {
       throw new Error("Could not create checkout session");

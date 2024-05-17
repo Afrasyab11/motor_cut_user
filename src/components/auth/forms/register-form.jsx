@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { WelcomeSignUp } from "../welcome-signup";
 import { SignUpForm } from "./sign-up";
 import { VerifyNumberForm } from "./verify-number-form";
@@ -8,10 +8,18 @@ import { TermsAndConditionsForm } from "./terms-contions-form";
 import { FillProfilePageForm } from "./fill-Profile-Form";
 import { BookMeeting } from "../book-meeting";
 import { Calendly } from "../calendly";
+import { getCookies } from "cookies-next";
+
+const isCalendlyScheduledEvent = (e) => {
+  return e.data.event &&
+         e.data.event.indexOf('calendly') === 0 &&
+         e.data.event === 'calendly.event_scheduled'
+}
+
 export const RegisterForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState("");
-const [meeting, setMeeting]=useState("yes")
+  const [meeting, setMeeting] = useState("yes");
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -21,30 +29,73 @@ const [meeting, setMeeting]=useState("yes")
     setStep((prevStep) => prevStep - 1);
   };
 
+  useEffect(() => {
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (isCalendlyScheduledEvent(e)) {
+          setMeeting("no")
+          setStep(2)
+        }
+      }
+    )
+  }, [])  
+
+
   const renderStep = () => {
     switch (step) {
       case 0:
         return <WelcomeSignUp nextStep={nextStep} />;
       case 1:
-        return <BookMeeting nextStep={nextStep} prevStep={prevStep} setMeeting={setMeeting}/>;
+        return (
+          <BookMeeting
+            nextStep={nextStep}
+            prevStep={prevStep}
+            setMeeting={setMeeting}
+          />
+        );
 
       case 2:
-        if (meeting === "yes") { 
+        if (meeting === "yes") {
           return <Calendly prevStep={prevStep} />;
         } else {
           return <SignUpForm setFormData={setFormData} nextStep={nextStep} />;
         }
-        // return <SignUpForm  setFormData={setFormData} nextStep={nextStep} />;
+      // return <SignUpForm  setFormData={setFormData} nextStep={nextStep} />;
       case 3:
-        return <VerifyNumberForm formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />;
+        return (
+          <VerifyNumberForm
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        );
       case 4:
-        return <CreatePasswordForm setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />;
+        return (
+          <CreatePasswordForm
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        );
       case 5:
         return (
-          <TermsAndConditionsForm setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />
+          <TermsAndConditionsForm
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
         );
       case 6:
-        return <FillProfilePageForm formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />;
+        return (
+          <FillProfilePageForm
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        );
       default:
         return null;
     }
