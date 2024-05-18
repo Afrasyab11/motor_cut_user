@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   channgeBackgroundImageAction,
   getchanngeBackgroundImageAction,
-  getAllBackgroundImagesAction
+  getAllBackgroundByUserId
 } from "./backgroundThunk";
 
 const initialState = {
@@ -44,14 +44,14 @@ export const backgroundSlice = createSlice({
         state.getBackgroundLoader = false;
         state.error = action.payload;
       })
-      .addCase(getAllBackgroundImagesAction.pending, (state) => {
+      .addCase(getAllBackgroundByUserId.pending, (state) => {
         state.backgroundLoader = true;
       })
-      .addCase(getAllBackgroundImagesAction.fulfilled, (state, action) => {
+      .addCase(getAllBackgroundByUserId.fulfilled, (state, action) => {
         state.backgroundLoader = false;
         state.allBackground = action.payload;
       })
-      .addCase(getAllBackgroundImagesAction.rejected, (state, action) => {
+      .addCase(getAllBackgroundByUserId.rejected, (state, action) => {
         state.backgroundLoader = false;
         state.error = action.payload;
       });

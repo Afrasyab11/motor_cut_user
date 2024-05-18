@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import "./library.module.css";
 import "../../globals.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBackgroundImagesAction } from "@/store/background/backgroundThunk";
+import { getAllBackgroundByUserId } from "@/store/background/backgroundThunk";
 import { baseDomain } from "@/utils/axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -30,6 +30,8 @@ const BackgroundLibrary = () => {
   const { allBackground, backgroundLoader, background } = useSelector(
     (state) => state.background
   );
+console.log("allBackground",allBackground)
+
   const [loading, setLoading] = useState(
     Array(allBackground?.length).fill(false)
   );
@@ -44,13 +46,12 @@ const BackgroundLibrary = () => {
   const [image, setImage] = useState();
 
   const modalHandler = (item) => {
-    console.log("item", item);
     setOpen(!open);
     setImage(item);
   };
 
   useEffect(() => {
-    dispatch(getAllBackgroundImagesAction());
+    dispatch(getAllBackgroundByUserId(user?.UserId));
   }, []);
 
   useEffect(() => {

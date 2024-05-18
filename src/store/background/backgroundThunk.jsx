@@ -37,15 +37,15 @@ export const getchanngeBackgroundImageAction = createAsyncThunk(
     }
   }
 );
-export const getAllBackgroundImagesAction = createAsyncThunk(
+export const getAllBackgroundByUserId = createAsyncThunk(
   "background/getAllBackgroundImages",
-  async (rejectWithValue) => {
+  async (userId,{rejectWithValue}) => {
     try {
       const { data } = await axiosInstance.get(
-        "/Backgrounds/Get-All-Backgrounds"
+        `/Backgrounds/Get-Background-By-UserId?UserId=${userId}`
       );
       if (data?.status_code === 200) {
-        return data?.detail?.reverse();
+        return data?.detail?.UserBackgrounds?.reverse();
       } else {
        console.log(data?.detail);
        
