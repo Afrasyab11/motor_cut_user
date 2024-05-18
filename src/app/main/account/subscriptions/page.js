@@ -35,6 +35,7 @@ import { FormError } from "@/components/auth/form-error";
 import { FormSuccess } from "@/components/auth/form-success";
 import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { UpgradeSubscription } from "@/actions/stripe/upgrade-subscription";
+import { getUserProfileData } from "@/store/user/userThunk";
 // import "./subscriptions.module.css";
 const Subscriptions = [
   {
@@ -50,15 +51,17 @@ const Subscriptions = [
 ];
 const Subscription = () => {
   const dispatch = useDispatch();
-  const router=useRouter()
+  const router = useRouter();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { user } = useSelector((state) => state?.user);
   const { couponLoader } = useSelector((state) => state?.subscription);
+  const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
   const { subscription, subscriptionLoader } = useSelector(
     (state) => state?.subscription
   );
+
   let User = JSON.parse(getCookie("user") || "{}");
   const [currency, setCurrency] = useState("GBP");
   const [couponCodeID, setCouponCodeID] = useState("");
@@ -83,6 +86,10 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(getSubscriptionAction(currency));
   }, [currency]);
+
+  useEffect(() => {
+    dispatch(getUserProfileData(userId));
+  }, [userId]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -152,6 +159,11 @@ const Subscription = () => {
   ) => {
     e.preventDefault();
     // console.log("promoCode",promoCode)
+    let address = {
+      line1: getProfile[0]?.address,
+      postal_code: getProfile[0]?.postalCode,
+      country: getProfile[0]?.country,
+    };
     let tax;
     if (item?.Currency === "GBP") {
       tax = 20;
@@ -171,6 +183,7 @@ const Subscription = () => {
         packagePrice,
         couponCodeID,
         tax,
+        address
       });
       // console.log("response__",response)
 
@@ -204,8 +217,8 @@ const Subscription = () => {
       states?.StripeSubscriptionId,
       newPriceId
     );
-    if (resp.success ===true) {
-      router.push("/main/account")
+    if (resp.success === true) {
+      router.push("/main/account");
       toast.success(resp.message);
     } else {
       toast.error(resp.message || "Failed to upgrade");
@@ -336,7 +349,8 @@ const Subscription = () => {
                     {success && selectedApply == index && (
                       <FormSuccess message={success} />
                     )}
-                    {/* {states?.StripeCustomerId === null ? ( */}
+                    {states?.StripeCustomerId === null ||
+                    states?.SubscriptionStatus === "Cancelled" ? (
                       <Button
                         className="bg-primary text-white rounded-full mx-2 w-full"
                         onClick={(e) =>
@@ -352,16 +366,16 @@ const Subscription = () => {
                       >
                         Purchase
                       </Button>
-                      {/* ) : (
-                        <Button
-                          className="bg-primary text-white rounded-full mx-2 w-full"
-                          onClick={(e) =>
-                            upgradeSubscription(e, item?.StripePriceId)
-                          }
-                        >
-                          Upgrade Subscription
-                        </Button>
-                      )} */}
+                    ) : (
+                      <Button
+                        className="bg-primary text-white rounded-full mx-2 w-full"
+                        onClick={(e) =>
+                          upgradeSubscription(e, item?.StripePriceId)
+                        }
+                      >
+                        Upgrade Subscription
+                      </Button>
+                    )}
                   </CardFooter>
                 </div>
               </Card>

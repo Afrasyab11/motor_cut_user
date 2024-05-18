@@ -79,13 +79,14 @@ async function CreateStripeCheckoutSession(data) {
     packagePrice,
     couponCodeID,
     tax,
+    address,
   } = data;
-
   try {
     let stripeCustomerId = await ensureStripeCustomer({
       userId,
       userEmail,
       authToken,
+      address
     });
 
   
@@ -127,7 +128,7 @@ async function CreateStripeCheckoutSession(data) {
   }
 }
 
-async function ensureStripeCustomer({ userId, userEmail, authToken }) {
+async function ensureStripeCustomer({ userId, userEmail, authToken,address }) {
   if (!userId) {
     throw new Error("User ID is required");
   }
@@ -136,7 +137,7 @@ async function ensureStripeCustomer({ userId, userEmail, authToken }) {
   if (existingUser && existingUser.stripeCustomerId) {
     return existingUser.stripeCustomerId;
   } else {
-    const stripeCustomer = await stripe.customers.create({ email: userEmail });
+    const stripeCustomer = await stripe.customers.create({ email: userEmail,address: address, });
     await updateStripeCustomerId(userEmail, stripeCustomer.id, authToken);
     return stripeCustomer.id;
   }

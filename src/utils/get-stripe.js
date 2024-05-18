@@ -15,7 +15,8 @@ const getStripe = () => {
 // let stripePromise;
 // const getStripe = () => {
 //     if (!stripePromise) {
-//         stripePromise = loadStripe(`${process.env.STRIPE_PUBLIC_KEY}`);
+//         const publishableKey = `${process.env.STRIPE_PUBLIC_KEY}`
+//         stripePromise = loadStripe(publishableKey);
 //     }
 //     return stripePromise;
 // };

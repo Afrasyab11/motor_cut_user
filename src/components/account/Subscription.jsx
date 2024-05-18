@@ -149,8 +149,8 @@ const Subscription = () => {
     // console.log("subscriptionId",states?.StripeSubscriptionId)
     try {
       const res = await reactivateSubscription(
+        states?.StripeCustomerId,
         states?.StripeSubscriptionId,
-        // states?.StripeCustomerId,
         states?.StripePriceId,
       );
   

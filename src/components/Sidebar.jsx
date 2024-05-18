@@ -64,14 +64,14 @@ export default function Sidebar(props) {
       name: "Account",
       link: "/main/account",
     },
-    {
-      id: 8,
-      link: "/main/privacy-policy",
-    },
-    {
-      id: 9,
-      link: "/main/terms-conditions",
-    },
+    // {
+    //   id: 8,
+    //   link: "/main/privacy-policy",
+    // },
+    // {
+    //   id: 9,
+    //   link: "/main/terms-conditions",
+    // },
     // {
     //   id: 8,
     //   icon: <FaUser size={20} />,
@@ -99,7 +99,7 @@ export default function Sidebar(props) {
         "translate-x-full sm:translate-x-full xl:translate-x-0"
       }`}
     >
-      <div className="h-[60vh] flex flex-col xl:gap-8 gap-4 ">
+      <div className="h-fit overflow-y-auto hide-scroll flex flex-col xl:gap-8 gap-4 ">
         <Image
           className="hidden xl:block"
           src={Logo}
@@ -134,7 +134,7 @@ export default function Sidebar(props) {
           )
         )}
       </div>
-      <div className="footer mt-2 ">
+      <div className=" mt-2 ">
         <div className="flex  justify-center">
           <Button
             onClick={logout}
