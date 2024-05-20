@@ -130,7 +130,9 @@ const ViewAdvert = ({ searchParams }) => {
       AdvertId: Id,
       UniqueImageId: uniqueImageId,
     };
-    dispatch(flageImageAction(payload));
+    dispatch(flageImageAction({payload,onSuccess:()=>{
+      dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+    }}));
   };
   return (
     <AlertDialog>

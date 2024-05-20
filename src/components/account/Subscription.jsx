@@ -33,6 +33,7 @@ const Subscription = () => {
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
+  console.log("stats895",states)
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [stats, setStats] = useState("");
   const [loader, setLoader] = useState(false);
@@ -152,8 +153,11 @@ const Subscription = () => {
         states?.StripeCustomerId,
         states?.StripeSubscriptionId,
         states?.StripePriceId,
+        states?.UserName,
+        states?.UserId,
+        states?.PackageName,
       );
-  
+
       if (res.success) {
         toast.success("Subscription re-activated successfully");
         dispatch(dashboardStatsAction(user.UserId));
@@ -162,14 +166,13 @@ const Subscription = () => {
         toast.error(res.message || "Failed to reactivate");
       }
     } catch (error) {
-      console.error('Error reactivating subscription:', error);
+      console.error("Error reactivating subscription:", error);
       toast.error("Error reactivating subscription");
     }
   };
 
-
-  const today = moment(new Date()).format("DD-MM-YYYY"); 
-const showReactivateButton = today > states?.RenewalDate;
+  const today = moment(new Date()).format("DD-MM-YYYY");
+  const showReactivateButton = today > states?.RenewalDate;
 
   return (
     <>
@@ -215,15 +218,15 @@ const showReactivateButton = today > states?.RenewalDate;
         </CardContent>
 
         <CardFooter className="flex-col ">
-        {showReactivateButton && (
-                <Button
-                  variant="outline"
-                  className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
-                  onClick={reactivate}
-                >
-                  Reactivate
-                </Button>
-              )}
+          {showReactivateButton && (
+            <Button
+              variant="outline"
+              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+              onClick={reactivate}
+            >
+              Reactivate
+            </Button>
+          )}
           {loadingStates.invoices ? (
             <ImSpinner8 className="spinning-icon" />
           ) : stats?.PackageName != "Free Tier" &&
@@ -251,8 +254,6 @@ const showReactivateButton = today > states?.RenewalDate;
             </>
           ) : stats?.SubscriptionStatus === "Cancelled" ? (
             <>
-              
-
               <Button
                 variant="outline"
                 className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"

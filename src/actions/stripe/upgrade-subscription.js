@@ -12,8 +12,6 @@ const UpgradeSubscription = async (subscriptionId, newPriceId) => {
   try {
     // Retrieve the subscription
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-    console.log("Subscription Items ID:", subscription.items.data[0].id);
-
     // Update the subscription with the new plan
     const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
       items: [

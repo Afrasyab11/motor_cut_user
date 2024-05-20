@@ -91,13 +91,14 @@ export const downloadAllAdvertImagesAction = createAsyncThunk(
 );
 export const flageImageAction = createAsyncThunk(
   "advert/flageImage",
-  async (payload, { rejectWithValue }) => {
+  async ({payload,onSuccess}, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
         `/FlaggedImages/Flag-Image?AdvertId=${payload?.AdvertId}&UniqueImageId=${payload?.UniqueImageId}`
       );
       if (data?.status_code === 200) {
         toast.success("Image Successfully flaged");
+        onSuccess();
       } else {
         toast.warning(data?.detail)
         return rejectWithValue(data?.detail);
