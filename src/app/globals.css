@@ -133,7 +133,15 @@ html{
 .bar-scroll::-webkit-scrollbar-button {
   display: none; /* Hide scrollbar buttons */
 }
+.hide-scroll {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll; /* Enable scrolling */
+}
 
+.hide-scroll::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
 /* Firefox */
 @supports (scrollbar-color: theme('colors.primary.light') theme('colors.secondary')) {
   .bar-scroll {

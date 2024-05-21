@@ -99,7 +99,7 @@ export default function Sidebar(props) {
         "translate-x-full sm:translate-x-full xl:translate-x-0"
       }`}
     >
-      <div className="h-fit overflow-y-auto hide-scroll flex flex-col xl:gap-8 gap-4 ">
+      <div className="h-fit overflow-y-scroll hide-scroll flex flex-col xl:gap-8 gap-4 ">
         <Image
           className="hidden xl:block"
           src={Logo}

@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
       {/* Include Header component */}
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-      <div className="grid grid-cols-12  overflow-clip ">
+      <div className="grid grid-cols-12 ">
         {/* Display the sidebar only on xl screens */}
         <div className={`xl:block col-span-2 ${showSidebar ? "" : "hidden"}`}>
           <Sidebar showSidebar={showSidebar} />
@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
         {/* Adjust the column span based on screen size */}
         <div className="col-span-12 xl:col-span-10">
           {/* Main content */}
-          <div className="p-5 relative xl:py-4 pt-20 pb-6 h-screen overflow-y-scroll">
+          <div className="p-5 relative xl:py-4 pt-20 pb-6 h-screen overflow-y-auto">
             {children}
           </div>
         </div>

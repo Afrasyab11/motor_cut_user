@@ -33,7 +33,6 @@ const Subscription = () => {
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
-  console.log("stats895",states)
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [stats, setStats] = useState("");
   const [loader, setLoader] = useState(false);
