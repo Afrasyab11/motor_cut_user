@@ -180,8 +180,8 @@ export default function CreateAdvert() {
             onClick={() => {
               router.push("/main/background-library");
             }}
-            className="text-primary text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] font-medium"
-            href="#"
+            className="text-primary text-sm cursor-pointer sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] font-medium"
+            // href="#"
           >
             Change Background
           </a>
