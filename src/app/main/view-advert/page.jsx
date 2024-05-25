@@ -130,9 +130,14 @@ const ViewAdvert = ({ searchParams }) => {
       AdvertId: Id,
       UniqueImageId: uniqueImageId,
     };
-    dispatch(flageImageAction({payload,onSuccess:()=>{
-      dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
-    }}));
+    dispatch(
+      flageImageAction({
+        payload,
+        onSuccess: () => {
+          dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+        },
+      })
+    );
   };
   return (
     <AlertDialog>
@@ -314,20 +319,26 @@ const ViewAdvert = ({ searchParams }) => {
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">
                             <RiFlagFill className="text-site_red" size={15} />
-                            <a
-                              href="#"
-                              onClick={(e) =>
-                                flageImageHandle(
-                                  e,
-                                  item?.Id,
-                                  item?.Images?.Images,
-                                  i
-                                )
-                              }
-                              className="ml-4 text-sm sm:text-md text-site_red"
-                            >
-                              Flag Image
-                            </a>
+                            {img?.Flagged === false ? (
+                              <a
+                                href="#"
+                                onClick={(e) =>
+                                  flageImageHandle(
+                                    e,
+                                    item?.Id,
+                                    item?.Images?.Images,
+                                    i
+                                  )
+                                }
+                                className="ml-4 text-sm sm:text-md text-site_red"
+                              >
+                                Flag Image
+                              </a>
+                            ) : (
+                              <p className="ml-4 text-sm sm:text-md text-site_red">
+                                Flagged
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -371,8 +382,6 @@ const ViewAdvert = ({ searchParams }) => {
           selectedImage={selectedImage}
         />
       )}
-
-      
     </AlertDialog>
   );
 };
