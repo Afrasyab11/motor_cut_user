@@ -159,3 +159,19 @@ export const getFileAction = createAsyncThunk(
   }
 );
 
+export const changeLogoPositionOnProcessImage = createAsyncThunk(
+  "flage/Update-Advertisement-Image",
+  async ({ formData, onSuccess }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.put(`/Advertisement/Update-Advertisement-Image`,formData);
+      if (data?.status_code === 200) {
+        onSuccess();
+        // toast.success(data?.detail);
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);

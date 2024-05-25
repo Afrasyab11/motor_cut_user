@@ -21,6 +21,7 @@ import {
   flageImageAction,
   downloadAdvertImagesAction,
   downloadZipFileAction,
+  changeLogoPositionOnProcessImage,
 } from "@/store/createAdvert/createAdvertThunk";
 import { baseDomain } from "@/utils/axios";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -69,23 +70,36 @@ const ViewAdvert = ({ searchParams }) => {
       setSelectedOption(logo.LogoPosition);
     }
   }, [logo]);
-  const handleOptionChange = async (e) => {
-    setSelectedOption(e);
+  const handleOptionChange = async (value, imageId, ImagePath) => {
+    // setSelectedOption(e);
     const formData = new FormData();
-    formData.append("UserId", user?.UserId);
-    formData.append("LogoPosition", e);
-    formData.append("Logo", "");
-    formData.append("DownloadFormat", null);
-
-    await dispatch(
-      createLogoAction({
-        formData,
-        onSuccess: () => {
-          dispatch(getLogoAction(user?.UserId));
-          selectedOption("");
-        },
-      })
+    let payload = {
+      UniqueAdvertId: imageId,
+      ExistingProcessedImagePath: ImagePath,
+      LogoPosition: value,
+    };
+    for (const key in payload) {
+      formData.append(key, payload[key]);
+    }
+    dispatch(
+      changeLogoPositionOnProcessImage({formData, onSuccess: () => {
+        dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+      } })
     );
+    // formData.append("UserId", user?.UserId);
+    // formData.append("LogoPosition", e);
+    // formData.append("Logo", "");
+    // formData.append("DownloadFormat", null);
+
+    // await dispatch(
+    //   createLogoAction({
+    //     formData,
+    //     onSuccess: () => {
+    //       dispatch(getLogoAction(user?.UserId));
+    //       selectedOption("");
+    //     },
+    //   })
+    // );
   };
 
   const downloadHandler = async (e, item) => {
@@ -284,14 +298,18 @@ const ViewAdvert = ({ searchParams }) => {
                                   Logo:
                                 </span>
                                 <Select
-                                  value={selectedOption}
+                                  value={img?.LogoPosition}
                                   className="border-none "
                                   onValueChange={(val) => {
-                                    handleOptionChange(val);
+                                    handleOptionChange(
+                                      val,
+                                      item?.UniqueAdvertisementId,
+                                      img?.Processed
+                                    );
                                   }}
                                 >
                                   <SelectTrigger className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
-                                    <SelectValue placeholder={selectedOption} />
+                                    <SelectValue placeholder={img?.LogoPosition} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectGroup>
