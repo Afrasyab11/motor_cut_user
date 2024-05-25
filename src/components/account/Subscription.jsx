@@ -154,7 +154,7 @@ const Subscription = () => {
         states?.StripePriceId,
         states?.UserName,
         states?.UserId,
-        states?.PackageName,
+        states?.PackageName
       );
 
       if (res.success) {
@@ -171,7 +171,11 @@ const Subscription = () => {
   };
 
   const today = moment(new Date()).format("DD-MM-YYYY");
-  const showReactivateButton = today > states?.RenewalDate;
+  // const showReactivateButton = today > states?.RenewalDate;
+  const showReactivateButton = moment(today).isAfter(
+    states?.RenewalDate
+  );
+  console.log("showReactivateButton", showReactivateButton);
 
   return (
     <>
