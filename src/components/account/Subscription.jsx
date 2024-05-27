@@ -171,11 +171,7 @@ const Subscription = () => {
   };
 
   const today = moment(new Date()).format("DD-MM-YYYY");
-  // const showReactivateButton = today > states?.RenewalDate;
-  const showReactivateButton = moment(today).isAfter(
-    states?.RenewalDate
-  );
-  console.log("showReactivateButton", showReactivateButton);
+  const showReactivateButton = today > states?.RenewalDate;
 
   return (
     <>
@@ -195,12 +191,12 @@ const Subscription = () => {
             <div className="p-3 rounded-full bg-primary-light w-10 h-10 text-center">
               <FaTag color="white" />
             </div>
-            <div className="basis-2/3">
-              <h4 className="font-bold sm:text-[13px] lg:text-md">
-                {stats?.PackageName || 0}
-              </h4>
-              <p className="text-sm">Package</p>
-            </div>
+              <div className="basis-2/3">
+                <h4 className="font-bold sm:text-[13px] lg:text-md">
+                  {stats?.PackageName || 0}
+                </h4>
+                <p className="text-sm">Package</p>
+              </div>
           </div>
           {/* renewable date */}
           <div
@@ -221,7 +217,7 @@ const Subscription = () => {
         </CardContent>
 
         <CardFooter className="flex-col ">
-          {showReactivateButton && (
+          {showReactivateButton || stats.SubscriptionStatus ==="Cancelled" && (
             <Button
               variant="outline"
               className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
