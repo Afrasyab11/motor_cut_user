@@ -81,11 +81,11 @@ const ViewAdvert = ({ searchParams }) => {
     for (const key in payload) {
       formData.append(key, payload[key]);
     }
-    // dispatch(
-    //   changeLogoPositionOnProcessImage({formData, onSuccess: () => {
-    //     dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
-    //   } })
-    // );
+    dispatch(
+      changeLogoPositionOnProcessImage({formData, onSuccess: () => {
+        dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+      } })
+    );
     // formData.append("UserId", user?.UserId);
     // formData.append("LogoPosition", e);
     // formData.append("Logo", "");
