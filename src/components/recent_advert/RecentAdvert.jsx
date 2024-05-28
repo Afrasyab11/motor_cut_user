@@ -12,7 +12,8 @@ export default function RecentAdvert({ showCard }) {
 // console.log("advert",advert)
 let user = userString ? JSON.parse(userString) : null;
   useEffect(() => {
-    dispatch(getAdvertAction( user?.UserId));
+    dispatch(getAdvertAction({userId:user?.UserId,onSuccess:()=>{
+    }}));
   }, []);
 
   return (

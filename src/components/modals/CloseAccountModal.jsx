@@ -38,10 +38,10 @@ export default function CloseAccountModal({ open, setOpen, closeHandler,loader }
               className="bg-primary py-1 rounded-full px-14 text-white"
               type="submit"
               onClick={closeHandler}
-              // disabled={loader}
+              disabled={loader} 
             >
               Yes
-              {/* {loader && <ImSpinner8 className="spinning-icon" />} */}
+              {loader && <ImSpinner8 className="spinning-icon" />}
             </button>
           </div>
         </AlertDialogFooter>

@@ -56,7 +56,7 @@ const Otp_Input = ({inputValues,setInputValues}) => {
         onKeyDown={(e)=>onInputKeyDown(e,index)}
         onPaste={onPaste}
         maxLength={1}
-        className="w-full max-w-16 h-20 text-2xl text-center p-4 rounded bg-slate-100 focus:border-b-2 focus:outline-none border-b-2 border-[#814adf]"
+        className="w-full max-w-16 h-20 text-2xl text-center sm:p-1 md:p-4 rounded bg-slate-100 focus:border-b-2 focus:outline-none border-b-2 border-[#814adf]"
         required
       />
      

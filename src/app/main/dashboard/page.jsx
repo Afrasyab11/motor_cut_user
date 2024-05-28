@@ -37,7 +37,7 @@ export default function DashBoard() {
     {
       icon: <FaImage size={25} />,
       title:
-        states?.RenewalDate === "Cancelled"
+        states?.SubscriptionStatus === "Cancelled"
           ? states?.TotalImagesProcessed
           : (states.ImagesProcessed ?? 0) + "/" + (states.TotalAllowedImages ?? 0),
       description: "Images Processed",
@@ -50,7 +50,7 @@ export default function DashBoard() {
     {
       icon: <FaCar size={25} />,
       title:
-        states?.RenewalDate === "Cancelled"
+        states?.SubscriptionStatus === "Cancelled"
           ? states?.TotalAdvertsCreated
           : (states?.AdvertsCreated || 0),
       description: "Adverts Created",

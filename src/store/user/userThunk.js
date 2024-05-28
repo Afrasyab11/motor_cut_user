@@ -182,3 +182,21 @@ export const getUserProfileData = createAsyncThunk(
     }
   }
 );
+export const statusManageUserAction = createAsyncThunk(
+  "manage/statusUser",
+  async ({ UserId, Status, onSuccess }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.put(
+        `/User/User-Status-Change?UserId=${UserId}&Status=${Status}`
+      );
+      if (data?.status_code === 200) {
+        onSuccess();
+        toast.success("Account has been closed");
+      } else {
+        toast.warning(data?.detail);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Handle the error state in Redux
+    }
+  }
+);

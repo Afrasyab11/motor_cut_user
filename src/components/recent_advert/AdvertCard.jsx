@@ -6,6 +6,7 @@ import { axiosInstance } from "@/utils/axios";
 import {
   downloadAdvertImagesAction,
   downloadAllAdvertImagesAction,
+  getActivityChartAction,
   getAdvertAction,
   getFileAction,
 } from "@/store/createAdvert/createAdvertThunk";
@@ -21,6 +22,7 @@ import notProcess from "./../../assets/images/notProcess.gif";
 import Failed from "./../../assets/images/Failed.gif";
 // import notProcess from "./../../assets/images/spiinner.gif";
 import { Button } from "../ui/button";
+import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
   const dispatch = useDispatch();
@@ -46,7 +48,10 @@ export default function AdvertCard({ data, showCard }) {
         (item) => item?.Status === "InProgress"
       );
       if (inProgressDetails.length > 0) {
-        dispatch(getAdvertAction(user?.UserId));
+        dispatch(getAdvertAction({userId:user?.UserId,onSuccess:()=>{
+          dispatch(dashboardStatsAction(user?.UserId));
+          dispatch(getActivityChartAction(user?.UserId));
+        }}));
       }
     }, 10000);
 
@@ -108,7 +113,7 @@ export default function AdvertCard({ data, showCard }) {
     <div
       className={`lg:grid md:grid sm:grid  ${
         showCard % 2 !== 0
-          ? "lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-4 px-2"
+          ? "lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 gap-x-2 gap-y-4 px-2"
           : "lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-4 px-2 "
       }`}
     >

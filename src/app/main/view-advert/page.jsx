@@ -82,9 +82,12 @@ const ViewAdvert = ({ searchParams }) => {
       formData.append(key, payload[key]);
     }
     dispatch(
-      changeLogoPositionOnProcessImage({formData, onSuccess: () => {
-        dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
-      } })
+      changeLogoPositionOnProcessImage({
+        formData,
+        onSuccess: () => {
+          dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+        },
+      })
     );
     // formData.append("UserId", user?.UserId);
     // formData.append("LogoPosition", e);
@@ -217,7 +220,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div
                             className={`lg:col-span-6 md:col-span-6 sm:col-span-6   relative mb-1 ${
                               img?.Flagged === true
-                                ? "border-2 border-red-500 rounded-xl"
+                                ? "border-[3px] border-red-500 rounded-xl"
                                 : ""
                             }`}
                           >
@@ -228,7 +231,7 @@ const ViewAdvert = ({ searchParams }) => {
                               variant="outline"
                             >
                               <Image
-                                className="w-full object-contain rounded-xl "
+                                className="w-full object-contain rounded-lg "
                                 height={1600}
                                 width={1600}
                                 src={`${baseDomain}get-file?filename=${img?.Processed}`}
@@ -236,7 +239,7 @@ const ViewAdvert = ({ searchParams }) => {
                                 alt=""
                               />
                             </a>
-                            {img?.LogoPosition && (
+                            {logo?.DisplayLogo && img?.LogoPosition && (
                               <Image
                                 className={` h-[50px] w-[120px] absolute object-contain rounded-2xl
                          ${
@@ -309,7 +312,9 @@ const ViewAdvert = ({ searchParams }) => {
                                   }}
                                 >
                                   <SelectTrigger className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
-                                    <SelectValue placeholder={img?.LogoPosition} />
+                                    <SelectValue
+                                      placeholder={img?.LogoPosition}
+                                    />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectGroup>
@@ -331,7 +336,7 @@ const ViewAdvert = ({ searchParams }) => {
                               </>
                             ) : (
                               <div className="flex justify-center items-center">
-                                <p>User disabled the logo</p>
+                                <p>Logo disabled</p>
                               </div>
                             )}
                           </div>

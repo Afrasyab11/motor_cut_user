@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { verifyEmail, loginUser, updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword, verifyUserPassword, userNewPassword,getUserProfileData} from "./userThunk";
+import { verifyEmail, loginUser, updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword, verifyUserPassword, userNewPassword,getUserProfileData,statusManageUserAction} from "./userThunk";
 import { setCookie, deleteCookie } from "cookies-next";
 
 const initialState = {
@@ -17,6 +17,7 @@ const initialState = {
   statusError:[],
   getProfile:[],
   getProfileLoader:false,
+  closeAccountLoader:false,
 };
 
 export const userSlice = createSlice({
@@ -163,6 +164,17 @@ export const userSlice = createSlice({
       })
       .addCase(userNewPassword.rejected, (state, action) => {
         state.userLoader = false;
+        state.error = action.payload;
+      })
+      //Close Account API 
+      .addCase(statusManageUserAction.pending, (state) => {
+        state.closeAccountLoader = true;
+      })
+      .addCase(statusManageUserAction.fulfilled, (state, action) => {
+        state.closeAccountLoader = false;
+      })
+      .addCase(statusManageUserAction.rejected, (state, action) => {
+        state.closeAccountLoader = false;
         state.error = action.payload;
       })
 

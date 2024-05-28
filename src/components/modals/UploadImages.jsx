@@ -79,7 +79,8 @@ export default function UploadImages({
         formData,
         onSuccess: () => {
           setOpen();
-          dispatch(getAdvertAction(user?.UserId));
+          dispatch(getAdvertAction({userId:user?.UserId,onSuccess:()=>{
+          }}));
           dispatch(getActivityChartAction(user?.UserId));
           dispatch(dashboardStatsAction(user?.UserId));
           setPayload({

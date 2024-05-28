@@ -23,12 +23,13 @@ export const createAdvertAction = createAsyncThunk(
 
 export const getAdvertAction = createAsyncThunk(
   "advert/getAdvert",
-  async (Id, { rejectWithValue }) => {
+  async ({userId,onSuccess}, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
-        `/Advertisement/Get-Advertisements-By-User-Id/?UserId=${Id}`
+        `/Advertisement/Get-Advertisements-By-User-Id/?UserId=${userId}`
       );
       if (data?.status_code === 200) {
+        onSuccess();
         return data?.detail.reverse();
       } else {
         return rejectWithValue(data?.detail);

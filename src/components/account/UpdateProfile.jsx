@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateUserProfile, getUserProfileData } from "@/store/user/userThunk";
+import { updateUserProfile, getUserProfileData, statusManageUserAction } from "@/store/user/userThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-
+import { logoutUser } from "@/store/user/userSlice";
 const countriesList = [
   { name: "United States", code: "US" },
   { name: "United Kingdom", code: "GB" },
@@ -39,7 +39,8 @@ const countriesList = [
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const { getProfile, userLoader } = useSelector((state) => state?.user);
+  const router = useRouter();
+  const { getProfile, userLoader,closeAccountLoader } = useSelector((state) => state?.user);
   let user = JSON.parse(getCookie("user") || "{}");
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [payload, setPayload] = useState({
@@ -119,7 +120,17 @@ const UpdateProfile = () => {
   };
 
   const ConfirmCloseHandler = () => {
-    setDialogOpen(false);
+    dispatch(
+      statusManageUserAction({
+        UserId: user?.UserId,
+        Status: "Inactive",
+        onSuccess: () => {
+          setDialogOpen(false);
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   };
 
   const countries = defaultCountries.filter((country) => {
@@ -315,7 +326,7 @@ const UpdateProfile = () => {
           open={isDialogOpen}
           setOpen={handleCloseDialog}
           closeHandler={ConfirmCloseHandler}
-          // loader={closeLoader}
+          loader={closeAccountLoader}
         />
       )}
     </>

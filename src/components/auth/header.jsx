@@ -38,7 +38,7 @@ export const Header = ({
         className={cn(
           "text-muted-foreground text-sm",
           headerPadding,
-          progressBarCount === "4" ? "text-justify pr-7" : ""
+          progressBarCount === "4" ? "text-justify sm:pr-0 md:pr-7" : ""
         )}
       >
         {label}
