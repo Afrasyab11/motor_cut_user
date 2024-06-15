@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import {
@@ -11,17 +11,51 @@ import {
 import { MdClose } from "react-icons/md";
 import Image from "next/image";
 import { baseDomain } from "@/utils/axios";
-
-export default function ShiftBackground({ open, setOpen, selectedImage }) {
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  changeLogoPositionOnProcessImage,
+  getAdvertAction,
+  getAdvertProcesByIdAction,
+} from "@/store/createAdvert/createAdvertThunk";
+import { ImSpinner8 } from "react-icons/im";
+export default function ShiftBackground({ open, setOpen, item, advertId }) {
+  // console.log("item564",item)
+  const { shiftBgLoader } = useSelector((state) => state?.advert);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const MIN = 0;
   const MAX = 100;
-  const [value, setValue] = useState(50);
+  const [value, setValue] = useState(20);
+  const [showRecord, setShowRecord] = useState(0);
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState(6);
 
+  
   const handleSliderChange = (newValue) => {
     setValue(newValue);
   };
   const submitHandler = () => {
-    console.log("value", value);
+    const formData = new FormData();
+    let payload = {
+      UniqueAdvertId: advertId,
+      ExistingProcessedImagePath: item?.Processed,
+      CutPointValue: value,
+    };
+    for (const key in payload) {
+      formData.append(key, payload[key]);
+    }
+    dispatch(
+      changeLogoPositionOnProcessImage({
+        formData,
+        onSuccess: () => {
+          dispatch(getAdvertProcesByIdAction(advertId));
+          toast.success("Image Updated");
+          window.location.reload();
+          setOpen();
+        },
+      })
+    );
   };
 
   return (
@@ -33,7 +67,7 @@ export default function ShiftBackground({ open, setOpen, selectedImage }) {
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between items-center pb-[20px] pt-[15px]">
               <p>Shift Background</p>
-              <button onClick={setOpen}>
+              <button disabled={shiftBgLoader} onClick={setOpen}>
                 <MdClose size={35} />
               </button>
             </div>
@@ -43,14 +77,14 @@ export default function ShiftBackground({ open, setOpen, selectedImage }) {
               <div className="relative">
                 <Image
                   className="rounded-lg"
-                  src={`${baseDomain}get-file?filename=${selectedImage}`}
+                  src={`${baseDomain}get-file?filename=${item?.Processed}`}
                   width={1600}
                   height={1600}
                   alt={`Background`}
                 />
                 <div
                   className="absolute left-0 w-full h-1 bg-red-500 transform -translate-y-1/2"
-                  style={{ top: `calc(100% - ${value}%)` }}
+                  style={{ bottom: `calc(100% - ${value}%)` }}
                 ></div>
               </div>
             </div>
@@ -61,6 +95,7 @@ export default function ShiftBackground({ open, setOpen, selectedImage }) {
                 value={value}
                 onChange={handleSliderChange}
                 vertical
+                reverse
                 className="custom-slider"
                 railStyle={{ backgroundColor: "black" }} // Set track fill color to black
                 trackStyle={{ backgroundColor: "black" }} // Set track fill color to black
@@ -77,10 +112,10 @@ export default function ShiftBackground({ open, setOpen, selectedImage }) {
               className="bg-primary py-2 rounded-full px-14 text-white"
               type="button"
               onClick={submitHandler}
-              //   disabled={backgroundLoader}
+              disabled={shiftBgLoader}
             >
               Save and Reprocess Image
-              {/* {backgroundLoader && <ImSpinner8 className="spinning-icon" />} */}
+              {shiftBgLoader && <ImSpinner8 className="spinning-icon" />}
             </button>
           </div>
         </AlertDialogFooter>

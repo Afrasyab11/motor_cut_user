@@ -176,3 +176,4 @@ export const changeLogoPositionOnProcessImage = createAsyncThunk(
     }
   }
 );
+

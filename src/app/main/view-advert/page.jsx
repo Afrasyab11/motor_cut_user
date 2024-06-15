@@ -49,9 +49,10 @@ const ViewAdvert = ({ searchParams }) => {
   const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
-  const toggle = (imageUrl) => {
+  const toggle = (item) => {
+    console.log("item",item)
     setOpen(!open);
-    setSelectedImage(imageUrl);
+    setSelectedImage(item);
   };
   useEffect(() => {
     setAdvert([processAdvert]);
@@ -230,7 +231,7 @@ const ViewAdvert = ({ searchParams }) => {
                               rel="noopener noreferrer"
                               variant="outline"
                             >
-                              <Image
+                              <img
                                 className="w-full object-contain rounded-lg "
                                 height={1600}
                                 width={1600}
@@ -270,7 +271,7 @@ const ViewAdvert = ({ searchParams }) => {
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <button
-                              onClick={() => toggle(img.Original)}
+                              onClick={() => toggle(img)}
                               className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
                             >
                               Edit Background Position
@@ -402,7 +403,8 @@ const ViewAdvert = ({ searchParams }) => {
         <ShiftBackground
           open={open}
           setOpen={toggle}
-          selectedImage={selectedImage}
+          item={selectedImage}
+          advertId={searchParams?.advertId}
         />
       )}
     </AlertDialog>

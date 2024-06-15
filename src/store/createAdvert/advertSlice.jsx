@@ -5,12 +5,14 @@ import {
   getAdvertProcesByIdAction,
   getActivityChartAction,
   getFileAction,
+  changeLogoPositionOnProcessImage
 } from "./createAdvertThunk";
 
 const initialState = {
   advertLoader: false,
   getLoader:false,
   chartLoader:false,
+  shiftBgLoader:false,
   error: null,
   advert: [],
   processAdvert: [],
@@ -80,7 +82,16 @@ export const advertSlice = createSlice({
         state.getLoader = false;
         state.error = action.payload;
       })
-     
+      .addCase(changeLogoPositionOnProcessImage.pending, (state) => {
+        state.shiftBgLoader = true;
+      })
+      .addCase(changeLogoPositionOnProcessImage.fulfilled, (state, action) => {
+        state.shiftBgLoader = false;
+      })
+      .addCase(changeLogoPositionOnProcessImage.rejected, (state, action) => {
+        state.shiftBgLoader = false;
+        state.error = action.payload;
+      })
     
   },
 });
