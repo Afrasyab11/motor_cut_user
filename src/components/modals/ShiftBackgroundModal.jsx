@@ -65,7 +65,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent
-        className={`overflow-y-auto h-5/6 lg:w-full xl:w-full 2xl:min-w-[80vh]`}
+        className={`overflow-y-auto h-auto lg:w-full xl:w-full 2xl:min-w-[80vh]`}
       >
         <AlertDialogHeader>
           <AlertDialogTitle>
