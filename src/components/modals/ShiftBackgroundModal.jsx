@@ -34,6 +34,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
   let user = userString ? JSON.parse(userString) : null;
 
   const handleSliderChange = (newValue) => {
+    console.log("newvalue",newValue)
     setValue(newValue);
   };
   const submitHandler = () => {
@@ -65,7 +66,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent
-        className={`overflow-y-auto h-auto lg:w-full xl:w-full 2xl:min-w-[80vh]`}
+         className={`overflow-y-auto h-auto lg:w-full xl:w-full 2xl:min-w-[80vh]`}
       >
         <AlertDialogHeader>
           <AlertDialogTitle>
@@ -76,7 +77,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
               </button>
             </div>
           </AlertDialogTitle>
-          <div className="flex align-items-center gap-4">
+          <div className="flex justify-center align-items-center gap-4">
             <div>
               <div className="relative">
                 <Image

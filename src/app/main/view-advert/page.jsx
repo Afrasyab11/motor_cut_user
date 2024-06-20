@@ -41,6 +41,7 @@ const ViewAdvert = ({ searchParams }) => {
 
 
   const toggle = (item) => {
+    console.log("item",item)
     setOpen(!open);
     setSelectedImage(item);
   };
@@ -264,12 +265,12 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
-                            <button
+                            <Button
                               onClick={() => toggle(img)}
                               className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
                             >
                               Edit Background Position
-                            </button>
+                            </Button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button

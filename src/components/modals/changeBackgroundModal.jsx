@@ -23,6 +23,7 @@ import { uploadImagesSchema } from "@/schemas/advertFromValidation";
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
+
 export default function ChangeBackgroudImage({
   open,
   setOpen,
