@@ -267,7 +267,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
                               onClick={() => toggle(img)}
-                              className="bg-primary text-whitee  w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
+                              className="bg-primary text-whitee whitespace-nowrap w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
                             >
                               Edit Background Position
                             </Button>
