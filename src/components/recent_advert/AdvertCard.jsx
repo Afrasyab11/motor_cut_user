@@ -32,6 +32,7 @@ export default function AdvertCard({ data, showCard }) {
   const { advertLoader } = useSelector((state) => state?.advert);
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(Array(data.length).fill(false));
+  
   useEffect(() => {
     setTimeout(() => {
       if (data.length != 0) {

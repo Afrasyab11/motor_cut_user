@@ -24,7 +24,10 @@ export const advertSlice = createSlice({
   name: "advert",
   initialState,
   reducers: {
-    // Your synchronous reducers
+    viewAdvertAction: (state,action) => {
+      console.log("hitted",action)
+      // state.processAdvert = []
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -95,5 +98,5 @@ export const advertSlice = createSlice({
     
   },
 });
-
+export const { viewAdvertAction } = advertSlice.actions;
 export default advertSlice.reducer;

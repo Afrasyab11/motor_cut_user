@@ -19,19 +19,20 @@ import {
   getAdvertProcesByIdAction,
 } from "@/store/createAdvert/createAdvertThunk";
 import { ImSpinner8 } from "react-icons/im";
+import { getCookie } from "cookies-next";
+import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 export default function ShiftBackground({ open, setOpen, item, advertId }) {
   // console.log("item564",item)
   const { shiftBgLoader } = useSelector((state) => state?.advert);
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const MIN = 0;
   const MAX = 100;
   const [value, setValue] = useState(20);
-  const [showRecord, setShowRecord] = useState(0);
-  const [page, setPage] = useState(1);
-  const [rows, setRows] = useState(6);
+  let userString = getCookie("user");
+  // console.log("advert",advert)
+  let user = userString ? JSON.parse(userString) : null;
 
-  
   const handleSliderChange = (newValue) => {
     setValue(newValue);
   };
@@ -49,9 +50,12 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
       changeLogoPositionOnProcessImage({
         formData,
         onSuccess: () => {
-          dispatch(getAdvertProcesByIdAction(advertId));
+          dispatch(
+            getAdvertProcesByIdAction({ Id: advertId, onSuccess: (data) => {
+            } })
+          );
           toast.success("Image Updated");
-          window.location.reload();
+          // window.location.reload();
           setOpen();
         },
       })
@@ -76,10 +80,10 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
             <div>
               <div className="relative">
                 <Image
-                  className="rounded-lg"
+                  className={`rounded-lg h-[${item?.ImageDimenison?.Height}] w-[${item?.ImageDimenison?.Width}]`}
                   src={`${baseDomain}get-file?filename=${item?.Processed}`}
-                  width={1600}
-                  height={1600}
+                  width={item?.ImageDimenison?.Width}
+                  height={item?.ImageDimenison?.Height}
                   alt={`Background`}
                 />
                 <div

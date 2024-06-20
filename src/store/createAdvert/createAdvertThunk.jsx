@@ -41,12 +41,13 @@ export const getAdvertAction = createAsyncThunk(
 );
 export const getAdvertProcesByIdAction = createAsyncThunk(
   "advert/getAdvertProcess",
-  async (Id, { rejectWithValue }) => {
+  async ({Id,onSuccess}, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Advertisement/Get-Advertisement-By-Id/?UniqueAdvertId=${Id}`
       );
       if (data?.status_code === 200) {
+        onSuccess(data?.detail)
         return data?.detail;
       } else {
         toast.warning(data?.detail);

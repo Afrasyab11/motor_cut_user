@@ -1,18 +1,6 @@
 "use client";
 import Image from "next/image";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  AlertDialogBody,
-} from "@/components/ui/alert-dialog";
-import { MdClose } from "react-icons/md";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 import { RiFlagFill } from "react-icons/ri";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,14 +8,14 @@ import {
   getAdvertProcesByIdAction,
   flageImageAction,
   downloadAdvertImagesAction,
-  downloadZipFileAction,
   changeLogoPositionOnProcessImage,
 } from "@/store/createAdvert/createAdvertThunk";
 import { baseDomain } from "@/utils/axios";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createLogoAction, getLogoAction } from "@/store/uploadLogo/logoThunk";
+import { getLogoAction } from "@/store/uploadLogo/logoThunk";
 import placeholder from "../../../../public/placeholder.png";
 import { getCookie } from "cookies-next";
+import ViewAdvertSkelton from "@/components/skeleton/ViewAdvertSkelton";
 import {
   Select,
   SelectContent,
@@ -38,41 +26,43 @@ import {
 } from "@/components/ui/select";
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 import { Button } from "@/components/ui/button";
+import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
-  const { processAdvert, getLoader } = useSelector((state) => state?.advert);
+  const { processAdvert } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state?.logo);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
-  const [advert, setAdvert] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
   const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
+  const [loader,setLoader]=useState(true)
   const toggle = (item) => {
     console.log("item",item)
     setOpen(!open);
     setSelectedImage(item);
+
+  
   };
-  useEffect(() => {
-    setAdvert([processAdvert]);
-  }, [processAdvert]);
+
 
   useEffect(() => {
-    dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+    setLoader(true)
+    dispatch(
+      getAdvertProcesByIdAction({
+        Id: searchParams?.advertId,
+        onSuccess: (data) => {
+          setLoader(false)
+          // setAdvert([data]);
+        },
+      })
+    );
   }, [searchParams?.advertId]);
-
   useEffect(() => {
     dispatch(getLogoAction(user?.UserId));
   }, [user?.UserId]);
 
-  useEffect(() => {
-    if (logo && logo?.LogoPosition) {
-      setSelectedOption(logo.LogoPosition);
-    }
-  }, [logo]);
   const handleOptionChange = async (value, imageId, ImagePath) => {
-    // setSelectedOption(e);
     const formData = new FormData();
     let payload = {
       UniqueAdvertId: imageId,
@@ -86,24 +76,17 @@ const ViewAdvert = ({ searchParams }) => {
       changeLogoPositionOnProcessImage({
         formData,
         onSuccess: () => {
-          dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+          dispatch(
+            getAdvertProcesByIdAction({
+              Id: searchParams?.advertId,
+              onSuccess: (data) => {
+                // setAdvert([data]);
+              },
+            })
+          );
         },
       })
     );
-    // formData.append("UserId", user?.UserId);
-    // formData.append("LogoPosition", e);
-    // formData.append("Logo", "");
-    // formData.append("DownloadFormat", null);
-
-    // await dispatch(
-    //   createLogoAction({
-    //     formData,
-    //     onSuccess: () => {
-    //       dispatch(getLogoAction(user?.UserId));
-    //       selectedOption("");
-    //     },
-    //   })
-    // );
   };
 
   const downloadHandler = async (e, item) => {
@@ -152,7 +135,14 @@ const ViewAdvert = ({ searchParams }) => {
       flageImageAction({
         payload,
         onSuccess: () => {
-          dispatch(getAdvertProcesByIdAction(searchParams?.advertId));
+          dispatch(
+            getAdvertProcesByIdAction({
+              Id: searchParams?.advertId,
+              onSuccess: (data) => {
+                // setAdvert([data]);
+              },
+            })
+          );
         },
       })
     );
@@ -160,7 +150,7 @@ const ViewAdvert = ({ searchParams }) => {
   return (
     <AlertDialog>
       <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
-        {advert.length > 0 ? (
+        {processAdvert?.Images?.Images?.length > 0 ? (
           <>
             <div className="2xl:grid 2xl:grid-cols-12 lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 px-2">
               <div className="2xl:col-span-8 lg:col-span-7 md:col-span-6 sm:col-span-4 flex items-center">
@@ -188,11 +178,11 @@ const ViewAdvert = ({ searchParams }) => {
                 </div>
               </div>
             </div>
-            {advert &&
-              advert.map((item, index) =>
-                item?.Images?.Images?.map((img, i) => (
+            {processAdvert &&
+              // advert.map((item) =>
+                processAdvert?.Images?.Images?.map((img, i) => (
                   <div
-                    key={index}
+                    key={i}
                     className="bg-whitee px-4 rounded-2xl py-4 my-3"
                   >
                     <div
@@ -231,10 +221,11 @@ const ViewAdvert = ({ searchParams }) => {
                               rel="noopener noreferrer"
                               variant="outline"
                             >
-                              <img
+                              <Image
                                 className="w-full object-contain rounded-lg "
                                 height={1600}
                                 width={1600}
+                                Id="processed"
                                 src={`${baseDomain}get-file?filename=${img?.Processed}`}
                                 // src={testimage2}
                                 alt=""
@@ -369,30 +360,10 @@ const ViewAdvert = ({ searchParams }) => {
                     </div>
                   </div>
                 ))
-              )}
+            }
           </>
-        ) : getLoader ? (
-          <div className="bg-whitee px-4 py-3 rounded-2xl my-3">
-            <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-6 ">
-              <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
-                <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-6  ">
-                  <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
-                    <Skeleton className="rounded-lg h-[200px] w-full" />
-                  </div>
-                  <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
-                    <Skeleton className="rounded-lg h-[200px] w-full" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 flex items-center justify-center">
-                <div className="flex flex-col justify-between items-center">
-                  <Skeleton className="rounded-lg h-[100px] w-full" />
-                  <Skeleton className="rounded-lg h-[100px] w-full" />
-                </div>
-              </div>
-            </div>
-          </div>
+        ) : loader ? (
+          <ViewAdvertSkelton/>
         ) : (
           <div className="flex flex-row justify-center items-center min-h-[400px]">
             <span>No Data Found</span>
