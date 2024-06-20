@@ -36,15 +36,18 @@ const ViewAdvert = ({ searchParams }) => {
   const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
+  const [advert, setAdvert] = useState([]);
   const [loader,setLoader]=useState(true)
+
+
   const toggle = (item) => {
-    console.log("item",item)
     setOpen(!open);
     setSelectedImage(item);
-
-  
   };
 
+  useEffect(() => {
+    setAdvert([processAdvert]);
+  }, [processAdvert]);
 
   useEffect(() => {
     setLoader(true)
@@ -150,7 +153,7 @@ const ViewAdvert = ({ searchParams }) => {
   return (
     <AlertDialog>
       <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
-        {processAdvert?.Images?.Images?.length > 0 ? (
+        {advert?.length > 0 ? (
           <>
             <div className="2xl:grid 2xl:grid-cols-12 lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 px-2">
               <div className="2xl:col-span-8 lg:col-span-7 md:col-span-6 sm:col-span-4 flex items-center">
@@ -178,11 +181,11 @@ const ViewAdvert = ({ searchParams }) => {
                 </div>
               </div>
             </div>
-            {processAdvert &&
-              // advert.map((item) =>
-                processAdvert?.Images?.Images?.map((img, i) => (
+            {advert &&
+              advert?.map((item ) =>
+                item?.Images?.Images?.map((img, i) => (
                   <div
-                    key={i}
+                    key={item?.Id}
                     className="bg-whitee px-4 rounded-2xl py-4 my-3"
                   >
                     <div
@@ -211,7 +214,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div
                             className={`lg:col-span-6 md:col-span-6 sm:col-span-6   relative mb-1 ${
                               img?.Flagged === true
-                                ? "border-[3px] border-red-500 rounded-xl"
+                                ? "border-[3px] border-red-500 rounded-2xl"
                                 : ""
                             }`}
                           >
@@ -360,7 +363,7 @@ const ViewAdvert = ({ searchParams }) => {
                     </div>
                   </div>
                 ))
-            }
+            )}
           </>
         ) : loader ? (
           <ViewAdvertSkelton/>
