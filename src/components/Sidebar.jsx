@@ -94,7 +94,7 @@ export default function Sidebar(props) {
   };
   return (
     <div
-      className={`xl:h-[100vh] h-[92vh] bg-site_secondary px-5 scrollbar-hide overflow-y-auto flex flex-col justify-between fixed top-[70px] right-0 bottom-0 xl:static gap-2 pt-5 pb-2 text-left border-r-slate-100 dark:bg-black dark:border-r-dark-400 transition duration-400 ease-in-out z-20 transform ${
+      className={`xl:h-[100vh] bg-site_secondary px-5 scrollbar-hide overflow-y-auto flex flex-col justify-between fixed top-[70px] right-0 bottom-0 xl:static gap-2 pt-5 pb-2 text-left border-r-slate-100 dark:bg-black dark:border-r-dark-400 transition duration-400 ease-in-out z-20 transform ${
         !props.showSidebar &&
         "translate-x-full sm:translate-x-full xl:translate-x-0"
       }`}
@@ -134,7 +134,7 @@ export default function Sidebar(props) {
           )
         )}
       </div>
-      <div className=" mt-2 sm:min-h-[100px] md:min-h-[100px]">
+      <div className=" mt-2">
         <div className="flex  justify-center">
           <Button
             onClick={logout}
