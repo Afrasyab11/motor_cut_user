@@ -151,7 +151,7 @@ export default function Sidebar(props) {
           
           &amp;
            
-          <p className={` cursor-pointer hover:underline hover:font-semibold  hover:text-primary-dark ${pathName ==="/main/privacy-policy" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
+          <p className={` cursor-pointer hover:underline hover:font-semibold  hover:text-primary-dark ${pathName ==="/main/terms-conditions" ? "text-primary-dark" : ""}`} onClick={()=>privacyChange("terms")}>
             Terms and Conditions
           </p>
         </div>
