@@ -6,12 +6,9 @@ const ThreeAnimation = ({ children }) => {
 
   useEffect(() => {
     let vantaInstance;
-  
-    const container = animationContainerRef.current;
-  
-    // const onMouseEnter = () => {
+    if (animationContainerRef.current && window.VANTA) {
       vantaInstance = window.VANTA.WAVES({
-        el: container,
+        el: animationContainerRef.current,
         mouseControls: false,
         touchControls: false,
         gyroControls: false,
@@ -19,42 +16,12 @@ const ThreeAnimation = ({ children }) => {
         color: 0x3c0096,
         zoom: 0.76,
       });
-    // };
-  
-    // const onMouseLeave = () => {
-    //   vantaInstance = window.VANTA.WAVES({
-    //     el: container,
-    //     mouseControls: false,
-    //     touchControls: false,
-    //     gyroControls: false,
-    //     waveSpeed: 0.3,
-    //     color: 0x3c0096,
-    //     zoom: 0.76,
-    //   });
-    // };
-  
-    // if (container && window.VANTA) {
-    //   vantaInstance = window.VANTA.WAVES({
-    //     el: container,
-    //     mouseControls: false,
-    //     touchControls: false,
-    //     gyroControls: false,
-    //     waveSpeed: 0.3,
-    //     color: 0x3c0096,
-    //     zoom: 0.76,
-    //   });
-  
-    //   container.addEventListener("mouseenter", onMouseEnter);
-    //   container.addEventListener("mouseleave", onMouseLeave);
-    // }
-  
-    // return () => {
-    //   if (vantaInstance) {
-    //     vantaInstance.destroy();
-    //     container.removeEventListener("mouseenter", onMouseEnter);
-    //     container.removeEventListener("mouseleave", onMouseLeave);
-    //   }
-    // };
+    }
+    return () => {
+      if (vantaInstance) {
+        vantaInstance.destroy();
+      }
+    };
   }, []);
 
   return (
