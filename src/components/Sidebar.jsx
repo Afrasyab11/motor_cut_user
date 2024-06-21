@@ -134,7 +134,7 @@ export default function Sidebar(props) {
           )
         )}
       </div>
-      <div className=" mt-2 ">
+      <div className=" mt-2 min-h-[100px]">
         <div className="flex  justify-center">
           <Button
             onClick={logout}

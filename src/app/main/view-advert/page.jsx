@@ -215,7 +215,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div
                             className={`lg:col-span-6 md:col-span-6 sm:col-span-6 relative mb-1 ${
                               img?.Flagged === true
-                                ? "border-[3px] border-red-500 rounded-xl"
+                                ? "border-[4px] border-red-500 rounded-xl"
                                 : ""
                             }`}
                           >
