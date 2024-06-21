@@ -20,12 +20,24 @@ export default async function RootLayout({ children }) {
     <Providers>
       <html lang="en">
         <head>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
-          <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js" defer></script>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans:wght@400;700&display=swap"
+            rel="stylesheet"
+          />
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+            defer
+          ></script>
+          <script
+            src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"
+            defer
+          ></script>
         </head>
         <body className={cn("", montserrat.className)}>
           {children}
-        
+
           <ToastContainer />
         </body>
       </html>
