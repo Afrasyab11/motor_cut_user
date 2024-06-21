@@ -10,7 +10,7 @@ export const Header = ({
   progressBarCount,
 }) => {
   return (
-    <div className="w-full flex flex-col pb-3">
+    <div className="w-full flex flex-col">
       {headerLogo ? (
         <div className="flex justify-between items-center">
           <h1

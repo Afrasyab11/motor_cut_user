@@ -213,9 +213,9 @@ const ViewAdvert = ({ searchParams }) => {
                             </a>
                           </div>
                           <div
-                            className={`lg:col-span-6 md:col-span-6 sm:col-span-6   relative mb-1 ${
+                            className={`lg:col-span-6 md:col-span-6 sm:col-span-6 relative mb-1 ${
                               img?.Flagged === true
-                                ? "border-[3px] border-red-500 rounded-2xl"
+                                ? "border-[3px] border-red-500 rounded-xl"
                                 : ""
                             }`}
                           >
@@ -264,10 +264,10 @@ const ViewAdvert = ({ searchParams }) => {
 
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
-                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 mb-1 flex justify-center">
                             <Button
                               onClick={() => toggle(img)}
-                              className="bg-primary text-whitee whitespace-nowrap w-full rounded-full py-2 px-2   sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[15px] 2xl:text-[20px]"
+                              className="bg-primary text-whitee  w-full sm:max-w-[200px] rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
                             >
                               Edit Background Position
                             </Button>
@@ -290,7 +290,7 @@ const ViewAdvert = ({ searchParams }) => {
                               Reprocess
                             </Button>
                           </div>
-                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
                             {logo?.DisplayLogo ? (
                               <>
                                 <span className="text-sm sm:text-md font-medium">
@@ -307,7 +307,7 @@ const ViewAdvert = ({ searchParams }) => {
                                     );
                                   }}
                                 >
-                                  <SelectTrigger className="bg-white text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
+                                  <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
                                     <SelectValue
                                       placeholder={img?.LogoPosition}
                                     />
@@ -336,7 +336,7 @@ const ViewAdvert = ({ searchParams }) => {
                               </div>
                             )}
                           </div>
-                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center ml-4 ">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center md:ml-4 ">
                             <RiFlagFill className="text-site_red" size={15} />
                             {img?.Flagged === false ? (
                               <a

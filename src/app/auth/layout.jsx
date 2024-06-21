@@ -11,7 +11,7 @@ const AuthLayout = ({ children }) => {
 
   return (
     <ThreeAnimation>
-      <div className=" flex items-center justify-center min-h-screen font-Montserrat">
+      <div className="mx-2 flex items-center justify-center min-h-screen font-Montserrat">
         {children}
       </div>
     </ThreeAnimation>

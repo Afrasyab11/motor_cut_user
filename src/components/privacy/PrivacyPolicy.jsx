@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 120" fill="none"><path d="M713.279 119.988C608.778 119.417 446.674 97.2744 446.674 97.2744C446.674 97.2744 307.194 84.1715 217.585 84.4361C132.462 84.6875 0 97.2744 0 97.2744V0H1280V111.1C1149.15 95.6943 1012.06 99.4141 959.875 103.2C959.875 103.2 809.808 120.516 713.279 119.988Z" fill="url(#paint0_linear_291_1397)"></path><defs><linearGradient id="paint0_linear_291_1397" x1="0" y1="60" x2="1280" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#752EE4"></stop><stop offset="1" stop-color="#752EE4"></stop></linearGradient></defs></svg>
       </div>
 
-      <div>
+      <div className="pl-3 pr-2">
         <p className="my-4">
           This Privacy Policy describes Our policies and procedures on the
           collection, use and disclosure of Your information when You use the
@@ -135,7 +135,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section>
-          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+          <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
             Collecting and Using Your Personal Data
           </h1>
 
@@ -143,7 +143,7 @@ export default function PrivacyPolicy() {
             Types of Data Collected
           </h2>
 
-          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">Personal Data</h3>
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] ">Personal Data</h3>
 
           <p className="my-4">
             While using Our Service, We may ask You to provide Us with certain
@@ -155,7 +155,7 @@ export default function PrivacyPolicy() {
 
           <p className="my-4">Usage Data</p>
 
-          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">Usage Data</h3>
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] ">Usage Data</h3>
 
           <p className="my-4">
             Usage Data may include information such as Your Device’s Internet
@@ -184,7 +184,7 @@ export default function PrivacyPolicy() {
             Usage Data is collected automatically when using the Service.s
           </p>
 
-          <h3 className="my-4 font-semibold md:text-2xl text-[16px] italic">
+          <h3 className="my-4 font-semibold md:text-2xl text-[16px] ">
             {" "}
             Tracking Technologies and Cookies{" "}
           </h3>
@@ -282,7 +282,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section>
-          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+          <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
             Use of Your Personal Data
           </h1>
 
@@ -477,7 +477,7 @@ export default function PrivacyPolicy() {
         </section>
 
         <section>
-          <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+          <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
             Disclosure of Your Personal Data
           </h1>
           <h2 className="font-semibold md:text-3xl text-[20px] my-3">Business Transactions</h2>
@@ -529,7 +529,7 @@ export default function PrivacyPolicy() {
         The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.s
         </p>
 
-        <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+        <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
         Children’s Privacy
           </h1>
           <p className="my-4">
@@ -540,7 +540,7 @@ export default function PrivacyPolicy() {
             </p>
 
 
-            <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+            <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
             Links to Other Websites
           </h1>
           <p className="my-4">
@@ -550,7 +550,7 @@ export default function PrivacyPolicy() {
             We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
             </p>
 
-            <h1 className="  md:text-[32px] text-[26px]  font-bold text-[#752ee4]">
+            <h1 className="sm:text-[15px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4]">
             Changes to this Privacy Policy
           </h1>
           <p className="my-4">

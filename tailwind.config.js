@@ -36,7 +36,6 @@ module.exports = {
         site_secondary:'#f3f2f2',
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
-
           foreground: "hsl(var(--secondary-foreground))",
         },
         orange: "#d9d21a",

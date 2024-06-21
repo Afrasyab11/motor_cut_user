@@ -34,9 +34,9 @@ const TermsAndConditions = () => {
             </defs>
           </svg>
         </div>
-        <div className="px-2">
+        <div className="pl-3 pr-2">
         <article className=" text-[15px]">
-          <p className=" my-2"> Welcome to https://motorcut.com/! </p>
+          <p className=" my-2"> Welcome to  MOTORCUT </p>
           <p className=" my-2">
             These terms and conditions outline the rules and regulations for the
             use of MotorCut ‘s Website, located at https://motorcut.com/.{" "}
@@ -64,7 +64,7 @@ const TermsAndConditions = () => {
           <br />
         </article>
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Cookies
           </h1>
           <p className=" my-2">
@@ -86,7 +86,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Lincense
           </h1>
           <p className=" my-2">
@@ -154,7 +154,7 @@ const TermsAndConditions = () => {
           </ul>
         </div>
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Hyperlinking to our Content
           </h1>
           <p className=" my-2">
@@ -237,7 +237,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             iFrames
           </h1>
           Without prior approval and written permission, you may not create
@@ -246,7 +246,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Content Liability
           </h1>
           We shall not be hold responsible for any content that appears on your
@@ -258,7 +258,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Reservation of Rights
           </h1>
           We reserve the right to request that you remove all links or any
@@ -270,7 +270,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Removal of links from our website
           </h1>
           <p className="my-2">
@@ -286,7 +286,7 @@ const TermsAndConditions = () => {
         </div>
 
         <div className="">
-          <h1 className=" md:text-[32px] text-[25px] font-bold text-[#752ee4]">
+          <h1 className="sm:text-[20px]  md:text-[25px] lg:text-[25px] font-bold text-[#752ee4] whitespace-nowrap">
             Disclaimer
           </h1>
           <p className="my-2">

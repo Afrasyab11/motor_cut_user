@@ -36,6 +36,7 @@ import { FormSuccess } from "@/components/auth/form-success";
 import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { UpgradeSubscription } from "@/actions/stripe/upgrade-subscription";
 import { getUserProfileData } from "@/store/user/userThunk";
+import { ImSpinner8 } from "react-icons/im";
 // import "./subscriptions.module.css";
 const Subscriptions = [
   {
@@ -60,6 +61,9 @@ const Subscription = () => {
   const { states } = useSelector((state) => state?.dashboard);
   const { subscription, subscriptionLoader } = useSelector(
     (state) => state?.subscription
+  );
+  const [loading, setLoading] = useState(
+    Array(subscription?.length).fill(false)
   );
 
   let User = JSON.parse(getCookie("user") || "{}");
@@ -158,6 +162,11 @@ const Subscription = () => {
     index
   ) => {
     e.preventDefault();
+    setLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
     // console.log("promoCode",promoCode)
     let address = {
       line1: getProfile[0]?.address,
@@ -183,8 +192,9 @@ const Subscription = () => {
         packagePrice,
         couponCodeID,
         tax,
-        address
+        address,
       });
+
       // console.log("response__",response)
 
       // if(response.StripeCustomerId)
@@ -212,7 +222,12 @@ const Subscription = () => {
     }
   };
 
-  const upgradeSubscription = async (e, newPriceId) => {
+  const upgradeSubscription = async (e, newPriceId, index) => {
+    setLoading((prev) => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
     const resp = await UpgradeSubscription(
       states?.StripeSubscriptionId,
       newPriceId
@@ -220,7 +235,17 @@ const Subscription = () => {
     if (resp.success === true) {
       router.push("/main/account");
       toast.success(resp.message);
+      setLoading((prev) => {
+        const newState = [...prev];
+        newState[index] = false;
+        return newState;
+      });
     } else {
+      setLoading((prev) => {
+        const newState = [...prev];
+        newState[index] = false;
+        return newState;
+      });
       toast.error(resp.message || "Failed to upgrade");
     }
   };
@@ -353,6 +378,7 @@ const Subscription = () => {
                     states?.SubscriptionStatus === "Cancelled" ? (
                       <Button
                         className="bg-primary text-white rounded-full mx-2 w-full"
+                        disabled={loading[index]}
                         onClick={(e) =>
                           HandleCreateCheckout(
                             e,
@@ -364,16 +390,25 @@ const Subscription = () => {
                           )
                         }
                       >
-                        Purchase
+                        {loading[index] ? (
+                          <ImSpinner8 className="spinning-icon" />
+                        ) : (
+                          "Purchase"
+                        )}
                       </Button>
                     ) : (
                       <Button
                         className="bg-primary text-white rounded-full mx-2 w-full"
+                        disabled={loading[index]}
                         onClick={(e) =>
-                          upgradeSubscription(e, item?.StripePriceId)
+                          upgradeSubscription(e, item?.StripePriceId, index)
                         }
                       >
-                        Upgrade Subscription
+                        {loading[index] ? (
+                          <ImSpinner8 className="spinning-icon" />
+                        ) : (
+                          "Upgrade Subscription"
+                        )}
                       </Button>
                     )}
                   </CardFooter>

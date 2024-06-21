@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
         {/* Adjust the column span based on screen size */}
         <div className="col-span-12 xl:col-span-10">
           {/* Main content */}
-          <div className="p-5 relative xl:py-4 pt-20 pb-6 h-screen overflow-y-auto">
+          <div className="p-5 relative xl:py-4 pt-20 sm:pb-1 md:pb-6 h-screen overflow-y-auto">
             {children}
           </div>
         </div>

@@ -44,7 +44,7 @@ export const CardWrapper = ({
       </CardHeader>
       <CardContent>{children}</CardContent>
       {/* <BackButton label={backButtonLabel} href={backButtonHref} /> */}
-      <CardFooter className="flex flex-col">
+      <CardFooter className="flex flex-col mt-1">
         {showSocial && <Social socialBtnText={btnText} />}
         <p className=" text-sm text-center w-full py-3 text-mutedFields">
         {currentPage === "login"

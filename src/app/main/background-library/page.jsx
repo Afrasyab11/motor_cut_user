@@ -30,7 +30,6 @@ const BackgroundLibrary = () => {
   const { allBackground, backgroundLoader, background } = useSelector(
     (state) => state.background
   );
-console.log("allBackground",allBackground)
 
   const [loading, setLoading] = useState(
     Array(allBackground?.length).fill(false)

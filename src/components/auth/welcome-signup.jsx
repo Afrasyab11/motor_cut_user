@@ -18,7 +18,7 @@ export const WelcomeSignUp = ({ nextStep, prevStep }) => {
           7-days. No payment information required.
         </p>
       </div>
-      <div className="text-center">
+      <div className="text-center mx-2">
       <Button
         type="submit"
         className="rounded-full w-full  2xl:w-3/6 text-white mt-7"
