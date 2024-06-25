@@ -19,6 +19,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@reduxjs/toolkit": "^2.1.0",
     "@stripe/stripe-js": "^3.0.3",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "apexcharts": "^3.45.2",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",

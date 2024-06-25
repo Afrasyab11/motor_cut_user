@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
@@ -14,11 +14,11 @@ module.exports = {
       padding: "2rem",
     },
     screens: {
-      'sm': '320px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
+      sm: "320px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
     },
     extend: {
       colors: {
@@ -28,12 +28,12 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          light: '#895bdf', 
-          DEFAULT:'#814adf', 
-          dark: '#7537e1', 
-          faded: 'rgba(129, 74, 223, 0.05)'
+          light: "#895bdf",
+          DEFAULT: "#814adf",
+          dark: "#7537e1",
+          faded: "rgba(129, 74, 223, 0.05)",
         },
-        site_secondary:'#f3f2f2',
+        site_secondary: "#f3f2f2",
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -41,7 +41,7 @@ module.exports = {
         orange: "#d9d21a",
         green: "#1fa308",
         white: "#FFFFFF",
-        mutedFields:"#4c4949",
+        mutedFields: "#4c4949",
         secondary: "#CCE6E6",
         // secondary: {
         //   DEFAULT: "hsl(var(--secondary))",
@@ -69,17 +69,17 @@ module.exports = {
         },
         whitee: "#FFFFFF",
         secondary: "#CCE6E6",
-        heroSection:"#f7f2fa",
+        heroSection: "#f7f2fa",
         site_orange: "#d9d21a",
         site_green: "#1fa308",
-        site_red:"#ff2424",
+        site_red: "#ff2424",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      width: ['responsive'],
+      width: ["responsive"],
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -95,7 +95,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
+};
