@@ -14,7 +14,7 @@ export const BookMeeting = ({ nextStep,prevStep,setMeeting }) => {
     <>
       <CardWrapper headerPadding="p-0" className="p-6">
       <IoArrowBackOutline className="cursor-pointer" onClick={prevStep} size={25} />
-        <div className="w-full flex justify-center items-center flex-col">
+        <div className="w-full flex justify-center pt-4 items-center flex-col">
           <Image src="/meeting.png" height={150} width={150} alt="logo" />
           <h1 className="text-4xl text-center	font-normal pb-7">
             Book a Meeting?

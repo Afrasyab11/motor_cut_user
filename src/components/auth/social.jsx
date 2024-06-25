@@ -67,7 +67,7 @@ export const Social = ({ socialBtnText }) => {
     <div className="flex items-center w-full gap-x-2">
       <Button
         size="lg"
-        className="w-full flex justify-center items-center rounded-full border-black"
+        className="w-full flex justify-center  items-center rounded-full border-black"
         variant="outline"
         onClick={signUpWithGoogle}
       >

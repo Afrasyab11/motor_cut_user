@@ -231,12 +231,14 @@ const BackgroundLibrary = () => {
                           loading[index]
                         }
                       >
-                        {card?.Id === background?.BackgroundImageId &&
-                        background?.BackgroundImageId !== null
-                          ? "Selected"
-                          : "Select"}
-                        {loading[index] && (
+                        
+                        {loading[index] ? (
                           <ImSpinner8 className="spinning-icon" />
+                        ):(
+                          card?.Id === background?.BackgroundImageId &&
+                            background?.BackgroundImageId !== null
+                              ? "Selected"
+                              : "Select"
                         )}
                         {/* {backgroundLoader && card.spiner === true && (
                       <ImSpinner8 className="spinning-icon" />

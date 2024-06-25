@@ -2,7 +2,7 @@
 // import * as z from "zod";
 import { FormError } from "@/components/auth/form-error";
 import { Button } from "@/components/ui/button";
-import { useState, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
 //   import { FormSuccess } from "../form-success";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { verifyEmail } from "@/store/user/userThunk";
@@ -12,14 +12,13 @@ import { FormSuccess } from "../form-success";
 import Otp_Input from "./Otp_Input";
 import ResendCode from "./ResendCode";
 
-export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
+export const VerifyNumberForm = ({ formData, nextStep, prevStep }) => {
   const { isLoading } = useSelector((state) => state?.user);
 
-  const dispatch =useDispatch()
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
-
 
   console.log("formData=", formData);
 
@@ -36,38 +35,34 @@ export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
     const otp = Object.values(inputValues).join('');
     setError("");
     setSuccess("");
-    const payload={
-      OTP:otp
+    const payload = {
+      OTP: otp
     }
-    dispatch(verifyEmail(
-      { payload,
-        onSuccess:()=>{
-          nextStep();
-          // setSuccess(data ? data.success : "");
-        },
-        onError:(msg)=>{
+    dispatch(verifyEmail({
+      payload,
+      onSuccess: () => {
+        nextStep();
+      },
+      onError: (msg) => {
+        setError(msg);
+      }
+    }));
+  };
 
-          setError(msg);
-        }
-      }))
-    // startTransition(() => {
-     
-      // VerifyNumberAction(values).then((data) => {
-      //   setError(data ? data.error : "");
-      //   setSuccess(data ? data.success : "");
-      //   if (data.success) {
-      //     nextStep();
-      //   }
-      // });
-    // });
-
-};
-
-
-
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter" && !isEmpty) {
+        onSubmit();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [inputValues, isEmpty]);
 
   return (
-     <CardWrapper
+    <CardWrapper
       headerText="Verify Code"
       headerLabel={`Check your e-mail, we have sent a code to ${formData?.email}`}
       backButtonLabel="Don't Have an account?"
@@ -76,31 +71,28 @@ export const VerifyNumberForm = ({ formData,nextStep, prevStep }) => {
       showProgressBar
       progressBarCount="2"
     >
-      
-       
-        <Otp_Input inputValues={inputValues}  setInputValues={setInputValues} />
-           
-          <FormError message={error} />
-          <FormSuccess message={success} />
-         <ResendCode  formData={formData}/>
-       <div className="flex flex-col  gap-3 mt-4">
-          <Button
-            disabled={isEmpty}
-            className="rounded-full w-full text-white"
-            onClick={onSubmit}
-          >
-            {isLoading?"Verifying...":"Continue"}
-          </Button>
-          <Button
-            variant="outline"
-            type="submit"
-            className="rounded-full w-full"
-            disabled={isPending}
-            onClick={prevStep}
-          >
-            Back
-          </Button>
-          </div>
+      <Otp_Input inputValues={inputValues} setInputValues={setInputValues} />
+      <FormError message={error} />
+      <FormSuccess message={success} />
+      <ResendCode formData={formData} />
+      <div className="flex flex-col gap-3 mt-4">
+        <Button
+          disabled={isEmpty}
+          className="rounded-full w-full text-white"
+          onClick={onSubmit}
+        >
+          {isLoading ? "Verifying..." : "Continue"}
+        </Button>
+        <Button
+          variant="outline"
+          type="submit"
+          className="rounded-full w-full"
+          disabled={isPending}
+          onClick={prevStep}
+        >
+          Back
+        </Button>
+      </div>
     </CardWrapper>
   );
 };

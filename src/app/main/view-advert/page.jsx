@@ -37,11 +37,10 @@ const ViewAdvert = ({ searchParams }) => {
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
   const [advert, setAdvert] = useState([]);
-  const [loader,setLoader]=useState(true)
-
+  const [loader, setLoader] = useState(true);
 
   const toggle = (item) => {
-    console.log("item",item)
+    console.log("item", item);
     setOpen(!open);
     setSelectedImage(item);
   };
@@ -51,12 +50,12 @@ const ViewAdvert = ({ searchParams }) => {
   }, [processAdvert]);
 
   useEffect(() => {
-    setLoader(true)
+    setLoader(true);
     dispatch(
       getAdvertProcesByIdAction({
         Id: searchParams?.advertId,
         onSuccess: (data) => {
-          setLoader(false)
+          setLoader(false);
           // setAdvert([data]);
         },
       })
@@ -166,24 +165,24 @@ const ViewAdvert = ({ searchParams }) => {
                 <button
                   disabled={loading}
                   onClick={downloadHandler}
-                  className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]  mb-1"
+                  className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]  mb-1"
                 >
                   {loading ? "Downloading..." : "Download All"}
                 </button>
               </div>
               <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-center items-center ">
                 <div className="flex items-center flex-wrap gap-2">
-                  <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[19px] font-medium">
+                  <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[15px] font-medium">
                     Advert ID:{" "}
                   </span>
-                  <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                  <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[15px]">
                     {" " + searchParams?.advertId}
                   </span>
                 </div>
               </div>
             </div>
             {advert &&
-              advert?.map((item ) =>
+              advert?.map((item) =>
                 item?.Images?.Images?.map((img, i) => (
                   <div
                     key={item?.Id}
@@ -195,25 +194,25 @@ const ViewAdvert = ({ searchParams }) => {
                     >
                       <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
-                          <div className="lg:col-span-6 md:col-span-6 sm:col-span-6 mb-1">
+                          <div className="lg:col-span-6 md:col-span-6 sm:col-span-12 mb-1">
                             <a
                               href={`${baseDomain}get-file?filename=${img?.Original}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               variant="outline"
                             >
-                              <Image
-                                className="w-full object-contain rounded-xl"
-                                src={`${baseDomain}get-file?filename=${img?.Original}`}
-                                alt={"OrignalImage"}
-                                width={1600}
-                                height={1600}
-                                // className="w-full h-full object-cover rounded-2xl"
-                              />
+                                <Image
+                                  className="w-full object-contain rounded-xl"
+                                  src={`${baseDomain}get-file?filename=${img?.Original}`}
+                                  alt={"OrignalImage"}
+                                  width={1600}
+                                  height={1600}
+                                  // className="w-full h-full object-cover rounded-2xl"
+                                />
                             </a>
                           </div>
                           <div
-                            className={`lg:col-span-6 md:col-span-6 sm:col-span-6 relative mb-1 ${
+                            className={`lg:col-span-6 md:col-span-6 sm:col-span-12 relative mb-1 ${
                               img?.Flagged === true
                                 ? "border-[4px] border-red-500 rounded-xl"
                                 : ""
@@ -233,11 +232,12 @@ const ViewAdvert = ({ searchParams }) => {
                                 src={`${baseDomain}get-file?filename=${img?.Processed}`}
                                 // src={testimage2}
                                 alt=""
+                                onLoadingComplete={() => setLoader(false)}
                               />
                             </a>
                             {logo?.DisplayLogo && img?.LogoPosition && (
                               <Image
-                                className={` h-[50px] w-[120px] absolute object-contain rounded-2xl
+                                className={`h-[50px] w-[120px] absolute object-contain rounded-2xl
                          ${
                            img?.LogoPosition === "top-right"
                              ? "right-[2px] top-[10px]"
@@ -267,7 +267,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 mb-1 flex justify-center">
                             <Button
                               onClick={() => toggle(img)}
-                              className="bg-primary text-whitee  w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[20px]"
+                              className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
                             >
                               Edit Background Position
                             </Button>
@@ -275,7 +275,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
                               disabled
-                              className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]"
+                              className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]"
                             >
                               {/* <button> */}
                               Crop
@@ -285,12 +285,12 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
                               disabled
-                              className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px]"
+                              className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]"
                             >
                               Reprocess
                             </Button>
                           </div>
-                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[20px]">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[15px]">
                             {logo?.DisplayLogo ? (
                               <>
                                 <span className="text-sm sm:text-md font-medium">
@@ -307,7 +307,7 @@ const ViewAdvert = ({ searchParams }) => {
                                     );
                                   }}
                                 >
-                                  <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[20px] ml-4 mb-1 cursor-pointer  custom-select">
+                                  <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px] ml-4 mb-1 cursor-pointer  custom-select">
                                     <SelectValue
                                       placeholder={img?.LogoPosition}
                                     />
@@ -364,10 +364,10 @@ const ViewAdvert = ({ searchParams }) => {
                     </div>
                   </div>
                 ))
-            )}
+              )}
           </>
         ) : loader ? (
-          <ViewAdvertSkelton/>
+          <ViewAdvertSkelton />
         ) : (
           <div className="flex flex-row justify-center items-center min-h-[400px]">
             <span>No Data Found</span>

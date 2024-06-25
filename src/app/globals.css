@@ -203,7 +203,7 @@ input[type="checkbox"]:checked {
 @media (min-width: 768px) {
   /* Large screens */
   .picture {
-    height: 120px;
+  height: 200px;
   }
 }
 

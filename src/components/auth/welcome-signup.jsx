@@ -8,7 +8,7 @@ import logo from "../../assets/images/cutting.png"
 export const WelcomeSignUp = ({ nextStep, prevStep }) => {
   return (
     <CardWrapper headerPadding="p-0" className="p-0">
-      <div className="w-full flex justify-center items-center flex-col">
+      <div className="w-full flex justify-center pt-4 items-center flex-col pt-2">
         <Image src={logo} height={150} width={150} alt="logo" />
         <h1 className="text-4xl text-center	font-medium pt-10 pb-3">
           Welcome to MotorCut

@@ -26,7 +26,7 @@ export const CardWrapper = ({
   return (
     <Card
       className={cn(
-        "xs:w-[300px]  md:w-[400px] w-full 2xl:min-h-[40vh] 2xl:min-w-[40vh] flex flex-col  my-4 shadow-md bg-whitee p-4",
+        "xs:w-[300px] mt-2  md:w-[400px] w-full 2xl:min-h-[40vh] 2xl:min-w-[40vh] flex flex-col  my-4 shadow-md bg-whitee p-4",
         className
       )}
     >
