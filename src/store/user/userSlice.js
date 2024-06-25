@@ -45,11 +45,11 @@ export const userSlice = createSlice({
       })
 
       .addCase(loginUser.fulfilled, (state, action) => {
-          state.user = action.payload.detail;
-          state.token = action.payload.detail.AccessToken;
-          setCookie("user", action.payload.detail);
-          setCookie("token", action.payload.detail.AccessToken);
-          setCookie("rememberMe", state.rememberMe)
+          state.user = action?.payload?.detail;
+          state.token = action?.payload?.detail?.AccessToken;
+          setCookie("user", action?.payload?.detail);
+          setCookie("token", action?.payload?.detail?.AccessToken);
+          setCookie("rememberMe", state?.rememberMe)
           
 
          state.isLoading = false;

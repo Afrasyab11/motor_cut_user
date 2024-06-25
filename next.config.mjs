@@ -3,8 +3,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
+        // protocol: "https",
         hostname: "backend.motor-cut.com",
+        // hostname: "192.168.18.30",
       },
     ],
   },

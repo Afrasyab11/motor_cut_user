@@ -188,7 +188,7 @@ const BackgroundLibrary = () => {
                 {filteredBackgrounds?.slice(0, showCard)?.map((card, index) => (
                   <Card
                     key={index}
-                    className="bg-white p-1 w-full rounded-2xl 2xl:flex 2xl:flex-col 2xl:justify-between border-none h-full"
+                    className="bg-white p-1 md:p-2 w-full rounded-2xl 2xl:flex 2xl:flex-col 2xl:justify-between border-none h-full"
                   >
                     <CardContent className="p-2 h-auto ">
                       <div className="rounded-3xl">
