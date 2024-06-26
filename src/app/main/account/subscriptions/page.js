@@ -299,47 +299,82 @@ const Subscription = () => {
         {subscription?.length > 0 ? (
           subscription?.map((item, index) => (
             <>
-              <Card key={index} className=" bg-gray-100">
-                <div className="container m-auto">
+              <Card key={index} className="bg-gray-100 flex flex-col h-full">
+                <div className="container m-auto flex flex-col h-full">
                   <CardHeader className="p-2 mt-3">
-                    <CardTitle className="text-2xl text-center font-medium tracking-normal ">
+                    <CardTitle className="text-2xl text-center font-medium tracking-normal">
                       {item.Name}
                     </CardTitle>
                     <CardDescription className="px-2 pt-3">
-                      {/* <p className="lg:text-[18px] sm:text-[12px] text-primary-dark font-medium">
-                        {" "}
-                        {item.NumberOfImages} image credits per p/m
-                      </p> */}
-                      <p className="lg:text-[16px] font-medium sm:text-[12px] text-center text-black mt-2">
-                        Suitable for up to {item.NumberOfImages} car adverts p/m
-                      </p>
+                      {item.NumberOfAdverts && (
+                        <p className="lg:text-[16px] font-medium sm:text-[12px] text-center text-black mt-2">
+                          Suitable for up to {item.NumberOfAdverts} car adverts
+                          p/m
+                        </p>
+                      )}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-col gap-y-8 p-1 md:p-3">
-                    <div className=" ">
-                      {Subscriptions.length > 0 &&
-                        Subscriptions[0].features.map((feature, index) => (
-                          <span
-                            key={index}
-                            className="flex items-center gap-x-2 mb-4"
-                          >
-                            <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                            <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
-                              {feature}
-                            </small>
-                          </span>
-                        ))}
+                  <CardContent className="flex-grow flex flex-col gap-y-8 p-1 md:p-3">
+                    <div className="flex flex-col">
+                      {item?.NumberOfImages && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            {item?.NumberOfImages + " Monthly Image Credits"}
+                          </small>
+                        </span>
+                      )}
+                      {item?.CustomBackground && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            Custom Background
+                          </small>
+                        </span>
+                      )}
+                      {item?.AccountSupport && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            Dedicated Account Support
+                          </small>
+                        </span>
+                      )}
+                      {item?.MobileAppAccess && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            Mobile App Access
+                          </small>
+                        </span>
+                      )}
+                      {item?.CustomBranding && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            Custom Branding
+                          </small>
+                        </span>
+                      )}
+                      {item?.CustomBranding && (
+                        <span className="flex items-center gap-x-2 mb-3">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
+                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                            {item?.Storage + " GB Storage"}
+                          </small>
+                        </span>
+                      )}
                     </div>
                   </CardContent>
                   <Separator className="my-2" />
-                  <CardFooter className="flex flex-col gap-y-2 ">
-                    <small className="sm:text-sm md:text-[15px]  font-semibold text-primary">
+                  <CardFooter className="flex flex-col gap-y-2 mt-auto">
+                    <small className="sm:text-sm md:text-[15px] font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
                       {item.Price +
                         `${
                           currency === "USD" ? "+ Tax Rates/" : " + VAT/"
                         }`}{" "}
-                      <span className=" text-[12px]">month</span>
+                      <span className="text-[12px]">month</span>
                     </small>
                     <div className="relative">
                       <Input
@@ -363,15 +398,15 @@ const Subscription = () => {
                         }}
                         onClick={() => handlePromo(index)}
                       >
-                        {couponLoader && selectedApply == index
+                        {couponLoader && selectedApply === index
                           ? "verifying.."
                           : "Apply"}
                       </button>
                     </div>
-                    {error && selectedApply == index && (
+                    {error && selectedApply === index && (
                       <FormError message={error} />
                     )}
-                    {success && selectedApply == index && (
+                    {success && selectedApply === index && (
                       <FormSuccess message={success} />
                     )}
                     {states?.StripeCustomerId === null ||
