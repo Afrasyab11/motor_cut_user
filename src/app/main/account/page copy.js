@@ -29,9 +29,11 @@ import { getCustomerInvoices } from "@/actions/stripe/getInvoices";
 import { CancelSubscription } from "@/actions/stripe/subscription-cancel";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
-
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 const Account = () => {
   const dispatch = useDispatch();
+  const router=useRouter()
   const { getProfile, userLoader } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state.dashboard);
   const [invoices, setInvoices] = useState([]);
@@ -123,7 +125,12 @@ const Account = () => {
   }, [user?.UserId]);
 
   useEffect(() => {
-    dispatch(dashboardStatsAction(user?.UserId));
+    dispatch(
+      dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+        dispatch(logoutUser())
+        router.push('/auth/login')
+      } })
+    );
   }, [user?.UserId]);
 
   useEffect(() => {

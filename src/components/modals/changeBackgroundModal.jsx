@@ -23,14 +23,15 @@ import { uploadImagesSchema } from "@/schemas/advertFromValidation";
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
-
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 export default function ChangeBackgroudImage({
   open,
   setOpen,
   backgroundLoader,
 }) {
   const dispatch = useDispatch();
-
+const router=useRouter();
   let userString = getCookie("user");
 
   let user = userString ? JSON.parse(userString) : null;
@@ -80,7 +81,12 @@ export default function ChangeBackgroudImage({
         onSuccess: () => {
           setOpen();
           dispatch(getchanngeBackgroundImageAction(user?.UserId));
-          dispatch(dashboardStatsAction(user?.UserId));
+          dispatch(
+            dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+              dispatch(logoutUser())
+              router.push('/auth/login')
+            } })
+          );
           setFile(null);
         },
       })

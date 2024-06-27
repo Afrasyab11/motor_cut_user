@@ -3,7 +3,7 @@ import { axiosInstance } from "@/utils/axios";
 import { toast } from "react-toastify";
 export const createLogoAction = createAsyncThunk(
   "logo/createLogo",
-  async ({ formData, onSuccess }, { rejectWithValue }) => {
+  async ({ formData, onSuccess, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.put(
         "/User/Update-User-Settings",
@@ -17,13 +17,19 @@ export const createLogoAction = createAsyncThunk(
         // return rejectWithValue(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const getLogoAction = createAsyncThunk(
   "logo/getLogo",
-  async (UserId, { rejectWithValue }) => {
+  async ({UserId,onNotAuthicate}, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/User/Get-User-Logo?UserId=${UserId}`
@@ -35,6 +41,12 @@ export const getLogoAction = createAsyncThunk(
         // return rejectWithValue(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
@@ -42,7 +54,7 @@ export const getLogoAction = createAsyncThunk(
 
 export const UpdateLogoPositionAction = createAsyncThunk(
   "logo/updateLogoPosition",
-  async ({ UserId, Position, onSuccess }, { rejectWithValue }) => {
+  async ({ UserId, Position, onSuccess,onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.put(
         `/User/Change-Logo-Display-Settings?UserId=${UserId}&DisplayLogo=${Position}`
@@ -54,6 +66,12 @@ export const UpdateLogoPositionAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
@@ -61,7 +79,7 @@ export const UpdateLogoPositionAction = createAsyncThunk(
 
 export const removeUserLogoAction = createAsyncThunk(
   "logo/RemoveUserLogo",
-  async ({ UserId, onSuccess }, { rejectWithValue }) => {
+  async ({ UserId, onSuccess,onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
         `User/Remove-User-Logo?UserId=${UserId}`
@@ -74,6 +92,12 @@ export const removeUserLogoAction = createAsyncThunk(
         // return rejectWithValue(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }

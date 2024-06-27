@@ -5,14 +5,20 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdvertCard from "./AdvertCard";
 import { getCookie } from "cookies-next";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 export default function RecentAdvert({ showCard }) {
   let { advert } = useSelector((state) => state?.advert);
   const dispatch = useDispatch();
+  const router=useRouter()
   let userString = getCookie("user");
 // console.log("advert",advert)
 let user = userString ? JSON.parse(userString) : null;
   useEffect(() => {
     dispatch(getAdvertAction({userId:user?.UserId,onSuccess:()=>{
+    },onNotAuthicate:()=>{
+      dispatch(logoutUser())
+      router.push('/auth/login')
     }}));
   }, []);
 

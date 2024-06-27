@@ -17,9 +17,12 @@ import { createSupportTicketAction } from "@/store/supportTicket/supportTicketTh
 import { getCookie } from "cookies-next";
 import { useSelector } from "react-redux";
 import { ImSpinner8 } from "react-icons/im";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 export function SupportTicketDialog({ name, icon }) {
   const { supportTicketLoader } = useSelector((state) => state?.supportTicket);
   // counter++;
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
@@ -55,6 +58,10 @@ export function SupportTicketDialog({ name, icon }) {
         formData,
         onSuccess: (answer) => {
           setTicketId(answer.detail.TicketId); // Update ticketId state with the received TicketId
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );

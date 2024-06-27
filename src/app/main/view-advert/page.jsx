@@ -27,6 +27,8 @@ import {
 import ShiftBackground from "@/components/modals/ShiftBackgroundModal";
 import { Button } from "@/components/ui/button";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
   const { processAdvert } = useSelector((state) => state?.advert);
@@ -38,6 +40,7 @@ const ViewAdvert = ({ searchParams }) => {
   const [loading, setLoading] = useState(false);
   const [advert, setAdvert] = useState([]);
   const [loader, setLoader] = useState(true);
+  const router = useRouter();
 
   const toggle = (item) => {
     console.log("item", item);
@@ -58,11 +61,23 @@ const ViewAdvert = ({ searchParams }) => {
           setLoader(false);
           // setAdvert([data]);
         },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
       })
     );
   }, [searchParams?.advertId]);
   useEffect(() => {
-    dispatch(getLogoAction(user?.UserId));
+    dispatch(
+      getLogoAction({
+        UserId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, [user?.UserId]);
 
   const handleOptionChange = async (value, imageId, ImagePath) => {
@@ -85,8 +100,16 @@ const ViewAdvert = ({ searchParams }) => {
               onSuccess: (data) => {
                 // setAdvert([data]);
               },
+              onNotAuthicate: () => {
+                dispatch(logoutUser());
+                router.push("/auth/login");
+              },
             })
           );
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -96,13 +119,21 @@ const ViewAdvert = ({ searchParams }) => {
     setLoading(true);
     try {
       const response = await dispatch(
-        downloadAdvertImagesAction(searchParams?.advertId)
+        downloadAdvertImagesAction({
+          Id: searchParams?.advertId,
+          onNotAuthicate: () => {
+            dispatch(logoutUser());
+            router.push("/auth/login");
+          },
+        })
       );
-      const data = response?.payload;
-      await downloadFile(
-        `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
-        `Advert`
-      );
+      if (response?.payload) {
+        const data = response?.payload;
+        await downloadFile(
+          `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
+          `Advert`
+        );
+      }
     } catch (error) {
       console.error("Error downloading file:", error);
     } finally {
@@ -146,6 +177,10 @@ const ViewAdvert = ({ searchParams }) => {
               },
             })
           );
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -201,14 +236,14 @@ const ViewAdvert = ({ searchParams }) => {
                               rel="noopener noreferrer"
                               variant="outline"
                             >
-                                <Image
-                                  className="w-full object-contain rounded-xl"
-                                  src={`${baseDomain}get-file?filename=${img?.Original}`}
-                                  alt={"OrignalImage"}
-                                  width={1600}
-                                  height={1600}
-                                  // className="w-full h-full object-cover rounded-2xl"
-                                />
+                              <Image
+                                className="w-full object-contain rounded-xl"
+                                src={`${baseDomain}get-file?filename=${img?.Original}`}
+                                alt={"OrignalImage"}
+                                width={1600}
+                                height={1600}
+                                // className="w-full h-full object-cover rounded-2xl"
+                              />
                             </a>
                           </div>
                           <div
@@ -265,12 +300,12 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 mb-1 flex justify-center">
-                            <Button
+                            <button
                               onClick={() => toggle(img)}
                               className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
                             >
                               Edit Background Position
-                            </Button>
+                            </button>
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button

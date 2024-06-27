@@ -16,7 +16,15 @@ const ActivityChart = () => {
   let user = userString ? JSON.parse(userString) : null;
 
   useEffect(() => {
-    dispatch(getActivityChartAction(user?.UserId));
+    dispatch(
+      getActivityChartAction({
+        UserId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, []);
 
   const formattedDates = activity?.map((detail) => {
@@ -47,7 +55,7 @@ const ActivityChart = () => {
     chart: {
       // height: 350,
       type: "area",
-      height: "100%"
+      height: "100%",
     },
     dataLabels: {
       enabled: false,
@@ -74,21 +82,19 @@ const ActivityChart = () => {
   };
   return (
     <div className="h-auto">
-        <div id="chart" className=" min-h-[40vh]">
-          {ReactApexChart && (
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="area"
-              height={"100%"}
-              width={"100%"}
-              
-            />
-          )}
-        </div>
-      
+      <div id="chart" className=" min-h-[40vh]">
+        {ReactApexChart && (
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="area"
+            height={"100%"}
+            width={"100%"}
+          />
+        )}
+      </div>
     </div>
   );
 };
 
-export default ActivityChart ;
+export default ActivityChart;

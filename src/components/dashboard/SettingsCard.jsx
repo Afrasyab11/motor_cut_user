@@ -21,6 +21,7 @@ import {
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "@/store/user/userSlice";
 const SettingsCard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -42,7 +43,15 @@ const SettingsCard = () => {
   }, [user?.UserId]);
 
   useEffect(() => {
-    dispatch(getLogoAction(user?.UserId));
+    dispatch(
+      getLogoAction({
+        UserId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, [user?.UserId]);
   useEffect(() => {
     if (logo && logo?.LogoPosition) {
@@ -57,8 +66,21 @@ const SettingsCard = () => {
         UserId: user?.UserId,
         Position: status,
         onSuccess: () => {
-          dispatch(getLogoAction(user?.UserId));
+          dispatch(
+            getLogoAction({
+              UserId: user?.UserId,
+              onNotAuthicate: () => {
+                dispatch(logoutUser());
+                router.push("/auth/login");
+              },
+            })
+          );
         },
+        onNotAuthicate:()=>{
+          dispatch(logoutUser())
+          router.push('/auth/login')
+        }
+    
       })
     );
   };
@@ -77,7 +99,19 @@ const SettingsCard = () => {
       createLogoAction({
         formData,
         onSuccess: () => {
-          dispatch(getLogoAction(user.UserId));
+          dispatch(
+            getLogoAction({
+              UserId: user?.UserId,
+              onNotAuthicate: () => {
+                dispatch(logoutUser());
+                router.push("/auth/login");
+              },
+            })
+          );
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -108,7 +142,9 @@ const SettingsCard = () => {
       </div>
       <div className="flex flex-col  gap-y-2">
         <a
-          onClick={()=>{router.push("/main/background-library")}}
+          onClick={() => {
+            router.push("/main/background-library");
+          }}
           className="text-primary  text-sm sm:text-md font-medium cursor-pointer "
         >
           Change Background
@@ -146,7 +182,6 @@ const SettingsCard = () => {
           </Select>
         </div>
       </div>
-     
     </div>
   );
 };

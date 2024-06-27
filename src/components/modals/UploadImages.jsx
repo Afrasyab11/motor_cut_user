@@ -24,6 +24,8 @@ import { uploadImagesSchema } from "@/schemas/advertFromValidation";
 import { useEffect } from "react";
 import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { logoutUser } from "@/store/user/userSlice";
 export default function UploadImages({
   payload,
   open,
@@ -36,6 +38,7 @@ export default function UploadImages({
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   let userString = getCookie("user");
+  const router=useRouter()
   let user = userString ? JSON.parse(userString) : null;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -79,31 +82,40 @@ export default function UploadImages({
         formData,
         onSuccess: () => {
           setOpen();
-          dispatch(getAdvertAction({userId:user?.UserId,onSuccess:()=>{
+          dispatch(
+            getAdvertAction({ userId: user?.UserId, onSuccess: () => {} })
+          );
+          dispatch(getActivityChartAction({UserId:user?.UserId,onNotAuthicate:()=>{
+            
           }}));
-          dispatch(getActivityChartAction(user?.UserId));
-          dispatch(dashboardStatsAction(user?.UserId));
+          dispatch(
+            dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+              dispatch(logoutUser())
+              router.push('/auth/login')
+            } })
+          );
           setPayload({
             UserId: user?.UserId,
-            isAdmin:false,
+            isAdmin: false,
             Label: "",
             CutType: "Half Cut", // Default value
             TrimImages: false,
           });
           reset();
           setFiles("");
-          
         },
-
-        onError:(msg)=>{
-           toast.error(msg);
-        }
+        onError: (msg) => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
       })
     );
   };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogContent className={` overflow-y-auto h-5/6  lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
+      <AlertDialogContent
+        className={` overflow-y-auto h-5/6  lg:w-full xl:w-full 2xl:min-w-[80vh]`}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">

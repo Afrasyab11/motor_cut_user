@@ -5,10 +5,8 @@ import Link from "next/link";
 import { axiosInstance } from "@/utils/axios";
 import {
   downloadAdvertImagesAction,
-  downloadAllAdvertImagesAction,
   getActivityChartAction,
   getAdvertAction,
-  getFileAction,
 } from "@/store/createAdvert/createAdvertThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
@@ -24,6 +22,7 @@ import Failed from "./../../assets/images/Failed.gif";
 import { Button } from "../ui/button";
 import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { ImSpinner8 } from "react-icons/im";
+import { logoutUser } from "@/store/user/userSlice";
 export default function AdvertCard({ data, showCard }) {
   //  data = []
   const dispatch = useDispatch();
@@ -54,8 +53,21 @@ export default function AdvertCard({ data, showCard }) {
           getAdvertAction({
             userId: user?.UserId,
             onSuccess: () => {
-              dispatch(dashboardStatsAction(user?.UserId));
-              dispatch(getActivityChartAction(user?.UserId));
+              dispatch(
+                dashboardStatsAction({
+                  UserId: user?.UserId,
+                  onNotAuthicate: () => {
+                    dispatch(logoutUser());
+                    router.push("/auth/login");
+                  },
+                })
+              );
+              dispatch(
+                getActivityChartAction({
+                  UserId: user?.UserId,
+                  onNotAuthicate: () => {},
+                })
+              );
             },
           })
         );
@@ -73,13 +85,22 @@ export default function AdvertCard({ data, showCard }) {
     });
     try {
       const response = await dispatch(
-        downloadAdvertImagesAction(item?.UniqueAdvertisementId)
+        downloadAdvertImagesAction({
+          Id: item?.UniqueAdvertisementId,
+          onNotAuthicate: () => {
+            dispatch(logoutUser());
+            router.push("/auth/login");
+          },
+        })
       );
-      const data = response?.payload;
-      await downloadFile(
-        `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
-        `${item?.Label + " Advert"}`
-      );
+      console.log("response", response);
+      if (response?.payload !== undefined) {
+        const data = response?.payload;
+        await downloadFile(
+          `${baseDomain}Get-Advertisement-Zip-File?FilePath=${data}`,
+          `${item?.Label + " Advert"}`
+        );
+      }
     } catch (error) {
       console.error("Error downloading file:", error);
     } finally {

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getSubscriptionAction = createAsyncThunk(
   "subscrition/getSubscription",
-  async (currency, { rejectWithValue }) => {
+  async ({currency,onNotAuthicate}, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Packages/Get-All-Packages-By-Currency?Currency=${currency}`
@@ -15,6 +15,12 @@ export const getSubscriptionAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }

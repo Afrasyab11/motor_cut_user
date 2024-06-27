@@ -4,7 +4,6 @@ import {
   getAdvertAction,
   getAdvertProcesByIdAction,
   getActivityChartAction,
-  getFileAction,
   changeLogoPositionOnProcessImage
 } from "./createAdvertThunk";
 
@@ -74,17 +73,7 @@ export const advertSlice = createSlice({
         state.chartLoader = false;
         state.error = action.payload;
       })
-      .addCase(getFileAction.pending, (state) => {
-        state.getLoader = true;
-      })
-      .addCase(getFileAction.fulfilled, (state, action) => {
-        state.getLoader = false;
-        state.getPath = action.payload;
-      })
-      .addCase(getFileAction.rejected, (state, action) => {
-        state.getLoader = false;
-        state.error = action.payload;
-      })
+    
       .addCase(changeLogoPositionOnProcessImage.pending, (state) => {
         state.shiftBgLoader = true;
       })

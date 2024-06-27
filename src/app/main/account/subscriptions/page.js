@@ -19,7 +19,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import {
   CreateStripeCheckoutSession,
   checkPromoCode,
@@ -37,6 +36,8 @@ import { dashboardStatsAction } from "@/store/dashboard/dashboardThunk";
 import { UpgradeSubscription } from "@/actions/stripe/upgrade-subscription";
 import { getUserProfileData } from "@/store/user/userThunk";
 import { ImSpinner8 } from "react-icons/im";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 // import "./subscriptions.module.css";
 const Subscriptions = [
   {
@@ -84,11 +85,27 @@ const Subscription = () => {
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
-    dispatch(dashboardStatsAction(userId));
+    dispatch(
+      dashboardStatsAction({
+        UserId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, [userId]);
 
   useEffect(() => {
-    dispatch(getSubscriptionAction(currency));
+    dispatch(
+      getSubscriptionAction({
+        currency,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, [currency]);
 
   useEffect(() => {
@@ -108,7 +125,15 @@ const Subscription = () => {
   const UKChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("GBP");
-    dispatch(getSubscriptionAction("GBP"));
+    dispatch(
+      getSubscriptionAction({
+        currency: "GBP",
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
     setPromoCode({});
     setError("");
     setSuccess("");
@@ -117,7 +142,15 @@ const Subscription = () => {
   const USAChangeHanler = (e) => {
     e.preventDefault();
     setCurrency("USD");
-    dispatch(getSubscriptionAction("USD"));
+    dispatch(
+      getSubscriptionAction({
+        currency: "USD",
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
     setPromoCode({});
     setError("");
     setSuccess("");
@@ -319,7 +352,7 @@ const Subscription = () => {
                       {item?.NumberOfImages && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             {item?.NumberOfImages + " Monthly Image Credits"}
                           </small>
                         </span>
@@ -327,7 +360,7 @@ const Subscription = () => {
                       {item?.CustomBackground && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             Custom Background
                           </small>
                         </span>
@@ -335,7 +368,7 @@ const Subscription = () => {
                       {item?.AccountSupport && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             Dedicated Account Support
                           </small>
                         </span>
@@ -343,7 +376,7 @@ const Subscription = () => {
                       {item?.MobileAppAccess && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             Mobile App Access
                           </small>
                         </span>
@@ -351,7 +384,7 @@ const Subscription = () => {
                       {item?.CustomBranding && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             Custom Branding
                           </small>
                         </span>
@@ -359,7 +392,7 @@ const Subscription = () => {
                       {item?.CustomBranding && (
                         <span className="flex items-center gap-x-2 mb-3">
                           <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[16px] text-black">
+                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
                             {item?.Storage + " GB Storage"}
                           </small>
                         </span>
@@ -368,7 +401,7 @@ const Subscription = () => {
                   </CardContent>
                   <Separator className="my-2" />
                   <CardFooter className="flex flex-col gap-y-2 mt-auto">
-                    <small className="sm:text-sm md:text-[15px] font-semibold text-primary">
+                    <small className="sm:text-sm md:text-[13px] font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
                       {item.Price +
                         `${

@@ -14,9 +14,11 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { FaImage } from "react-icons/fa";
 import { FaTags } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 export default function DashBoard() {
   const dispatch = useDispatch();
+  const router=useRouter()
   const { advertLenght } = useSelector((state) => state.advert);
 
   const { states } = useSelector((state) => state.dashboard);
@@ -26,7 +28,10 @@ export default function DashBoard() {
   let user = userString ? JSON.parse(userString) : null;
 
   useEffect(() => {
-    dispatch(dashboardStatsAction(user?.UserId));
+   dispatch(dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+    dispatch(logoutUser())
+    router.push('/auth/login')
+  } })) 
   }, [user?.UserId]);
   const stats = [
     {

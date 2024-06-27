@@ -1,6 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "@/utils/axios";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+
 export const createAdvertAction = createAsyncThunk(
   "advert/createAdvert",
   async ({ formData, onSuccess, onError }, { rejectWithValue }) => {
@@ -16,6 +17,12 @@ export const createAdvertAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onError();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
@@ -23,11 +30,12 @@ export const createAdvertAction = createAsyncThunk(
 
 export const getAdvertAction = createAsyncThunk(
   "advert/getAdvert",
-  async ({userId,onSuccess}, { rejectWithValue }) => {
+  async ({ userId, onSuccess, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Advertisement/Get-Advertisements-By-User-Id/?UserId=${userId}`
       );
+      console.log("data0000", data);
       if (data?.status_code === 200) {
         onSuccess();
         return data?.detail.reverse();
@@ -35,31 +43,44 @@ export const getAdvertAction = createAsyncThunk(
         return rejectWithValue(data?.detail);
       }
     } catch (error) {
+      console.log("errooor79", error);
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const getAdvertProcesByIdAction = createAsyncThunk(
   "advert/getAdvertProcess",
-  async ({Id,onSuccess}, { rejectWithValue }) => {
+  async ({ Id, onSuccess, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Advertisement/Get-Advertisement-By-Id/?UniqueAdvertId=${Id}`
       );
       if (data?.status_code === 200) {
-        onSuccess(data?.detail)
+        onSuccess(data?.detail);
         return data?.detail;
       } else {
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const downloadAdvertImagesAction = createAsyncThunk(
   "advert/downloadAdvert",
-  async (Id, { rejectWithValue }) => {
+  async ({ Id, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Advertisement/Download-Advertisement-Images/?UniqAdvertId=${Id}`
@@ -70,30 +91,20 @@ export const downloadAdvertImagesAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
-      return rejectWithValue(error.message); // Handle the error state in Redux
-    }
-  }
-);
-export const downloadAllAdvertImagesAction = createAsyncThunk(
-  "advert/downloadAllAdvertImages",
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.get(
-        `/Advertisement/Download-All-Processed-Images?UserId=${payload?.UserId}&UniqueAdvertId=${payload?.UniqueAdvertId}`
-      );
-      if (data?.status_code === 200) {
-        return data?.detail;
-      } else {
-        toast.warning(data?.detail);
+      console.log("error",error)
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
       }
-    } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const flageImageAction = createAsyncThunk(
   "advert/flageImage",
-  async ({payload,onSuccess}, { rejectWithValue }) => {
+  async ({ payload, onSuccess, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
         `/FlaggedImages/Flag-Image?AdvertId=${payload?.AdvertId}&UniqueImageId=${payload?.UniqueImageId}`
@@ -102,33 +113,24 @@ export const flageImageAction = createAsyncThunk(
         toast.success("Image Successfully flaged");
         onSuccess();
       } else {
-        toast.warning(data?.detail)
+        toast.warning(data?.detail);
         return rejectWithValue(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 
-export const downloadZipFileAction = createAsyncThunk(
-  "advert/downloadZip",
-  async (path, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.get(`/get-file?filename=${path}`);
-      if (data?.status_code === 200) {
-        return data?.detail;
-      } else {
-        toast.warning(data?.detail);
-      }
-    } catch (error) {
-      return rejectWithValue(error.message); // Handle the error state in Redux
-    }
-  }
-);
 export const getActivityChartAction = createAsyncThunk(
   "advert/getActivity",
-  async (UserId, { rejectWithValue }) => {
+  async ({ UserId, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Advertisement/Get-All-User-Adverts-Created-With-Date?UserId=${UserId}`
@@ -139,23 +141,12 @@ export const getActivityChartAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
-      return rejectWithValue(error.message); // Handle the error state in Redux
-    }
-  }
-);
-export const getFileAction = createAsyncThunk(
-  "advert//Get-File-URL",
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.post(
-        `/Get-File-URL`,payload
-      );
-      if (data?.status_code === 200) {
-        return data?.detail;
-      } else {
-        toast.warning(data?.detail);
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
       }
-    } catch (error) {
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
@@ -163,9 +154,12 @@ export const getFileAction = createAsyncThunk(
 
 export const changeLogoPositionOnProcessImage = createAsyncThunk(
   "flage/Update-Advertisement-Image",
-  async ({ formData, onSuccess }, { rejectWithValue }) => {
+  async ({ formData, onSuccess,onNotAuthicate }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.put(`/Advertisement/Update-Advertisement-Image`,formData);
+      const { data } = await axiosInstance.put(
+        `/Advertisement/Update-Advertisement-Image`,
+        formData
+      );
       if (data?.status_code === 200) {
         onSuccess();
         // toast.success(data?.detail);
@@ -173,8 +167,13 @@ export const changeLogoPositionOnProcessImage = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
-

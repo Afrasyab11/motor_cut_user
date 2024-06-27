@@ -21,8 +21,11 @@ import {
 import { ImSpinner8 } from "react-icons/im";
 import { getCookie } from "cookies-next";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 export default function ShiftBackground({ open, setOpen, item, advertId }) {
   // console.log("item564",item)
+  const router = useRouter();
   const { shiftBgLoader } = useSelector((state) => state?.advert);
   // const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -34,7 +37,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
   let user = userString ? JSON.parse(userString) : null;
 
   const handleSliderChange = (newValue) => {
-    console.log("newvalue",newValue)
+    console.log("newvalue", newValue);
     setValue(newValue);
   };
   const submitHandler = () => {
@@ -52,12 +55,15 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
         formData,
         onSuccess: () => {
           dispatch(
-            getAdvertProcesByIdAction({ Id: advertId, onSuccess: (data) => {
-            } })
+            getAdvertProcesByIdAction({ Id: advertId, onSuccess: (data) => {} })
           );
           toast.success("Image Updated");
           // window.location.reload();
           setOpen();
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -66,7 +72,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent
-         className={`overflow-y-auto h-auto lg:w-full xl:w-full 2xl:min-w-[80vh]`}
+        className={`overflow-y-auto h-auto lg:w-full xl:w-full 2xl:min-w-[80vh]`}
       >
         <AlertDialogHeader>
           <AlertDialogTitle>

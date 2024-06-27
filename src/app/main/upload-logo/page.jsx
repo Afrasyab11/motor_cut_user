@@ -34,7 +34,10 @@ import placeholder from "../../../../public/placeholder.png";
 import { ImSpinner8 } from "react-icons/im";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 const UploadLogo = () => {
+  const router=useRouter();
   const dispatch = useDispatch();
   const { logo, logoLoader, getLogoLoader, removeLogoLoader } = useSelector(
     (state) => state.logo
@@ -48,7 +51,11 @@ const UploadLogo = () => {
   const [coversStatus, setCoversStatus] = useState("off");
  
   useEffect(() => {
-    dispatch(getLogoAction(user?.UserId));
+    dispatch(getLogoAction({UserId:user?.UserId,onNotAuthicate:()=>{
+      dispatch(logoutUser())
+      router.push('/auth/login')
+    }
+}));
   }, []);
 
   useEffect(() => {
@@ -74,13 +81,21 @@ const UploadLogo = () => {
         formData,
         onSuccess: () => {
           // document.getElementById("logo").value = "";
-          dispatch(getLogoAction(user?.UserId));
+          dispatch(getLogoAction({UserId:user?.UserId,onNotAuthicate:()=>{
+            dispatch(logoutUser())
+            router.push('/auth/login')
+          }
+      }));
           setSelectedValue("");
           // setSelectedFile("");
           reset({
             position: "",
           });
         },
+        onNotAuthicate:()=>{
+          dispatch(logoutUser())
+          router.push('/auth/login')
+        }
       })
     );
   };
@@ -91,8 +106,16 @@ const UploadLogo = () => {
         UserId: user?.UserId,
         onSuccess: () => {
           setSelectedFile("");
-          dispatch(getLogoAction(user?.UserId));
+          dispatch(getLogoAction({UserId:user?.UserId,onNotAuthicate:()=>{
+            dispatch(logoutUser())
+            router.push('/auth/login')
+          }
+      }));
         },
+        onNotAuthicate:()=>{
+          dispatch(logoutUser())
+          router.push('/auth/login')
+        }
       })
     );
   };

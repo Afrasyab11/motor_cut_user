@@ -29,7 +29,9 @@ import CancelSubscriptionModal from "../modals/CancelSubscriptionModal";
 import { cancelSubscriptionAction } from "@/store/subscription/subscriptionThunk";
 import { reactivateSubscription } from "@/actions/stripe/reactivate-subscription";
 import moment from "moment";
+import { logoutUser } from "@/store/user/userSlice";
 const Subscription = () => {
+  const router=useRouter();
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
@@ -48,7 +50,12 @@ const Subscription = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user.UserId) {
-        dispatch(dashboardStatsAction(user.UserId));
+        dispatch(
+          dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+            dispatch(logoutUser())
+            router.push('/auth/login')
+          } })
+        );
       }
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
     };
@@ -93,10 +100,15 @@ const Subscription = () => {
   }, [user?.UserId]);
 
   useEffect(() => {
-    dispatch(dashboardStatsAction(user?.UserId));
+    dispatch(
+      dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+        dispatch(logoutUser())
+        router.push('/auth/login')
+      } })
+    );
   }, [user?.UserId]);
 
-  const route = useRouter();
+  
 
   const inputStyles = {
     border: "none",
@@ -134,7 +146,11 @@ const Subscription = () => {
             setReactivateBtn(resp?.ReActivate);
             setDialogOpen(false);
             setLoader(false);
-            dispatch(dashboardStatsAction(user.UserId));
+            dispatch(
+              dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+               
+              } })
+            );
             dispatch(getUserProfileData(user.UserId)); // Refresh user data
           },
         })
@@ -159,7 +175,12 @@ const Subscription = () => {
 
       if (res.success) {
         toast.success("Subscription re-activated successfully");
-        dispatch(dashboardStatsAction(user.UserId));
+        dispatch(
+          dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
+            dispatch(logoutUser())
+            router.push('/auth/login')
+          } })
+        );
         dispatch(getUserProfileData(user.UserId)); // Refresh user data
       } else {
         toast.error(res.message || "Failed to reactivate");
@@ -245,7 +266,7 @@ const Subscription = () => {
                 className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
                 onClick={(e) => {
                   e.preventDefault();
-                  route.push("/main/account/subscriptions");
+                  router.push("/main/account/subscriptions");
                 }}
               >
                 Change Subscription
@@ -258,7 +279,7 @@ const Subscription = () => {
                 className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
                 onClick={(e) => {
                   e.preventDefault();
-                  route.push("/main/account/subscriptions");
+                  router.push("/main/account/subscriptions");
                 }}
               >
                 Change Subscription
@@ -270,7 +291,7 @@ const Subscription = () => {
               className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
               onClick={(e) => {
                 e.preventDefault();
-                route.push("/main/account/subscriptions");
+                router.push("/main/account/subscriptions");
               }}
             >
               See Subscriptions
