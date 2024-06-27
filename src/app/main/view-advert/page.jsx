@@ -43,7 +43,6 @@ const ViewAdvert = ({ searchParams }) => {
   const router = useRouter();
 
   const toggle = (item) => {
-    console.log("item", item);
     setOpen(!open);
     setSelectedImage(item);
   };
@@ -59,7 +58,6 @@ const ViewAdvert = ({ searchParams }) => {
         Id: searchParams?.advertId,
         onSuccess: (data) => {
           setLoader(false);
-          // setAdvert([data]);
         },
         onNotAuthicate: () => {
           dispatch(logoutUser());

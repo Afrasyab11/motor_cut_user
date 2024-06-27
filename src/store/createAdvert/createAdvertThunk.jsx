@@ -21,6 +21,7 @@ export const createAdvertAction = createAsyncThunk(
         error?.status === 401 &&
         error?.data?.detail === "Could not Validate user."
       ) {
+        toast.warning(error?.data?.detail);
         onError();
       }
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -72,6 +73,7 @@ export const getAdvertProcesByIdAction = createAsyncThunk(
         error?.status === 401 &&
         error?.data?.detail === "Could not Validate user."
       ) {
+        toast.warning(error?.data?.detail);
         onNotAuthicate();
       }
       return rejectWithValue(error.message); // Handle the error state in Redux
@@ -96,6 +98,7 @@ export const downloadAdvertImagesAction = createAsyncThunk(
         error?.status === 401 &&
         error?.data?.detail === "Could not Validate user."
       ) {
+        toast.warning(error?.data?.detail);
         onNotAuthicate();
       }
       return rejectWithValue(error.message); // Handle the error state in Redux
