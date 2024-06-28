@@ -308,7 +308,7 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
                               disabled
-                              className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]"
+                              className="bg-whitee text-black border rounded-full py-2 w-full  mx-auto text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
                             >
                               {/* <button> */}
                               Crop
@@ -318,12 +318,12 @@ const ViewAdvert = ({ searchParams }) => {
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
                               disabled
-                              className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]"
+                              className="bg-whitee text-site_red border rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
                             >
                               Reprocess
                             </Button>
                           </div>
-                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center mb-1 lg:text-[13px] xl:text-[15px] 2xl:text-[15px]">
+                          <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 flex items-center mb-1 lg:text-[13px] xl:text-[13px] 2xl:text-[15px]">
                             {logo?.DisplayLogo ? (
                               <>
                                 <span className="text-sm sm:text-md font-medium">
@@ -340,7 +340,7 @@ const ViewAdvert = ({ searchParams }) => {
                                     );
                                   }}
                                 >
-                                  <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px] ml-4 mb-1 cursor-pointer  custom-select">
+                                  <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[15px] ml-4 mb-1 cursor-pointer  custom-select">
                                     <SelectValue
                                       placeholder={img?.LogoPosition}
                                     />
