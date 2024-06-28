@@ -87,7 +87,7 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(
       dashboardStatsAction({
-        UserId: user?.UserId,
+        UserId: userId,
         onNotAuthicate: () => {
           dispatch(logoutUser());
           router.push("/auth/login");
