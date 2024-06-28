@@ -64,7 +64,7 @@ export const getAdvertProcesByIdAction = createAsyncThunk(
       );
       if (data?.status_code === 200) {
         onSuccess(data?.detail);
-        return data?.detail;
+        return [data?.detail];
       } else {
         toast.warning(data?.detail);
       }

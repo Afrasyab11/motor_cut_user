@@ -38,7 +38,6 @@ const ViewAdvert = ({ searchParams }) => {
   const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
-  const [advert, setAdvert] = useState([]);
   const [loader, setLoader] = useState(true);
   const router = useRouter();
 
@@ -47,9 +46,7 @@ const ViewAdvert = ({ searchParams }) => {
     setSelectedImage(item);
   };
 
-  useEffect(() => {
-    setAdvert([processAdvert]);
-  }, [processAdvert]);
+
 
   useEffect(() => {
     setLoader(true);
@@ -57,6 +54,15 @@ const ViewAdvert = ({ searchParams }) => {
       getAdvertProcesByIdAction({
         Id: searchParams?.advertId,
         onSuccess: (data) => {
+          dispatch(
+            getLogoAction({
+              UserId: user?.UserId,
+              onNotAuthicate: () => {
+                dispatch(logoutUser());
+                router.push("/auth/login");
+              },
+            })
+          );
           setLoader(false);
         },
         onNotAuthicate: () => {
@@ -66,17 +72,7 @@ const ViewAdvert = ({ searchParams }) => {
       })
     );
   }, [searchParams?.advertId]);
-  useEffect(() => {
-    dispatch(
-      getLogoAction({
-        UserId: user?.UserId,
-        onNotAuthicate: () => {
-          dispatch(logoutUser());
-          router.push("/auth/login");
-        },
-      })
-    );
-  }, [user?.UserId]);
+
 
   const handleOptionChange = async (value, imageId, ImagePath) => {
     const formData = new FormData();
@@ -186,7 +182,7 @@ const ViewAdvert = ({ searchParams }) => {
   return (
     <AlertDialog>
       <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
-        {advert?.length > 0 ? (
+        {processAdvert?.length > 0 ? (
           <>
             <div className="2xl:grid 2xl:grid-cols-12 lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 px-2">
               <div className="2xl:col-span-8 lg:col-span-7 md:col-span-6 sm:col-span-4 flex items-center">
@@ -214,8 +210,8 @@ const ViewAdvert = ({ searchParams }) => {
                 </div>
               </div>
             </div>
-            {advert &&
-              advert?.map((item) =>
+            {processAdvert &&
+              processAdvert?.map((item) =>
                 item?.Images?.Images?.map((img, i) => (
                   <div
                     key={item?.Id}
