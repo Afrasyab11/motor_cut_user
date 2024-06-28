@@ -198,17 +198,17 @@ const ViewAdvert = ({ searchParams }) => {
                 <button
                   disabled={loading}
                   onClick={downloadHandler}
-                  className="bg-primary text-whitee  rounded-full py-2 w-full  text-sm sm:text-md lg:text-[13px] xl:text-[15px] 2xl:text-[15px]  mb-1"
+                  className="bg-primary text-whitee  rounded-full py-2 w-full  sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]  mb-1"
                 >
                   {loading ? "Downloading..." : "Download All"}
                 </button>
               </div>
               <div className="2xl:col-span-2 lg:col-span-3 md:col-span-3 sm:col-span-4 flex justify-center items-center ">
                 <div className="flex items-center flex-wrap gap-2">
-                  <span className="text-primary text-sm sm:text-md lg:text-[12px] xl:text-[14px] 2xl:text-[15px] font-medium">
+                  <span className="text-primary sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]">
                     Advert ID:{" "}
                   </span>
-                  <span className="text-primary text-sm sm:text-md break-words font-medium lg:text-[13px] xl:text-[15px] 2xl:text-[15px]">
+                  <span className="text-primary sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]">
                     {" " + searchParams?.advertId}
                   </span>
                 </div>
