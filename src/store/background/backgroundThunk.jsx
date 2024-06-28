@@ -3,7 +3,10 @@ import { axiosInstance } from "@/utils/axios";
 import { toast } from "react-toastify";
 export const channgeBackgroundImageAction = createAsyncThunk(
   "background/changeBackgroundImage",
-  async ({ list, formData, onSuccess }, { rejectWithValue }) => {
+  async (
+    { list, formData, onSuccess, onNotAuthicate },
+    { rejectWithValue }
+  ) => {
     try {
       const { data } = await axiosInstance.post(
         `/User/Change-User-Background-Image?UserId=${list.UserId}&Path=${list?.Path}`,
@@ -11,18 +14,25 @@ export const channgeBackgroundImageAction = createAsyncThunk(
       );
       if (data?.status_code === 200) {
         toast.success("Background image successfully Changed");
-        onSuccess(); 
+        onSuccess();
       } else {
         toast.warning(data.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        toast.warning(error?.data?.detail);
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const getchanngeBackgroundImageAction = createAsyncThunk(
   "background/getBackgroundImage",
-  async (Id, { rejectWithValue }) => {
+  async ({ Id, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/User/Show-User-Background-Image?UserId=${Id}`
@@ -33,13 +43,19 @@ export const getchanngeBackgroundImageAction = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
 );
 export const getAllBackgroundByUserId = createAsyncThunk(
   "background/getAllBackgroundImages",
-  async (userId,{rejectWithValue}) => {
+  async ({ userId, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
         `/Backgrounds/Get-Background-By-UserId?UserId=${userId}`
@@ -47,10 +63,15 @@ export const getAllBackgroundByUserId = createAsyncThunk(
       if (data?.status_code === 200) {
         return data?.detail?.UserBackgrounds?.reverse();
       } else {
-       console.log(data?.detail);
-       
+        console.log(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }

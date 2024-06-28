@@ -31,7 +31,7 @@ export default function ChangeBackgroudImage({
   backgroundLoader,
 }) {
   const dispatch = useDispatch();
-const router=useRouter();
+  const router = useRouter();
   let userString = getCookie("user");
 
   let user = userString ? JSON.parse(userString) : null;
@@ -80,14 +80,23 @@ const router=useRouter();
         formData,
         onSuccess: () => {
           setOpen();
-          dispatch(getchanngeBackgroundImageAction(user?.UserId));
           dispatch(
-            dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
-              dispatch(logoutUser())
-              router.push('/auth/login')
-            } })
+            getchanngeBackgroundImageAction({
+              Id: user?.UserId,
+              onNotAuthicate: () => {},
+            })
+          );
+          dispatch(
+            dashboardStatsAction({
+              UserId: user?.UserId,
+              onNotAuthicate: () => {},
+            })
           );
           setFile(null);
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -95,7 +104,9 @@ const router=useRouter();
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogContent className={`overflow-y-auto h-5/6 lg:w-full xl:w-full 2xl:min-w-[80vh]`}>
+      <AlertDialogContent
+        className={`overflow-y-auto h-5/6 lg:w-full xl:w-full 2xl:min-w-[80vh]`}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between pb-[20px] pt-[15px]">

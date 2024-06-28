@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "@/store/user/userSlice";
 
 export default function CreateAdvert() {
   const router = useRouter();
@@ -36,7 +37,15 @@ export default function CreateAdvert() {
     TrimImages: false, // Default value, assuming 'off' maps to `false`
   });
   useEffect(() => {
-    dispatch(getchanngeBackgroundImageAction(user?.UserId));
+    dispatch(
+      getchanngeBackgroundImageAction({
+        Id: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, []);
   const {
     register,

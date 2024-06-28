@@ -24,8 +24,10 @@ import {
 import { ImSpinner8 } from "react-icons/im";
 import { getCookie } from "cookies-next";
 import ViewImage from "@/components/modals/ViewImagesModal";
-
+import { logoutUser } from "@/store/user/userSlice";
+import { useRouter } from "next/navigation";
 const BackgroundLibrary = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { allBackground, backgroundLoader, background } = useSelector(
     (state) => state.background
@@ -50,12 +52,28 @@ const BackgroundLibrary = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllBackgroundByUserId(user?.UserId));
+    dispatch(
+      getAllBackgroundByUserId({
+        userId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
+    );
   }, []);
 
   useEffect(() => {
     if (user?.UserId) {
-      dispatch(getchanngeBackgroundImageAction(user?.UserId));
+      dispatch(
+        getchanngeBackgroundImageAction({
+          Id: user?.UserId,
+          onNotAuthicate: () => {
+            dispatch(logoutUser());
+            router.push("/auth/login");
+          },
+        })
+      );
     }
   }, [user?.UserId]);
 
@@ -103,7 +121,16 @@ const BackgroundLibrary = () => {
             newState[index] = false;
             return newState;
           });
-          dispatch(getchanngeBackgroundImageAction(user?.UserId));
+          dispatch(
+            getchanngeBackgroundImageAction({
+              Id: user?.UserId,
+              onNotAuthicate: () => {},
+            })
+          );
+        },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
         },
       })
     );
@@ -231,14 +258,13 @@ const BackgroundLibrary = () => {
                           loading[index]
                         }
                       >
-                        
                         {loading[index] ? (
                           <ImSpinner8 className="spinning-icon" />
-                        ):(
-                          card?.Id === background?.BackgroundImageId &&
-                            background?.BackgroundImageId !== null
-                              ? "Selected"
-                              : "Select"
+                        ) : card?.Id === background?.BackgroundImageId &&
+                          background?.BackgroundImageId !== null ? (
+                          "Selected"
+                        ) : (
+                          "Select"
                         )}
                         {/* {backgroundLoader && card.spiner === true && (
                       <ImSpinner8 className="spinning-icon" />

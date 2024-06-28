@@ -38,7 +38,15 @@ const SettingsCard = () => {
 
   useEffect(() => {
     if (user?.UserId) {
-      dispatch(getchanngeBackgroundImageAction(user?.UserId));
+      dispatch(
+        getchanngeBackgroundImageAction({
+          Id: user?.UserId,
+          onNotAuthicate: () => {
+            dispatch(logoutUser());
+            router.push("/auth/login");
+          },
+        })
+      );
     }
   }, [user?.UserId]);
 
