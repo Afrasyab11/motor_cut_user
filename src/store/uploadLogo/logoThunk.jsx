@@ -21,6 +21,7 @@ export const createLogoAction = createAsyncThunk(
         error?.status === 401 &&
         error?.data?.detail === "Could not Validate user."
       ) {
+        toast.warning(error?.data?.detail);
         onNotAuthicate();
       }
       return rejectWithValue(error.message); // Handle the error state in Redux
