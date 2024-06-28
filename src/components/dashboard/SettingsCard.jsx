@@ -159,7 +159,7 @@ const SettingsCard = () => {
         </a>
       </div>
       <div className="flex justify-between flex-wrap  items-center gap-3">
-        <div className="flex flex-col justify-between   gap-x-2">
+        <div className="flex flex-col justify-between gap-y-1  gap-x-2">
           <p className="text-sm sm:text-md"> Display Logo </p>{" "}
           <Switch
             checked={logo?.DisplayLogo}
