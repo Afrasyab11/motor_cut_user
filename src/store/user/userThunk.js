@@ -9,8 +9,7 @@ export const loginUser = createAsyncThunk(
       if (data.status_code == 200) {
         onSuccess();
         return data;
-      }
-      else {
+      } else {
         toast.warning(data?.detail);
         onError(data.detail);
         return thunkAPI.rejectWithValue(response);
@@ -85,7 +84,7 @@ export const registerUser = createAsyncThunk(
 );
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
-  async ({ payload, onSuccess }, { rejectWithValue }) => {
+  async ({ payload, onSuccess, onNotAuthicate }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.put(
         "/User/Update-User-Profile",
@@ -98,6 +97,12 @@ export const updateUserProfile = createAsyncThunk(
         toast.warning(data?.detail);
       }
     } catch (error) {
+      if (
+        error?.status === 401 &&
+        error?.data?.detail === "Could not Validate user."
+      ) {
+        onNotAuthicate();
+      }
       return rejectWithValue(error.message); // Handle the error state in Redux
     }
   }
@@ -129,10 +134,13 @@ export const verifyUserPassword = createAsyncThunk(
   "user/verifyUserPassword",
   async ({ payload, onSuccess, onError }, thunkAPI) => {
     try {
-      console.log("coming")
-      const { data } = await axiosInstance.post("/User/Verify-Password-Reset-OTP", payload);
+      console.log("coming");
+      const { data } = await axiosInstance.post(
+        "/User/Verify-Password-Reset-OTP",
+        payload
+      );
       if (data.status_code == 200) {
-        onSuccess()
+        onSuccess();
         return data.detail;
       } else {
         onError(data.detail);
@@ -142,19 +150,20 @@ export const verifyUserPassword = createAsyncThunk(
       return thunkAPI.rejectWithValue(error);
     }
   }
-)
-
-
+);
 
 export const userNewPassword = createAsyncThunk(
   "user/userNewPassword",
   async ({ payload, onSuccess, onError }, thunkAPI) => {
     try {
-      console.log("coming")
-      const { data } = await axiosInstance.post("/User/Reset-Password", payload);
+      console.log("coming");
+      const { data } = await axiosInstance.post(
+        "/User/Reset-Password",
+        payload
+      );
       if (data.status_code == 200) {
         toast.success(data.detail);
-        onSuccess()
+        onSuccess();
         return data.detail;
       } else {
         onError(data.detail);
@@ -164,7 +173,7 @@ export const userNewPassword = createAsyncThunk(
       return thunkAPI.rejectWithValue(error);
     }
   }
-)
+);
 export const getUserProfileData = createAsyncThunk(
   "user/getProfileData",
   async (id, { rejectWithValue }) => {

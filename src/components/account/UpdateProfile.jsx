@@ -104,6 +104,11 @@ const UpdateProfile = () => {
         onSuccess: () => {
           dispatch(getUserProfileData(user?.UserId));
         },
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+
       })
     );
 
