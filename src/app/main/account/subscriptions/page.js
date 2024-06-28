@@ -328,7 +328,7 @@ const Subscription = () => {
           <div className="lg:cols-span-6"></div>
         </div>
       </section>
-      <main className="subscriptions grid  sm:grid-cols-1 p-1 md:p-8  md:grid-cols-2 lg:grid-cols-3 mt-3 gap-x-10 gap-y-6 lg:h-100 ">
+      <main className="subscriptions grid  sm:grid-cols-1 p-1 md:p-8  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3  mt-3 gap-x-10 gap-y-6 lg:h-100 ">
         {subscription?.length > 0 ? (
           subscription?.map((item, index) => (
             <>
@@ -338,61 +338,62 @@ const Subscription = () => {
                     <CardTitle className="text-2xl text-center font-medium tracking-normal">
                       {item.Name}
                     </CardTitle>
-                    <CardDescription className="px-2 pt-3">
+                    <CardDescription className="px-2 pt-2 w-full">
                       {item.NumberOfAdverts && (
-                        <p className="lg:text-[16px] font-medium sm:text-[12px] text-center text-black mt-2">
+                        <p className=" lg:text-[14px] xl:text-[15px] font-medium text-center text-black ">
                           Suitable for up to {item.NumberOfAdverts} car adverts
                           p/m
                         </p>
                       )}
                     </CardDescription>
                   </CardHeader>
+                 
                   <CardContent className="flex-grow flex flex-col gap-y-8 p-1 md:p-3">
                     <div className="flex flex-col">
                       {item?.NumberOfImages && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             {item?.NumberOfImages + " Monthly Image Credits"}
                           </small>
                         </span>
                       )}
                       {item?.CustomBackground && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             Custom Background
                           </small>
                         </span>
                       )}
                       {item?.AccountSupport && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             Dedicated Account Support
                           </small>
                         </span>
                       )}
                       {item?.MobileAppAccess && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             Mobile App Access
                           </small>
                         </span>
                       )}
                       {item?.CustomBranding && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             Custom Branding
                           </small>
                         </span>
                       )}
                       {item?.CustomBranding && (
                         <span className="flex items-center gap-x-2 mb-3">
-                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-2xl" />
-                          <small className="sm:text-sm md:text-lg lg:text-[13px] text-black">
+                          <IoCheckbox className="text-primary sm:text-sm md:text-lg lg:text-xl" />
+                          <small className="sm:text-sm md:text-[13px] lg:text-[13px] text-black">
                             {item?.Storage + " GB Storage"}
                           </small>
                         </span>
@@ -401,13 +402,13 @@ const Subscription = () => {
                   </CardContent>
                   <Separator className="my-2" />
                   <CardFooter className="flex flex-col gap-y-2 mt-auto">
-                    <small className="sm:text-sm md:text-[13px] font-semibold text-primary">
+                    <small className="w-full text-center whitespace-nowrap sm:text-sm md:text-[14px] lg:text-[14px] xl:text-[17px] 2xl:text-[17px] font-semibold text-primary">
                       {currency === "USD" ? "$" : "£"}
                       {item.Price +
                         `${
                           currency === "USD" ? "+ Tax Rates/" : " + VAT/"
                         }`}{" "}
-                      <span className="text-[12px]">month</span>
+                      <span >month</span>
                     </small>
                     <div className="relative">
                       <Input
