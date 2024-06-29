@@ -39,7 +39,7 @@ export default function AdvertForm() {
   };
   return (
     <>
-      <div className="bg-site_secondary px-8 pt-4 flex flex-col justify-between min-h-[40vh] gap-y-1">
+      <div className="bg-site_secondary sm:px-2 md:px-8 pt-4 flex flex-col justify-between min-h-[40vh] gap-y-1">
         <div className=" ">
           <label
             htmlFor="cutType"

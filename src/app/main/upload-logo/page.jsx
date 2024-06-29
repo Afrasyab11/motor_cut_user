@@ -201,7 +201,7 @@ const UploadLogo = () => {
                 Download Format
               </h2>
             </CardHeader>
-            <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 gap-4">
+            <CardContent className="flex basis-1/2 justify-center gap-4">
               <Button
                 type="button"
                 className={`text-white w-3/6 ${
@@ -230,7 +230,7 @@ const UploadLogo = () => {
               </Button>
             </CardContent>
 
-            <CardContent className="flex basis-1/2 justify-center px-0 md:px-3 items-center gap-4 pt-5">
+            <CardContent className="flex basis-1/2 justify-center items-center gap-4 pt-5 mt-2">
               <Button
                 type="button"
                 disabled={logoLoader}
