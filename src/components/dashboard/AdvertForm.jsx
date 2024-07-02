@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { payloadSchema } from "@/schemas/advertFromValidation";
+// import { payloadSchema } from "@/schemas/advertFromValidation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UploadImages from "../modals/UploadImages";
@@ -25,7 +25,7 @@ export default function AdvertForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(payloadSchema),
+    // resolver: zodResolver(payloadSchema),
   });
   const handleChange = (field, value) => {
     // Special handling for fields that need boolean values

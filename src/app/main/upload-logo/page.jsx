@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,6 +36,7 @@ import { baseDomain } from "@/utils/axios";
 import { getCookie } from "cookies-next";
 import { logoutUser } from "@/store/user/userSlice";
 import { useRouter } from "next/navigation";
+
 const UploadLogo = () => {
   const router=useRouter();
   const dispatch = useDispatch();
@@ -46,16 +47,16 @@ const UploadLogo = () => {
   let user = userString ? JSON.parse(userString) : null;
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("top-right");
   const [selectedFormat, setSelectedFormat] = useState("jpg");
   const [coversStatus, setCoversStatus] = useState("off");
- 
+
   useEffect(() => {
     dispatch(getLogoAction({UserId:user?.UserId,onNotAuthicate:()=>{
       dispatch(logoutUser())
       router.push('/auth/login')
     }
-}));
+  }));
   }, []);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const UploadLogo = () => {
       setSelectedValue(logo.LogoPosition);
     }
   }, [logo]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
@@ -86,7 +88,7 @@ const UploadLogo = () => {
             router.push('/auth/login')
           }
       }));
-          setSelectedValue("");
+          setSelectedValue("top-right");
           // setSelectedFile("");
           reset({
             position: "",
@@ -119,6 +121,7 @@ const UploadLogo = () => {
       })
     );
   };
+
   return (
     <>
       <main className="upload-logo-section">
@@ -188,9 +191,9 @@ const UploadLogo = () => {
                   <SelectContent>
                     <SelectGroup>
                       {/* <SelectLabel>Positions</SelectLabel> */}
-                      <SelectItem value="top-left">Top Left</SelectItem>
-                      <SelectItem value="top-center">Top Center</SelectItem>
                       <SelectItem value="top-right">Top Right</SelectItem>
+                      <SelectItem value="top-center">Top Center</SelectItem>
+                      <SelectItem value="top-left">Top Left</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -286,4 +289,5 @@ const UploadLogo = () => {
     </>
   );
 };
+
 export default UploadLogo;

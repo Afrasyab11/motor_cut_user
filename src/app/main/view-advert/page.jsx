@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Image from "next/image";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 import { RiFlagFill } from "react-icons/ri";
@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 import { logoutUser } from "@/store/user/userSlice";
 import { useRouter } from "next/navigation";
+
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
   const { processAdvert } = useSelector((state) => state?.advert);
@@ -45,8 +46,6 @@ const ViewAdvert = ({ searchParams }) => {
     setOpen(!open);
     setSelectedImage(item);
   };
-
-
 
   useEffect(() => {
     setLoader(true);
@@ -72,7 +71,6 @@ const ViewAdvert = ({ searchParams }) => {
       })
     );
   }, [searchParams?.advertId]);
-
 
   const handleOptionChange = async (value, imageId, ImagePath) => {
     const formData = new FormData();
@@ -179,6 +177,7 @@ const ViewAdvert = ({ searchParams }) => {
       })
     );
   };
+
   return (
     <AlertDialog>
       <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
@@ -268,7 +267,7 @@ const ViewAdvert = ({ searchParams }) => {
                               <Image
                                 className={`h-[50px] w-[120px] absolute object-contain rounded-2xl
                          ${
-                           img?.LogoPosition === "top-right"
+                           img?.LogoPosition === "top-right" || !img?.LogoPosition
                              ? "right-[2px] top-[10px]"
                              : img?.LogoPosition === "top-left"
                              ? "left-[2px] top-[10px]"
@@ -326,7 +325,7 @@ const ViewAdvert = ({ searchParams }) => {
                                   Logo:
                                 </span>
                                 <Select
-                                  value={img?.LogoPosition}
+                                  value={img?.LogoPosition || "top-right"}
                                   className="border-none "
                                   onValueChange={(val) => {
                                     handleOptionChange(
@@ -338,7 +337,7 @@ const ViewAdvert = ({ searchParams }) => {
                                 >
                                   <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[15px] ml-4 mb-1 cursor-pointer  custom-select">
                                     <SelectValue
-                                      placeholder={img?.LogoPosition}
+                                      placeholder={img?.LogoPosition || "top-right"}
                                     />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -414,4 +413,5 @@ const ViewAdvert = ({ searchParams }) => {
     </AlertDialog>
   );
 };
+
 export default ViewAdvert;

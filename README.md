@@ -5,7 +5,7 @@ Motor-Cut-Web
 This project  built on Next.js version 14. 
 
 # Source
-Front End
+Front End User Side
 
 ## Prerequisites
 - Node.js (18.18.0)
