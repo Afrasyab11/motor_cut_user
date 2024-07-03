@@ -29,7 +29,7 @@ const SettingsCard = () => {
     (state) => state.background
   );
   const { logo } = useSelector((state) => state?.logo);
-
+// console.log(logo,"its logo..")
   let userString = getCookie("user");
 
   let user = userString ? JSON.parse(userString) : null;
@@ -63,6 +63,7 @@ const SettingsCard = () => {
   }, [user?.UserId]);
   useEffect(() => {
     if (logo && logo?.LogoPosition) {
+      // console.log(logo?.LogoPosition,"its logoPOstioin..")
       setSelectedValue(logo.LogoPosition);
     }
   }, [logo]);

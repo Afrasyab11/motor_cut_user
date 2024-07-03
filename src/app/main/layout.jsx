@@ -14,49 +14,40 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   const [showSidebar, setShowSidebar] = useState(false);
-  // const { rememberMe} = useSelector((state) => state.user);
-   const dispatch=useDispatch()
-   const  router= useRouter()
-  const isloggedIn=getCookie("token")
-  const rememberMe=getCookie("rememberMe")
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const isloggedIn = getCookie("token");
+  const rememberMe = getCookie("rememberMe");
 
- 
+  useEffect(() => {
+    if (!isloggedIn) {
+      router.push("/");
+    }
+  }, [isloggedIn]);
 
-  useEffect(()=>{
- if(!isloggedIn){
-    router.push("/")  }
-  },[isloggedIn])
+  useEffect(() => {
+    if (rememberMe == "false") {
+      setTimeout(() => {
+        dispatch(logoutUser());
+        alert("Session timeout...!");
+        router.push("/auth/login");
+      }, 8000000);
+    }
+  }, [rememberMe]);
 
-    useEffect(() => {
-      if (rememberMe=="false") {
-        setTimeout(() => {
-          dispatch(logoutUser());
-          alert("Session timeout...!")
-          router.push("/auth/login")
-        }, 8000000);
-      } 
-    }, [rememberMe]);
-  
   return (
-    <>
-    <div className={cn("overflow-hidden",inter.className)}>
-      {/* Include Header component */}
+    <div className={cn("overflow-hidden", inter.className)}>
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-
-      <div className="grid grid-cols-12 ">
-        {/* Display the sidebar only on xl screens */}
+      <div className="grid grid-cols-12">
         <div className={`xl:block col-span-2 ${showSidebar ? "" : "hidden"}`}>
-          <Sidebar showSidebar={showSidebar} />
+          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
-        {/* Adjust the column span based on screen size */}
         <div className="col-span-12 xl:col-span-10">
-          {/* Main content */}
           <div className="p-5 relative xl:py-4 pt-20 sm:pb-1 md:pb-6 h-screen overflow-y-auto">
             {children}
           </div>
         </div>
       </div>
     </div>
-    </>
   );
 }

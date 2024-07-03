@@ -70,9 +70,13 @@ export default function UploadImages({
       return; // Stop the submission process
     }
     const formData = new FormData();
+
     for (const key in payload) {
-      formData.append(key, payload[key]);
+      if (key !== "Label" || (key === "Label" && payload[key])) {
+        formData.append(key, payload[key]);
+      }
     }
+    
     files.forEach((file) => {
       formData.append("Files", file);
     });

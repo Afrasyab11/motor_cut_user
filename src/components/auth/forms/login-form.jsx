@@ -27,13 +27,13 @@ import { toggleRememberMe } from "@/store/user/userSlice";
 
 export const LoginForm = () => {
   const { isLoading, rememberMe } = useSelector((state) => state?.user);
-  const router = useRouter()
-  const dispatch = useDispatch()
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
-  let loader = isLoading || isPending 
+  let loader = isLoading || isPending;
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -50,22 +50,26 @@ export const LoginForm = () => {
         let loginPayload = {
           Email: values.email,
           Password: values.password,
-          isAdmin: false
-        }
-        dispatch(loginUser(
-          {
+          isAdmin: false,
+        };
+        dispatch(
+          loginUser({
             loginPayload,
             onSuccess: () => {
-              router.push('/main/dashboard')
+              console.log("Login successful, proceeding to fetch first-time status...");
+              router.push("/main/dashboard"); // Redirect to dashboard
             },
             onError: (msg) => {
               setError(msg);
-            }
-          }))
-
+              console.error("Login error message:", msg);
+            },
+          })
+        );
       });
     });
   };
+  
+  
 
   return (
     <CardWrapper
@@ -91,7 +95,7 @@ export const LoginForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                    className=""
+                      className=""
                       {...field}
                       placeholder="john.doe@example.com"
                       type="email"
@@ -128,14 +132,24 @@ export const LoginForm = () => {
             label="Forgot Password?"
             href="/auth/forgotpassword"
           />
-          <div className="flex items-center gap-x-6" onClick={() => { dispatch(toggleRememberMe()) }}> {/* Handle click event to toggle Remember Me */}
-            <input type="checkbox" className="cursor-pointer" checked={rememberMe} />
+          <div
+            className="flex items-center gap-x-6"
+            onClick={() => {
+              dispatch(toggleRememberMe());
+            }}
+          >
+            {" "}
+            {/* Handle click event to toggle Remember Me */}
+            <input
+              type="checkbox"
+              className="cursor-pointer"
+              checked={rememberMe}
+            />
             <p>Remember Me</p>
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button
-        
             type="submit"
             className="w-full text-whitee rounded-full "
             disabled={loader}
@@ -144,7 +158,6 @@ export const LoginForm = () => {
           </Button>
         </form>
       </Form>
-
     </CardWrapper>
   );
 };

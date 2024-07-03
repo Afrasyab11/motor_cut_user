@@ -182,7 +182,7 @@ export default function AdvertCard({ data, showCard }) {
                 </div>
                 <div>
                   <p className="text-sm sm:text-md truncate lg:text-[13px] xl:text-[13px] 2xl:text-[15px]">
-                    {item?.Label}
+                    {item?.Label || "No Label Found"}
                   </p>
                 </div>
                 <div>

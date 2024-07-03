@@ -32,7 +32,7 @@ export default function CreateAdvert() {
   const [payload, setPayload] = useState({
     UserId: user?.UserId,
     isAdmin: false,
-    Label: "",
+    // Label: "",
     CutType: "Half Cut", // Default value
     TrimImages: false, // Default value, assuming 'off' maps to `false`
   });

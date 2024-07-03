@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
 export const baseDomain = "https://backend.motor-cut.com/";
+// export const baseDomain ="http://192.168.18.30:8000/"
 // export const baseDomain = "http://192.168.18.30:8000/";
 
 export const axiosInstance = axios.create({

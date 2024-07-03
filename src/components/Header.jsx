@@ -1,30 +1,37 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
-import logo from '../../public/logo.png'
+import { useState, useEffect } from "react";
+import logo from "../../public/logo.png";
+import Sidebar from "./Sidebar";
+
 // import SignIn from "./SignIn";
 // import SignUp from "./SignUp";
 // import Search from "./Search";
 
-export default function Header(props) {
+export default function Header({ showSidebar, setShowSidebar }) {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <div className="bg-white shadow fixed  xl:static left-0 top-0 right-0 h-[70px] w-full  xl:hidden flex justify-between items-center px-4 pr-4 z-10  dark:bg-black dark:border-b dark:border-b-dark-400">
+    <div className="bg-white shadow fixed xl:static left-0 top-0 right-0 h-[70px] w-full xl:hidden flex justify-between items-center px-4 pr-4 z-10 dark:bg-black dark:border-b dark:border-b-dark-400">
       <a href="/">
-        <Image alt="" src={logo} height={200} width={200} className="rounded-lg" />
+        <Image
+          alt=""
+          src={logo}
+          height={200}
+          width={200}
+          className="rounded-lg"
+        />
       </a>
 
       <div className="flex items-center justify-end">
         <button
-          className="py-2 text-sm ml-2 text-black dark:text-white px-3 rounded-full block md:block lg:block xl:hidden"
-          onClick={() => {
-            props.setShowSidebar(!props.showSidebar);
-          }}
+          className="py-2 text-sm ml-2 text-black dark:text-white px-3 rounded-full block md:block lg:block xl:hidden menu-btn"
+          onClick={() => setShowSidebar(!showSidebar)}
         >
-          {props.showSidebar ? (
+          {showSidebar ? (
+            // CLOSE THE MENU BAR
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -38,6 +45,7 @@ export default function Header(props) {
               />
             </svg>
           ) : (
+            // OPEN THE MENU BAR
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

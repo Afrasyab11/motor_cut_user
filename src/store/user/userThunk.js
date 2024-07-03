@@ -7,7 +7,9 @@ export const loginUser = createAsyncThunk(
     try {
       const { data } = await axiosInstance.post("/User/Login", loginPayload);
       if (data.status_code == 200) {
+
         onSuccess();
+        console.log("Login API response:", data);
         return data;
       } else {
         toast.warning(data?.detail);
@@ -19,6 +21,33 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+// ACTION FOR THE USERSTTAUS .. TO TRIIGER THE ACTION OF THE (REACT-JOY)
+
+export const getUserFirstTimeStatus = createAsyncThunk(
+  "user/getUserFirstTimeStatus",
+  async ({ userId }, thunkAPI) => {
+    try {
+      const { data } = await axiosInstance.get(`/User/Get-User-First-Time-Status?UserId=${userId}`);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const changeUserFirstTimeStatus = createAsyncThunk(
+  "user/changeUserFirstTimeStatus",
+  async ({ userId, status }, thunkAPI) => {
+    try {
+      const { data } = await axiosInstance.get(`/User/Change-User-First-Time-Status?UserId=${userId}&Status=${status}`);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+
 export const sendSignUpOTP = createAsyncThunk(
   "user/sendSignUpOTP",
   async ({ payload, onSuccess, onError }, thunkAPI) => {

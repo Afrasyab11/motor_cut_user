@@ -36,7 +36,7 @@ export const getAdvertAction = createAsyncThunk(
       const { data } = await axiosInstance.get(
         `/Advertisement/Get-Advertisements-By-User-Id/?UserId=${userId}`
       );
-      console.log("data0000", data);
+      // console.log("data0000", data);
       if (data?.status_code === 200) {
         onSuccess();
         return data?.detail.reverse();

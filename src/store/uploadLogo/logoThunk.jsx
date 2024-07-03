@@ -36,6 +36,7 @@ export const getLogoAction = createAsyncThunk(
         `/User/Get-User-Logo?UserId=${UserId}`
       );
       if (data?.status_code === 200) {
+        console.log(data,"its data")
         return data?.detail;
       } else {
         toast.warning(data?.detail);

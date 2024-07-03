@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { verifyEmail, loginUser, updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword, verifyUserPassword, userNewPassword,getUserProfileData,statusManageUserAction} from "./userThunk";
+import { verifyEmail, loginUser, getUserFirstTimeStatus,changeUserFirstTimeStatus,updateUserProfile, registerUser, sendSignUpOTP, logout, forgotUserPassword, verifyUserPassword, userNewPassword,getUserProfileData,statusManageUserAction} from "./userThunk";
 import { setCookie, deleteCookie } from "cookies-next";
 
 const initialState = {
@@ -18,6 +18,7 @@ const initialState = {
   getProfile:[],
   getProfileLoader:false,
   closeAccountLoader:false,
+  firstTimeStatus: null, // New state for first-time status
 };
 
 export const userSlice = createSlice({
@@ -36,31 +37,48 @@ export const userSlice = createSlice({
       state.token = null;
       state.user = null;
     },
+    
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state, action) => {
-        state.isLoading = true;
-      })
+    .addCase(loginUser.pending, (state, action) => {
+      state.isLoading = true;
+    })
+    .addCase(loginUser.fulfilled, (state, action) => {
+      console.log("Login fulfilled payload:", action.payload);
+      state.user = action?.payload?.detail;
+      state.token = action?.payload?.detail?.AccessToken;
+      setCookie("user", action?.payload?.detail);
+      setCookie("token", action?.payload?.detail?.AccessToken);
+      setCookie("rememberMe", state?.rememberMe);
+      state.isLoading = false;
+    })
+    .addCase(loginUser.rejected, (state, action) => {
+      console.error("Login rejected payload:", action.payload);
+      state.isLoading = false;
+    })
 
-      .addCase(loginUser.fulfilled, (state, action) => {
-          state.user = action?.payload?.detail;
-          state.token = action?.payload?.detail?.AccessToken;
-          setCookie("user", action?.payload?.detail);
-          setCookie("token", action?.payload?.detail?.AccessToken);
-          setCookie("rememberMe", state?.rememberMe)
-          
-
-         state.isLoading = false;
-         
-      })
-
-      .addCase(loginUser.rejected, (state, action) => {
-        // toast.error(action.payload?.data?.message);
-        state.isLoading = false;
-      })
-
+    .addCase(getUserFirstTimeStatus.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(getUserFirstTimeStatus.fulfilled, (state, action) => {
+      state.firstTimeStatus = action?.payload?.detail;
+      state.isLoading = false;
+    })
+    .addCase(getUserFirstTimeStatus.rejected, (state) => {
+      state.isLoading = false;
+    })
+    .addCase(changeUserFirstTimeStatus.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(changeUserFirstTimeStatus.fulfilled, (state) => {
+      state.firstTimeStatus = false;
+      state.isLoading = false;
+    })
+    .addCase(changeUserFirstTimeStatus.rejected, (state) => {
+      state.isLoading = false;
+    })
 
       .addCase(updateUserProfile.pending, (state) => {
         state.userLoader = true;
