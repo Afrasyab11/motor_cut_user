@@ -17,7 +17,6 @@ import { logoutUser } from "@/store/user/userSlice";
 
 export default function CreateAdvert() {
   const router = useRouter();
-
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { background, backgroundLoader } = useSelector(
@@ -27,15 +26,15 @@ export default function CreateAdvert() {
   const handleCloseDialog = () => setDialogOpen(false);
 
   let userString = getCookie("user");
-
   let user = userString ? JSON.parse(userString) : null;
+
   const [payload, setPayload] = useState({
     UserId: user?.UserId,
     isAdmin: false,
-    // Label: "",
-    CutType: "Half Cut", // Default value
-    TrimImages: false, // Default value, assuming 'off' maps to `false`
+    CutType: "Half Cut",
+    TrimImages: false,
   });
+
   useEffect(() => {
     dispatch(
       getchanngeBackgroundImageAction({
@@ -46,7 +45,8 @@ export default function CreateAdvert() {
         },
       })
     );
-  }, []);
+  }, [dispatch, user?.UserId, router]);
+
   const {
     register,
     handleSubmit,
@@ -55,8 +55,8 @@ export default function CreateAdvert() {
   } = useForm({
     resolver: zodResolver(payloadSchema),
   });
+
   const handleChange = (field, value) => {
-    // Special handling for fields that need boolean values
     if (field === "TrimImages") {
       value = value === "on" ? true : false;
     }
@@ -68,7 +68,6 @@ export default function CreateAdvert() {
 
   return (
     <>
-      {/* <AlertDialog> */}
       <div className="bg-site_secondary px-2 md:px-4 lg:px-6 py-4 rounded-2xl mb-2 flex flex-col justify-between">
         <h2 className="md:text-[20px] lg:text-[30px] sm:text-md mb-6 font-medium">
           Create Advert
@@ -85,13 +84,9 @@ export default function CreateAdvert() {
             className="mt-6 bg-primary[light]"
             name="Label"
             placeholder="Advert Label"
-            value={payload?.Label}
             onChange={(e) => handleChange(e.target.name, e.target.value)}
             type="text"
           />
-          {errors.Label && (
-            <small className="text-red-500">{errors.Label.message}</small>
-          )}
         </div>
         <div className="mb-6">
           <label
@@ -157,7 +152,6 @@ export default function CreateAdvert() {
           <div className="text-center ">
             <button
               onClick={handleSubmit(handleOpenDialog)}
-              // onClick={handleSubmit}
               className=" bg-whitee border border-gray-500  rounded-full px-8 xs:py-2 sm:py-2 md:py-3 lg:py-3 text-sm sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] "
             >
               Upload Images
@@ -190,7 +184,6 @@ export default function CreateAdvert() {
               router.push("/main/background-library");
             }}
             className="text-primary text-sm cursor-pointer sm:text-md lg:text-[13px] xl:text-[14px] 2xl:text-[18px] font-medium"
-            // href="#"
           >
             Change Background
           </a>
@@ -205,8 +198,6 @@ export default function CreateAdvert() {
           reset={reset}
         />
       )}
-
-      {/* </AlertDialog> */}
     </>
   );
 }

@@ -265,7 +265,7 @@ const ViewAdvert = ({ searchParams }) => {
                             </a>
                             {logo?.DisplayLogo && img?.LogoPosition && (
                               <Image
-                                className={`h-[50px] w-[120px] absolute object-contain rounded-2xl
+                                className={`h-[50px] w-[95px] absolute object-contain rounded-2xl
                          ${
                            img?.LogoPosition === "top-right" || !img?.LogoPosition
                              ? "right-[2px] top-[10px]"

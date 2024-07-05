@@ -1,7 +1,12 @@
 import { z } from 'zod';
 
+
 export const payloadSchema = z.object({
-  Label: z.string().min(1, { message: "Advert Label is required" })
+  UserId: z.string().optional(),
+  isAdmin: z.boolean().optional(),
+  Label: z.string().optional(),
+  CutType: z.enum(["Half Cut", "Full Cut"]).default("Half Cut"),
+  TrimImages: z.boolean().optional(),
 });
 
 

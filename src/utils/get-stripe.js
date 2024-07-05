@@ -6,7 +6,7 @@ const getStripe = () => {
             // process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
         stripePromise = loadStripe(
-            "pk_test_51OUlCAE66tYGrLUMDWjRkd0wfZOSrjcZWGRbvRFzQ2Dk4JK478haIldZxltBMsYoIhuALDTYzMbO9rekvZXAok1F00Y4EeXCzB"
+            "pk_test_51PXiOYRvVHt0jCSVOBkFMcklRiN3rIVj6muOyHlACxeZ2EHkvZMiCTv7sAfdheQIZmRgniF3tEUNbeN8w1Ka0knU00F3Z6W73U"
             );
     }
     return stripePromise;

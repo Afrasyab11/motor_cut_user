@@ -9,9 +9,11 @@ const stripe = new Stripe(
 );
 
 const UpgradeSubscription = async (subscriptionId, newPriceId) => {
+  // console.log(newPriceId,"its newPriceId...")
   try {
     // Retrieve the subscription
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    console.log(subscription,"its allll...")
     // Update the subscription with the new plan
     const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
       items: [
