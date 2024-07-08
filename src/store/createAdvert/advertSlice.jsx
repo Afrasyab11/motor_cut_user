@@ -24,8 +24,7 @@ export const advertSlice = createSlice({
   initialState,
   reducers: {
     viewAdvertAction: (state,action) => {
-      console.log("hitted",action)
-      // state.processAdvert = []
+      state.processAdvert = []
     },
   },
   extraReducers: (builder) => {

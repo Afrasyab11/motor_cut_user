@@ -49,6 +49,7 @@ const ViewAdvert = ({ searchParams }) => {
 
   useEffect(() => {
     setLoader(true);
+    dispatch(viewAdvertAction())
     dispatch(
       getAdvertProcesByIdAction({
         Id: searchParams?.advertId,
@@ -70,7 +71,7 @@ const ViewAdvert = ({ searchParams }) => {
         },
       })
     );
-  }, [searchParams?.advertId]);
+  }, [searchParams?.advertId,dispatch]);
 
   const handleOptionChange = async (value, imageId, ImagePath) => {
     const formData = new FormData();
