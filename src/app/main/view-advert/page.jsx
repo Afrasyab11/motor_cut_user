@@ -268,7 +268,7 @@ const ViewAdvert = ({ searchParams }) => {
                                 className={`h-[50px] w-[95px] absolute object-contain rounded-2xl
                          ${
                            img?.LogoPosition === "top-right" || !img?.LogoPosition
-                             ? "right-[2px] top-[10px]"
+                             ? "right-[2px] top-[2px]"
                              : img?.LogoPosition === "top-left"
                              ? "left-[2px] top-[10px]"
                              : img?.LogoPosition === "top-center"
