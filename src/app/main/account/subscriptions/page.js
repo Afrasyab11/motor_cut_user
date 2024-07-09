@@ -335,7 +335,7 @@
           {subscription?.length > 0 ? (
             subscription?.map((item, index) => (
               <>
-                <Card key={index} className="bg-gray-100 flex flex-col h-full">
+                <Card key={index} className="bg-gray-100 flex flex-col h-full pb-3">
                   <div className="container m-auto flex flex-col h-full">
                     <CardHeader className="p-2 mt-3">
                       <CardTitle className="text-2xl text-center font-medium tracking-normal">

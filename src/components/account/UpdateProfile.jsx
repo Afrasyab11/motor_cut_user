@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateUserProfile, getUserProfileData, statusManageUserAction } from "@/store/user/userThunk";
+import {
+  updateUserProfile,
+  getUserProfileData,
+  statusManageUserAction,
+} from "@/store/user/userThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
@@ -19,7 +23,11 @@ import { CountryDropdown } from "react-country-region-selector";
 import { userProfileSchema } from "@/schemas/userUpdateProfileSchema";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { PhoneInput,defaultCountries,parseCountry } from "react-international-phone";
+import {
+  PhoneInput,
+  defaultCountries,
+  parseCountry,
+} from "react-international-phone";
 import "react-international-phone/style.css";
 import CloseAccountModal from "../modals/CloseAccountModal";
 import {
@@ -40,7 +48,9 @@ const countriesList = [
 const UpdateProfile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { getProfile, userLoader,closeAccountLoader } = useSelector((state) => state?.user);
+  const { getProfile, userLoader, closeAccountLoader } = useSelector(
+    (state) => state?.user
+  );
   let user = JSON.parse(getCookie("user") || "{}");
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [payload, setPayload] = useState({
@@ -50,11 +60,11 @@ const UpdateProfile = () => {
     postalCode: "",
     country: "",
     billingEmail: "",
-    address:"",
+    address: "",
     isAdmin: false,
     userId: user?.UserId,
   });
-  
+
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
@@ -108,10 +118,8 @@ const UpdateProfile = () => {
           dispatch(logoutUser());
           router.push("/auth/login");
         },
-
       })
     );
-
   };
 
   const inputStyles = {
@@ -140,18 +148,18 @@ const UpdateProfile = () => {
 
   const countries = defaultCountries.filter((country) => {
     const { iso2 } = parseCountry(country);
-    return ['us', 'gb'].includes(iso2);
+    return ["us", "gb"].includes(iso2);
   });
-  
+
   return (
     <>
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle className="text-2xl font-medium tracking-normal ">
-            Account Profile
-          </CardTitle>
+            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl ">
+              Account Profile
+            </h2>
         </CardHeader>
-        <CardContent className="flex flex-col  p-1 md:p-3">
+        <CardContent className="flex flex-col  p-1 sm:pt-5 md:p-3">
           <Input
             // {...register("fullName")}
             type="text"
@@ -176,7 +184,7 @@ const UpdateProfile = () => {
             placeholder="Company Name"
             className="border-b border-b-primary bg-white mt-4"
           />
-        
+
           <Controller
             name="mobileNumber"
             control={control}
@@ -303,7 +311,6 @@ const UpdateProfile = () => {
             placeholder="Postal Code"
             className="border-b border-b-primary bg-white mt-4"
           />
-
         </CardContent>
         <CardFooter className="p-1  justify-center mt-2">
           <Button

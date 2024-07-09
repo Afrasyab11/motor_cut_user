@@ -71,7 +71,7 @@ const ViewAdvert = ({ searchParams }) => {
         },
       })
     );
-  }, [searchParams?.advertId,dispatch]);
+  }, [searchParams?.advertId]);
 
   const handleOptionChange = async (value, imageId, ImagePath) => {
     const formData = new FormData();
