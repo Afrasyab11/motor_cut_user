@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         dispatch(logoutUser());
         alert("Session timeout...!");
         router.push("/auth/login");
-      }, 8000000);
+      }, 86400000);
     }
   }, [rememberMe]);
 
