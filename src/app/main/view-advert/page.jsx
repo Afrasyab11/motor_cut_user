@@ -264,7 +264,7 @@ const ViewAdvert = ({ searchParams }) => {
                                 onLoadingComplete={() => setLoader(false)}
                               />
                             </a>
-                            {logo?.DisplayLogo && img?.LogoPosition && (
+                            {logo?.DisplayLogo && img?.LogoPosition && img?.LogoPath !==null && img?.LogoPath !==undefined  && (
                               <Image
                                 className={`h-[50px] w-[95px] absolute object-contain rounded-2xl
                          ${
@@ -278,8 +278,8 @@ const ViewAdvert = ({ searchParams }) => {
                          }`}
                                 // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
                                 src={
-                                  logo?.Logo !== undefined && logo?.Logo
-                                    ? `${baseDomain}get-file?filename=${logo?.Logo}`
+                                  img?.LogoPath !== undefined && img?.LogoPath 
+                                    ? `${baseDomain}get-file?filename=${img?.LogoPath}`
                                     : placeholder
                                 }
                                 alt="Logo"
