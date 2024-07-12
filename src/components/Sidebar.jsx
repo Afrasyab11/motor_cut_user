@@ -173,26 +173,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
         !showSidebar && "translate-x-full sm:translate-x-full xl:translate-x-0"
       }`}
     >
-      <Joyride
-        steps={steps}
-        continuous={true}
-        showProgress={true}
-        showSkipButton={true}
-        run={run}
-        stepIndex={stepIndex}
-        disableBeacon={true}
-        styles={{
-          options: {
-            arrowColor: "#e3ffeb",
-            backgroundColor: "#fff",
-            overlayColor: "rgba(0, 0, 0, 0.2)",
-            primaryColor: "#000",
-            textColor: "#004a14",
-            zIndex: 1000,
-          },
-        }}
-        callback={handleJoyrideCallback}
-      />
+      
       <div className="h-fit overflow-y-scroll hide-scroll flex flex-col xl:gap-8 gap-4 ">
         <Image className="hidden xl:block" src={Logo} alt="" height={200} width={300} />
         {categories.map((category, index) =>
@@ -219,6 +200,26 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
           )
         )}
       </div>
+      <Joyride
+        steps={steps}
+        continuous={true}
+        showProgress={true}
+        showSkipButton={true}
+        run={run}
+        stepIndex={stepIndex}
+        disableBeacon={true}
+        styles={{
+          options: {
+            arrowColor: "#e3ffeb",
+            backgroundColor: "#fff",
+            overlayColor: "rgba(0, 0, 0, 0.2)",
+            primaryColor: "#000",
+            textColor: "#004a14",
+            zIndex: 1000,
+          },
+        }}
+        callback={handleJoyrideCallback}
+      />
       <div className="mt-2">
         <div className="flex justify-center">
           <Button onClick={logout} variant="outline" className="w-3/6 lg:w-[200px] xl:w-[150px] 2xl:max-w-[200px] mb-2 rounded-full border-primary-dark">
@@ -247,6 +248,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
           </p>
         </div>
       </div>
+      
     </div>
   );
 }
