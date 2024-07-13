@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 import { logoutUser } from "@/store/user/userSlice";
 import { useRouter } from "next/navigation";
+import ChangeCarPositionModal from "@/components/modals/ChangeCarPosition";
 
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
@@ -36,15 +37,20 @@ const ViewAdvert = ({ searchParams }) => {
   const { logo } = useSelector((state) => state?.logo);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
-  const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
+  const [list, setList] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
   const [loader, setLoader] = useState(true);
+  const [model, setModel] = useState(false);
   const router = useRouter();
 
   const toggle = (item) => {
     setOpen(!open);
-    setSelectedImage(item);
+    setList(item);
+  };
+  const fullCutToggle = (item, val) => {
+    setModel(!model);
+    setList(item);
   };
 
   useEffect(() => {
@@ -294,12 +300,21 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 mb-1 flex justify-center">
-                            <button
-                              onClick={() => toggle(img)}
-                              className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
-                            >
-                              Edit Background Position
-                            </button>
+                             {item?.CutType === "Half Cut" ? (
+                              <button
+                                onClick={() => toggle(img)}
+                                className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
+                              >
+                                Edit Background Position
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => fullCutToggle(img)}
+                                className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
+                              >
+                                Change Car Position
+                              </button>
+                            )}
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
@@ -407,7 +422,15 @@ const ViewAdvert = ({ searchParams }) => {
         <ShiftBackground
           open={open}
           setOpen={toggle}
-          item={selectedImage}
+          item={list}
+          advertId={searchParams?.advertId}
+        />
+      )}
+        {model && (
+        <ChangeCarPositionModal
+          open={model}
+          setOpen={fullCutToggle}
+          item={list}
           advertId={searchParams?.advertId}
         />
       )}

@@ -255,9 +255,9 @@ export const userSlice = createSlice({
                 const userDetail = action?.payload?.detail;
                 state.user = userDetail;
                 state.token = userDetail?.AccessToken;
-                // setCookie("user", userDetail);
                 document.cookie = `user=${encodeURIComponent(JSON.stringify(userDetail))}; path=/; max-age=86400`;
                 document.cookie = `token=${userDetail?.AccessToken}; path=/; max-age=86400`;
+                // setCookie("user", userDetail);
                 // setCookie("token", userDetail?.AccessToken);
                 setCookie("rememberMe", state?.rememberMe);
                 state.isLoading = false;
