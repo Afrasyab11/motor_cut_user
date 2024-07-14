@@ -55,6 +55,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
       changeLogoPositionOnProcessImage({
         formData,
         onSuccess: () => {
+          dispatch(viewAdvertAction())
           dispatch(
             getAdvertProcesByIdAction({ Id: advertId, onSuccess: (data) => {} })
           );

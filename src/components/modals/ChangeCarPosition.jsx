@@ -20,9 +20,8 @@ import {
 } from "@/store/createAdvert/createAdvertThunk";
 import { ImSpinner8 } from "react-icons/im";
 import { getCookie } from "cookies-next";
-import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 import { Button } from "../ui/button";
-
+import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 export default function ChangeCarPositionModal({
   open,
   setOpen,
@@ -61,6 +60,7 @@ export default function ChangeCarPositionModal({
       changeLogoPositionOnProcessImage({
         formData,
         onSuccess: () => {
+          dispatch(viewAdvertAction())
           dispatch(
             getAdvertProcesByIdAction({ Id: advertId, onSuccess: (data) => {} })
           );

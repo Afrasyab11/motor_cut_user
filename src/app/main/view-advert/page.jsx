@@ -220,11 +220,10 @@ const ViewAdvert = ({ searchParams }) => {
               processAdvert?.map((item) =>
                 item?.Images?.Images?.map((img, i) => (
                   <div
-                    key={item?.Id}
+                  key={i}
                     className="bg-whitee px-4 rounded-2xl py-4 my-3"
                   >
                     <div
-                      key={i}
                       className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 lg:gap-x-6 gap-y-2 "
                     >
                       <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
@@ -414,7 +413,7 @@ const ViewAdvert = ({ searchParams }) => {
           <ViewAdvertSkelton />
         ) : (
           <div className="flex flex-row justify-center items-center min-h-[400px]">
-            <span>No Data Found</span>
+            <ViewAdvertSkelton />
           </div>
         )}
       </div>
