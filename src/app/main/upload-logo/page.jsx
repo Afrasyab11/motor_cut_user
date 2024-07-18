@@ -124,10 +124,10 @@ const UploadLogo = () => {
 
   return (
     <>
-      <main className="upload-logo-section">
-        <section className="bg-gray-100 rounded-2xl w-full    md:w-2/2 my-3 px-2 ">
+      <main className="upload-logo-section sm:m-1 md:m-3">
+        <section className="bg-gray-100 rounded-2xl w-full  pb-2  md:w-2/2 my-3 px-2 ">
           <CardHeader>
-            <h2 className="md:text-[20px] lg:text-[30px] font-medium tracking-normal">
+            <h2 className="md:text-[20px] lg:text-[30px] py-3 font-medium tracking-normal">
               Upload Logo
             </h2>
           </CardHeader>
@@ -199,7 +199,7 @@ const UploadLogo = () => {
                 </Select>
               </div>
             </CardFooter>
-            <CardHeader className="pl-0 md:px-3">
+            <CardHeader className="pl-0 sm:mt-3 md:px-3">
               <h2 className="md:text-[20px]  lg:text-[30px] font-medium tracking-normal">
                 Download Format
               </h2>

@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         dispatch(logoutUser());
         alert("Session timeout...!");
         router.push("/auth/login");
-      }, 8000000);
+      }, 86400000);
     }
   }, [rememberMe]);
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
           <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
         <div className="col-span-12 xl:col-span-10">
-          <div className="p-5 relative xl:py-4 pt-20 sm:pb-1 md:pb-6 h-screen overflow-y-auto">
+          <div className="sm:p-1 sm:pt-20 md:p-5 relative xl:py-4 pt-20  h-screen overflow-y-auto">
             {children}
           </div>
         </div>

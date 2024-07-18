@@ -20,26 +20,30 @@ import {
 } from "@/store/createAdvert/createAdvertThunk";
 import { ImSpinner8 } from "react-icons/im";
 import { getCookie } from "cookies-next";
+import { Button } from "../ui/button";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
-import { logoutUser } from "@/store/user/userSlice";
-import { useRouter } from "next/navigation";
-export default function ShiftBackground({ open, setOpen, item, advertId }) {
-  // console.log("item564",item)
-  const router = useRouter();
+export default function ChangeCarPositionModal({
+  open,
+  setOpen,
+  item,
+  advertId,
+}) {
+  //   console.log("item564", item);
   const { shiftBgLoader } = useSelector((state) => state?.advert);
   const { logo } = useSelector((state) => state.logo);
 
   // const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const MIN = 0;
-  const MAX = 100;
-  const [value, setValue] = useState(20);
+  const MIN = -10;
+  const MAX = 10;
+  const [value, setValue] = useState(0);
   let userString = getCookie("user");
+
   // console.log("advert",advert)
   let user = userString ? JSON.parse(userString) : null;
 
   const handleSliderChange = (newValue) => {
-    console.log("newvalue", newValue);
+    console.log("new value", newValue);
     setValue(newValue);
   };
   const submitHandler = () => {
@@ -47,12 +51,13 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
     let payload = {
       UniqueAdvertId: advertId,
       ExistingProcessedImagePath: item?.Processed,
-      CutPointValue: value,
-      HalfCut: true,
+      FullCutValue: value,
+      HalfCut: false,
     };
     for (const key in payload) {
       formData.append(key, payload[key]);
     }
+    console.log("payload", payload);
     dispatch(
       changeLogoPositionOnProcessImage({
         formData,
@@ -65,14 +70,20 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
           // window.location.reload();
           setOpen();
         },
-        onNotAuthicate: () => {
-          dispatch(logoutUser());
-          router.push("/auth/login");
-        },
       })
     );
   };
+  const marks = {
+    "-10": "-10",
+    0: <strong>0</strong>,
 
+    10: {
+      style: {
+        color: "red",
+      },
+      label: <strong>10</strong>,
+    },
+  };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent
@@ -81,7 +92,7 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="lg:text-[40px] sm:text-[15px] text-center font-normal flex justify-between items-center pb-[20px] pt-[15px]">
-              <p>Shift Background</p>
+              <p>Change Car Position</p>
               <button disabled={shiftBgLoader} onClick={setOpen}>
                 <MdClose size={35} />
               </button>
@@ -99,12 +110,13 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
                   height={item?.ImageDimenison?.Height}
                   alt={`Background`}
                 />
-                <div
+                {/* <div
                   className="absolute left-0 w-full h-1 bg-red-500 transform -translate-y-1/2"
                   style={{ bottom: `calc(100% - ${value}%)` }}
-                ></div>
+                ></div> */}
               </div>
             </div>
+
             <div>
               <Slider
                 min={MIN}
@@ -113,6 +125,8 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
                 onChange={handleSliderChange}
                 vertical
                 reverse
+                marks={marks}
+                tipFormatter={(val) => `${val}`}
                 className="custom-slider"
                 railStyle={{ backgroundColor: "black" }} // Set track fill color to black
                 trackStyle={{ backgroundColor: "black" }} // Set track fill color to black
@@ -122,18 +136,21 @@ export default function ShiftBackground({ open, setOpen, item, advertId }) {
               />
             </div>
           </div>
+          <div className="flex justify-center">
+            <span className="font-bold">{"Value: " + value}</span>
+          </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <div className="flex justify-between items-center mx-auto">
-            <button
-              className="bg-primary py-2 rounded-full px-14 text-white"
+            <Button
+              className="bg-primary sm:text-[12px] md:text-[15px] py-1 rounded-full sm:px-3 md:px-14 text-white"
               type="button"
               onClick={submitHandler}
               disabled={shiftBgLoader}
             >
               Save and Reprocess Image
               {shiftBgLoader && <ImSpinner8 className="spinning-icon" />}
-            </button>
+            </Button>
           </div>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -32,6 +32,7 @@ export default function AdvertCard({ data, showCard }) {
   const { advertLoader } = useSelector((state) => state?.advert);
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(Array(data.length).fill(false));
+  const { logo } = useSelector((state) => state.logo);
 
   useEffect(() => {
     setTimeout(() => {
@@ -162,7 +163,11 @@ export default function AdvertCard({ data, showCard }) {
                       ? notProcess
                       : item?.Status === "Failed"
                       ? Failed
-                      : `${baseDomain}get-file?filename=${item?.Images?.Images[0]?.Processed}`
+                      : `${baseDomain}get-file?filename=${
+                          logo.DisplayLogo
+                            ? item?.Images?.Images[0]?.LogoImage
+                            : item?.Images?.Images[0]?.Processed
+                        }`
                   }
                   fill
                   alt={"Advert"}

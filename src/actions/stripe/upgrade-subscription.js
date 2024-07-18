@@ -21,6 +21,7 @@ const UpgradeSubscription = async (subscriptionId, newPriceId) => {
           id: subscription.items.data[0].id, // Assuming only one subscription item
           price: newPriceId,
         },
+        
       ],
     });
     return { success: true, message: "Subscription updated successfully", updatedSubscription };

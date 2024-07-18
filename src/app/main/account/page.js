@@ -9,7 +9,7 @@ const Account = () => {
   return (
     <>
       {
-        <section className="grid sm:grid-cols-12 md:grid-cols-12  gap-3">
+        <section className="grid sm:grid-cols-12 md:grid-cols-12 sm:m-1 md:m-3 gap-3">
           <div className="profile bg-gray-100 rounded-3xl sm:col-span-12 md:col-span-6 p-2 ">
             <UpdateProfile />
           </div>

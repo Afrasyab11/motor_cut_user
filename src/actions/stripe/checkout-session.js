@@ -157,8 +157,8 @@ function buildCheckoutSessionPayload({
   let payload = {
     mode: "subscription",
     customer: stripeCustomerId,
-    success_url: `${"https://motorcutuser.vercel.app"}/main/account`,
-    cancel_url: `${"https://motorcutuser.vercel.app"}/main/account`,
+    success_url: `${"http://localhost:3000"}/main/account`,
+    cancel_url: `${"http://localhost:3000"}/main/account`,
     line_items: [{ price: priceId, quantity: 1, tax_rates: taxRates }],
     subscription_data: {
       metadata: {
@@ -180,6 +180,7 @@ function buildCheckoutSessionPayload({
 
 async function checkPromoCode(couponCode, selectedCurrency) {
   try {
+    console.log("coupon code",couponCode);
     const { valid, currency } = await stripe.coupons.retrieve(couponCode);
     let currencyMatch =
       currency.toLowerCase() == selectedCurrency.toLowerCase();

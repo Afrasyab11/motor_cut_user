@@ -254,13 +254,13 @@ const Subscription = () => {
             stats?.SubscriptionStatus !== "Payment Required" &&
             stats?.PackageName ? (
             <>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="rounded-full outline outline-1 outline-black text-red-700 my-2 text-sm h-full w-full md:w-1/2"
                 onClick={handleCancelSubscription}
               >
                 Cancel Subscriptions
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"

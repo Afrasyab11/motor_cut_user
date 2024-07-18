@@ -6,7 +6,7 @@ const nextConfig = {
         // protocol: "https",
         hostname: "backend.motor-cut.com",
         // hostname: "192.168.18.30",
-        // hostname: "16.171.148.251",
+        // hostname: "13.51.162.210",
       },
     ],
   },

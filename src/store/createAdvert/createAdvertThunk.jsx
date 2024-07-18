@@ -39,7 +39,7 @@ export const getAdvertAction = createAsyncThunk(
       // console.log("data0000", data);
       if (data?.status_code === 200) {
         onSuccess();
-        return data?.detail.reverse();
+        return data?.detail;
       } else {
         return rejectWithValue(data?.detail);
       }

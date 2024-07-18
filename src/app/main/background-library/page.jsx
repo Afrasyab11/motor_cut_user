@@ -137,14 +137,14 @@ const BackgroundLibrary = () => {
   };
 
   return (
-    <main className="">
+    <main className="sm:m-1 md:m-3">
       <main
         onContextMenu={(e) => e.preventDefault()}
         draggable="false"
         className=" bg-gray-100 rounded-2xl p-2 md:p-4 h-auto"
       >
         <div className="p-4">
-          <h1 className="text-3xl">Background Library</h1>
+          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl">Background Library</h2>
         </div>
         <main className="grid 2xl:grid-cols-12 xl:grid-cols-12 gap-3 lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-12 h-fit">
           <section className="categories 2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-12 h-max-full lg:min-h-[80vh] border lg:max-h-[80vh] sm:flex-col md:flex-col flex lg:flex-col  mb-4 lg:mb-1  bg-white rounded-2xl px-3 py-2 lg:leading-loose  ">

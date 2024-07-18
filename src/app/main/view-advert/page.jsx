@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 import { RiFlagFill } from "react-icons/ri";
@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { viewAdvertAction } from "@/store/createAdvert/advertSlice";
 import { logoutUser } from "@/store/user/userSlice";
 import { useRouter } from "next/navigation";
+import ChangeCarPositionModal from "@/components/modals/ChangeCarPosition";
 
 const ViewAdvert = ({ searchParams }) => {
   const dispatch = useDispatch();
@@ -36,19 +37,25 @@ const ViewAdvert = ({ searchParams }) => {
   const { logo } = useSelector((state) => state?.logo);
   let userString = getCookie("user");
   let user = userString ? JSON.parse(userString) : null;
-  const [selectedImage, setSelectedImage] = useState(null); // State to hold the selected image
+  const [list, setList] = useState(null); // State to hold the selected image
   const [open, setOpen] = useState(false); // State to hold the selected image
   const [loading, setLoading] = useState(false);
   const [loader, setLoader] = useState(true);
+  const [model, setModel] = useState(false);
   const router = useRouter();
 
   const toggle = (item) => {
     setOpen(!open);
-    setSelectedImage(item);
+    setList(item);
+  };
+  const fullCutToggle = (item, val) => {
+    setModel(!model);
+    setList(item);
   };
 
   useEffect(() => {
     setLoader(true);
+    dispatch(viewAdvertAction());
     dispatch(
       getAdvertProcesByIdAction({
         Id: searchParams?.advertId,
@@ -212,14 +219,8 @@ const ViewAdvert = ({ searchParams }) => {
             {processAdvert &&
               processAdvert?.map((item) =>
                 item?.Images?.Images?.map((img, i) => (
-                  <div
-                    key={item?.Id}
-                    className="bg-whitee px-4 rounded-2xl py-4 my-3"
-                  >
-                    <div
-                      key={i}
-                      className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 lg:gap-x-6 gap-y-2 "
-                    >
+                  <div key={i} className="bg-whitee px-4 rounded-2xl py-4 my-3">
+                    <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 lg:gap-x-6 gap-y-2 ">
                       <div className="lg:col-span-9 md:col-span-12 sm:col-span-12 mb-1">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 gap-x-6 gap-y-2">
                           <div className="lg:col-span-6 md:col-span-6 sm:col-span-12 mb-1">
@@ -247,7 +248,11 @@ const ViewAdvert = ({ searchParams }) => {
                             }`}
                           >
                             <a
-                              href={`${baseDomain}get-file?filename=${img?.Processed}`}
+                              href={`${baseDomain}get-file?filename=${
+                                logo.DisplayLogo
+                                  ? img?.LogoImage
+                                  : img?.Processed
+                              }`}
                               target="_blank"
                               rel="noopener noreferrer"
                               variant="outline"
@@ -257,35 +262,41 @@ const ViewAdvert = ({ searchParams }) => {
                                 height={1600}
                                 width={1600}
                                 Id="processed"
-                                src={`${baseDomain}get-file?filename=${img?.Processed}`}
+                                src={`${baseDomain}get-file?filename=${logo.DisplayLogo
+                                  ? img?.LogoImage
+                                  : img?.Processed}`}
                                 // src={testimage2}
                                 alt=""
                                 onLoadingComplete={() => setLoader(false)}
                               />
                             </a>
-                            {logo?.DisplayLogo && img?.LogoPosition && (
-                              <Image
-                                className={`h-[50px] w-[95px] absolute object-contain rounded-2xl
+                            {logo?.DisplayLogo &&
+                              img?.LogoPosition &&
+                              img?.LogoPath !== null &&
+                              img?.LogoPath !== undefined && (
+                                <Image
+                                  className={`h-[50px] w-[95px] absolute object-contain rounded-2xl
                          ${
-                           img?.LogoPosition === "top-right" || !img?.LogoPosition
+                           img?.LogoPosition === "top-right" ||
+                           !img?.LogoPosition
                              ? "right-[2px] top-[2px]"
                              : img?.LogoPosition === "top-left"
-                             ? "left-[2px] top-[10px]"
+                             ? "left-[2px] top-[2px]"
                              : img?.LogoPosition === "top-center"
-                             ? " left-1/2 transform -translate-x-1/2 top-2"
+                             ? " left-1/2 transform -translate-x-1/2 top-[2px]"
                              : "hidden"
                          }`}
-                                // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
-                                src={
-                                  logo?.Logo !== undefined && logo?.Logo
-                                    ? `${baseDomain}get-file?filename=${logo?.Logo}`
-                                    : placeholder
-                                }
-                                alt="Logo"
-                                height={900}
-                                width={1600}
-                              />
-                            )}
+                                  // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
+                                  src={
+                                    img?.LogoPath !== undefined && img?.LogoPath
+                                      ? `${baseDomain}get-file?filename=${img?.LogoPath}`
+                                      : placeholder
+                                  }
+                                  alt="Logo"
+                                  height={900}
+                                  width={1600}
+                                />
+                              )}
                           </div>
                         </div>
                       </div>
@@ -293,12 +304,21 @@ const ViewAdvert = ({ searchParams }) => {
                       <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 ml-4">
                         <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 gap-y-1 lg:gap-y-1 xl:gap-y-2 2xl:gap-y-8">
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-12 mb-1 flex justify-center">
-                            <button
-                              onClick={() => toggle(img)}
-                              className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
-                            >
-                              Edit Background Position
-                            </button>
+                            {item?.CutType === "Half Cut" ? (
+                              <button
+                                onClick={() => toggle(img)}
+                                className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
+                              >
+                                Edit Background Position
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => fullCutToggle(img)}
+                                className="bg-primary text-whitee w-full rounded-full py-2 px-3 whitespace-nowrap sm:text-[12px] md:text-[12px] lg:text-[13px] xl:text-[13px] 2xl:text-[15px]"
+                              >
+                                Change Car Position
+                              </button>
+                            )}
                           </div>
                           <div className="lg:col-span-12 md:col-span-4 sm:col-span-6 mb-1">
                             <Button
@@ -337,7 +357,9 @@ const ViewAdvert = ({ searchParams }) => {
                                 >
                                   <SelectTrigger className="bg-white sm:max-w-[200px] text-black border text-center rounded-full py-2 w-full text-sm sm:text-md lg:text-[13px] xl:text-[13px] 2xl:text-[15px] ml-4 mb-1 cursor-pointer  custom-select">
                                     <SelectValue
-                                      placeholder={img?.LogoPosition || "top-right"}
+                                      placeholder={
+                                        img?.LogoPosition || "top-right"
+                                      }
                                     />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -398,7 +420,7 @@ const ViewAdvert = ({ searchParams }) => {
           <ViewAdvertSkelton />
         ) : (
           <div className="flex flex-row justify-center items-center min-h-[400px]">
-            <span>No Data Found</span>
+            <ViewAdvertSkelton />
           </div>
         )}
       </div>
@@ -406,7 +428,15 @@ const ViewAdvert = ({ searchParams }) => {
         <ShiftBackground
           open={open}
           setOpen={toggle}
-          item={selectedImage}
+          item={list}
+          advertId={searchParams?.advertId}
+        />
+      )}
+      {model && (
+        <ChangeCarPositionModal
+          open={model}
+          setOpen={fullCutToggle}
+          item={list}
           advertId={searchParams?.advertId}
         />
       )}
