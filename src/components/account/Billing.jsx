@@ -5,9 +5,10 @@ import { FaFileUpload } from "react-icons/fa";
 import "./account.css";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { getCustomerInvoices } from "@/actions/stripe/getInvoices";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Billing = () => {
   const [invoices, setInvoices] = useState([]);
@@ -21,15 +22,30 @@ const Billing = () => {
     const date = new Date(timestamp * 1000);
     return date.toLocaleDateString("en-GB");
   };
+  const { states } = useSelector((state) => state?.dashboard);
 
-  let user = JSON.parse(getCookie("user") || "{}");
+  // let user = JSON.parse(getCookie("user") || "{}");
+  // console.log("user data", user);
 
+  // useEffect(() => {
+  //   updateUser();
+  //   fetchInvoices();
+  // }, [states?.StripeCustomerId, states?.StripeSubscriptionId]);
+
+  // const updateUser = () => {
+  //   const updatedUser = {
+  //     ...user,
+  //     StripeCustomerId: states?.StripeCustomerId,
+  //     StripeSubscriptionId: states?.StripeSubscriptionId,
+  //   };
+  //   setCookie("user", JSON.stringify(updatedUser));
+  // };
 
   const fetchInvoices = async () => {
-    if (user?.StripeCustomerId) {
+    if (states?.StripeCustomerId) {
       try {
         const customerInvoices = await getCustomerInvoices(
-          user?.StripeCustomerId,
+          states?.StripeCustomerId,
           lastInvoiceId
         );
         setInvoices(customerInvoices.data);
@@ -50,7 +66,7 @@ const Billing = () => {
 
   useEffect(() => {
     fetchInvoices();
-  }, [user?.StripeCustomerId]);
+  }, [states?.StripeCustomerId, states?.StripeSubscriptionId]);
 
   return (
     <>

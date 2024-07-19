@@ -242,7 +242,7 @@
         const stripe = await getStripe();
         if (userInfo) {
           const updatedUserString = JSON.stringify(userInfo);
-
+          console.log("updatedUserString",updatedUserString);
           setCookie("user", updatedUserString, {
             path: "/",
             secure: process.env.NODE_ENV === "production",
@@ -270,7 +270,7 @@
         newPriceId
       );
       if (resp.success === true) {
-        router.push("/main/account");
+        router.push("/main/account/subscriptions");
         toast.success(resp.message);
         setLoading((prev) => {
           const newState = [...prev];

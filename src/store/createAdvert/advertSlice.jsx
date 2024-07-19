@@ -55,6 +55,7 @@ export const advertSlice = createSlice({
       })
       .addCase(getAdvertProcesByIdAction.fulfilled, (state, action) => {
         state.getLoader = false;
+        {debugger}
         state.processAdvert = action.payload;
       })
       .addCase(getAdvertProcesByIdAction.rejected, (state, action) => {

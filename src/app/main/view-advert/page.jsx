@@ -43,7 +43,7 @@ const ViewAdvert = ({ searchParams }) => {
   const [loader, setLoader] = useState(true);
   const [model, setModel] = useState(false);
   const router = useRouter();
-
+  const [currentAdvert, setCurrentAdvert] = useState([]);
   const toggle = (item) => {
     setOpen(!open);
     setList(item);
@@ -60,6 +60,8 @@ const ViewAdvert = ({ searchParams }) => {
       getAdvertProcesByIdAction({
         Id: searchParams?.advertId,
         onSuccess: (data) => {
+          setCurrentAdvert([]);
+          setCurrentAdvert([data]);
           dispatch(
             getLogoAction({
               UserId: user?.UserId,
@@ -97,7 +99,10 @@ const ViewAdvert = ({ searchParams }) => {
             getAdvertProcesByIdAction({
               Id: searchParams?.advertId,
               onSuccess: (data) => {
-                // setAdvert([data]);
+                console.log("onsucces",data);
+                setCurrentAdvert([]);
+                setCurrentAdvert([data]);
+                router.refresh()
               },
               onNotAuthicate: () => {
                 dispatch(logoutUser());
@@ -172,6 +177,8 @@ const ViewAdvert = ({ searchParams }) => {
             getAdvertProcesByIdAction({
               Id: searchParams?.advertId,
               onSuccess: (data) => {
+                setCurrentAdvert([]);
+                setCurrentAdvert([data]);
                 // setAdvert([data]);
               },
             })
@@ -188,7 +195,7 @@ const ViewAdvert = ({ searchParams }) => {
   return (
     <AlertDialog>
       <div className="bg-site_secondary md:mx-2 lg:mx-8 my-4 md:px-2 lg:px-8 py-3 rounded-2xl">
-        {processAdvert?.length > 0 ? (
+        {currentAdvert?.length > 0 ? (
           <>
             <div className="2xl:grid 2xl:grid-cols-12 lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-x-3 px-2">
               <div className="2xl:col-span-8 lg:col-span-7 md:col-span-6 sm:col-span-4 flex items-center">
@@ -216,8 +223,8 @@ const ViewAdvert = ({ searchParams }) => {
                 </div>
               </div>
             </div>
-            {processAdvert &&
-              processAdvert?.map((item) =>
+            {currentAdvert &&
+              currentAdvert?.map((item) =>
                 item?.Images?.Images?.map((img, i) => (
                   <div key={i} className="bg-whitee px-4 rounded-2xl py-4 my-3">
                     <div className="lg:grid lg:grid-cols-12 sm:grid sm:grid-cols-12 gap-2 lg:gap-x-6 gap-y-2 ">
@@ -262,15 +269,17 @@ const ViewAdvert = ({ searchParams }) => {
                                 height={1600}
                                 width={1600}
                                 Id="processed"
-                                src={`${baseDomain}get-file?filename=${logo.DisplayLogo
-                                  ? img?.LogoImage
-                                  : img?.Processed}`}
+                                src={`${baseDomain}get-file?filename=${
+                                  logo.DisplayLogo
+                                    ? img?.LogoImage
+                                    : img?.Processed
+                                }`}
                                 // src={testimage2}
                                 alt=""
                                 onLoadingComplete={() => setLoader(false)}
                               />
                             </a>
-                            {logo?.DisplayLogo &&
+                            {/* {logo?.DisplayLogo &&
                               img?.LogoPosition &&
                               img?.LogoPath !== null &&
                               img?.LogoPath !== undefined && (
@@ -287,16 +296,16 @@ const ViewAdvert = ({ searchParams }) => {
                              : "hidden"
                          }`}
                                   // src={`${baseDomain}get-file?filename=${logo?.Logo}`}
-                                  src={
-                                    img?.LogoPath !== undefined && img?.LogoPath
-                                      ? `${baseDomain}get-file?filename=${img?.LogoPath}`
-                                      : placeholder
-                                  }
+                                  src={`${baseDomain}get-file?filename=${
+                                    logo.DisplayLogo
+                                      ? img?.LogoImage
+                                      : img?.Processed
+                                  }`}
                                   alt="Logo"
                                   height={900}
                                   width={1600}
                                 />
-                              )}
+                              )} */}
                           </div>
                         </div>
                       </div>
