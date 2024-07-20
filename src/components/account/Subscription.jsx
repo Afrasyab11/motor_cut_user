@@ -31,7 +31,7 @@ import { reactivateSubscription } from "@/actions/stripe/reactivate-subscription
 import moment from "moment";
 import { logoutUser } from "@/store/user/userSlice";
 const Subscription = () => {
-  const router=useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const { getProfile } = useSelector((state) => state?.user);
   const { states } = useSelector((state) => state?.dashboard);
@@ -49,18 +49,21 @@ const Subscription = () => {
   let user = JSON.parse(getCookie("user") || "{}");
   useEffect(() => {
     const fetchData = async () => {
-      if (user.UserId) {
+      if (states?.UserId) {
         dispatch(
-          dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
-            dispatch(logoutUser())
-            router.push('/auth/login')
-          } })
+          dashboardStatsAction({
+            UserId: states?.UserId,
+            onNotAuthicate: () => {
+              dispatch(logoutUser());
+              router.push("/auth/login");
+            },
+          })
         );
       }
       setLoadingStates((prev) => ({ ...prev, profile: false, stats: false }));
     };
     fetchData();
-  }, [user.UserId]);
+  }, [states?.UserId]);
 
   const fetchInvoices = async () => {
     // if (user?.StripeCustomerId) {
@@ -86,7 +89,7 @@ const Subscription = () => {
   };
   useEffect(() => {
     fetchInvoices();
-  }, [user?.StripeCustomerId]);
+  }, [states?.StripeCustomerId]);
 
   useEffect(() => {
     if (getProfile[0]) {
@@ -101,21 +104,22 @@ const Subscription = () => {
 
   useEffect(() => {
     dispatch(
-      dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
-        dispatch(logoutUser())
-        router.push('/auth/login')
-      } })
+      dashboardStatsAction({
+        UserId: user?.UserId,
+        onNotAuthicate: () => {
+          dispatch(logoutUser());
+          router.push("/auth/login");
+        },
+      })
     );
   }, [user?.UserId]);
-
-  
 
   const inputStyles = {
     border: "none",
     borderBottom: "1px solid #814adf",
     width: "100%",
   };
-
+  console.log("user data form states", states);
   useEffect(() => {
     setStats(states);
   }, [states]);
@@ -147,9 +151,10 @@ const Subscription = () => {
             setDialogOpen(false);
             setLoader(false);
             dispatch(
-              dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
-               
-              } })
+              dashboardStatsAction({
+                UserId: user?.UserId,
+                onNotAuthicate: () => {},
+              })
             );
             dispatch(getUserProfileData(user.UserId)); // Refresh user data
           },
@@ -176,10 +181,13 @@ const Subscription = () => {
       if (res.success) {
         toast.success("Subscription re-activated successfully");
         dispatch(
-          dashboardStatsAction({ UserId: user?.UserId, onNotAuthicate:()=>{
-            dispatch(logoutUser())
-            router.push('/auth/login')
-          } })
+          dashboardStatsAction({
+            UserId: user?.UserId,
+            onNotAuthicate: () => {
+              dispatch(logoutUser());
+              router.push("/auth/login");
+            },
+          })
         );
         dispatch(getUserProfileData(user.UserId)); // Refresh user data
       } else {
@@ -212,12 +220,12 @@ const Subscription = () => {
             <div className="p-3 rounded-full bg-primary-light w-10 h-10 text-center">
               <FaTag color="white" />
             </div>
-              <div className="basis-2/3">
-                <h4 className="font-bold sm:text-[13px] lg:text-md">
-                  {stats?.PackageName || 0}
-                </h4>
-                <p className="text-sm">Package</p>
-              </div>
+            <div className="basis-2/3">
+              <h4 className="font-bold sm:text-[13px] lg:text-md">
+                {states?.PackageName || 0}
+              </h4>
+              <p className="text-sm">Package</p>
+            </div>
           </div>
           {/* renewable date */}
           <div
@@ -230,7 +238,7 @@ const Subscription = () => {
             </div>
             <div className="basis-2/3">
               <p className="font-bold sm:text-[13px] lg:text-md">
-                {stats?.RenewalDate || 0}
+                {states?.RenewalDate || 0}
               </p>
               <p className="text-sm">Renewal Date</p>
             </div>
@@ -238,21 +246,22 @@ const Subscription = () => {
         </CardContent>
 
         <CardFooter className="flex-col ">
-          {showReactivateButton || stats.SubscriptionStatus ==="Cancelled" && (
-            <Button
-              variant="outline"
-              className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
-              onClick={reactivate}
-            >
-              Reactivate
-            </Button>
-          )}
+          {showReactivateButton ||
+            (states?.SubscriptionStatus === "Cancelled" && (
+              <Button
+                variant="outline"
+                className="rounded-full outline outline-1 outline-black text-primary-light  hover:text-primary-light my-2 text-sm h-full w-full md:w-1/2"
+                onClick={reactivate}
+              >
+                Reactivate
+              </Button>
+            ))}
           {loadingStates.invoices ? (
             <ImSpinner8 className="spinning-icon" />
-          ) : stats?.PackageName != "Free Tier" &&
-            stats?.SubscriptionStatus !== "Cancelled" &&
-            stats?.SubscriptionStatus !== "Payment Required" &&
-            stats?.PackageName ? (
+          ) : states?.PackageName != "Free Tier" &&
+            states?.SubscriptionStatus !== "Cancelled" &&
+            states?.SubscriptionStatus !== "Payment Required" &&
+            states?.PackageName ? (
             <>
               {/* <Button
                 variant="outline"
@@ -272,7 +281,7 @@ const Subscription = () => {
                 Change Subscription
               </Button>
             </>
-          ) : stats?.SubscriptionStatus === "Cancelled" ? (
+          ) : states?.SubscriptionStatus === "Cancelled" ? (
             <>
               <Button
                 variant="outline"

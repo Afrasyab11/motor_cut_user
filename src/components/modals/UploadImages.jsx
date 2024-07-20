@@ -135,7 +135,7 @@ export default function UploadImages({
               className="w-6/6 sm:h-[150px] md:h-[200px] lg:h-[200px] xl:h-[200px] 2xl:h-[30vh] mt-2 border text-black border-black rounded-3xl mx-auto flex justify-center gap-y-10 items-center flex-col hover:cursor-pointer"
             >
               <input {...getInputProps()} />
-              <p>Drag and drop upload</p>
+              <p>Drag and Drop or upload pictures here</p>
             </div>
             {errorMessage && (
               <small className="text-red-500 text-center text-[13px]">
